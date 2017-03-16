@@ -11,13 +11,14 @@ https://StefH.github.io/angular-odata-es5/demo/
 
 - [About](#about)
 - [Installation](#installation)
+- [Usage example](#Usage)
 - [Documentation](#documentation)
 - [Development](#development)
-- [License](#license)
 
 ## About
 
-... todo ...
+The goal is to create a fluent API for querying, creating, updating and deleting OData resources in Angular > 2.
+Note that this library targets 'es5' so that Uglify will work correctly.
 
 ## Installation
 
@@ -26,28 +27,73 @@ Install through npm:
 npm install --save angular-odata-es5
 ```
 
-Then include in your apps module:
+## Usage
 
-```typescript
-import { Component, NgModule } from '@angular/core';
-import { AngularODataModule } from 'angular-odata-es5';
-
-@NgModule({
-  imports: [
-    AngularODataModule.forRoot()
-  ]
-})
-export class MyModule {}
 ```
+import { ODataConfiguration, ODataServiceFactory, ODataService } from "angular-odata-es5";
+import { bootstrap } from "@angular/platform/browser";
+    
+@Injectable()
+class MyODataConfig extends ODataConfiguration{
+    baseUrl="http://localhost:54872/odata/";
+}
 
-Finally use in one of your apps components:
-```typescript
-import { Component } from '@angular/core';
+bootstrap(app, [
+    provide(ODataConfiguration, { useClass:MyODataConfig}),
+    ODataServiceFactory,
+]
 
+//An example model interface
+interface INotification {
+    Id: number;
+    CommentId: number;
+    Comment: IComment;
+    FromId: number;
+    From: IResource;
+    Priority: number;
+    SendDate: Date;
+    IsArchived: boolean;
+    Text: string;
+}
+
+//An example component
 @Component({
-  template: '<hello-world></hello-world>'
+  ...
 })
-export class MyComponent {}
+export class NotyListComponent{
+    private odata:ODataService<INotification>;
+    constructor(private odataFactory:ODataServiceFactory, ...){
+        this.odata = this.odataFactory.CreateService<INotification>("notification");
+    }
+    
+    getOneNoty(id:int){
+        this.odata.Get(id).Select("Id,Text").Expand("From,To").Exec()
+        .subscribe(
+            singleNoty=>{...},
+            error=>{...}
+        );
+    }
+      
+      
+    getNotys(){
+        this.odata
+        .Query()                    //Creates a query object
+        .Top(this.top)    
+        .Skip(this.skip)
+        .Expand("Comment,From")
+        .OrderBy("SendDate desc")
+        .Filter(this.filterString)
+        .Exec()                     //Fires the request
+        .subscribe(                 //Subscribes to Observable<Array<T>>
+        notys => {
+            this.notys = notys;     //Do something with the result
+        },
+        error => {
+            ...                     //Local error handler
+        });
+    
+    }
+}
 ```
 
 You may also find it useful to view the [demo source](https://github.com/StefH/angular-odata-es5/blob/master/demo/demo.component.ts).
