@@ -11,7 +11,7 @@
         <p-column field="FirstName" header="FirstName (contains)" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
         <p-column field="LastName" header="LastName (contains)" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
         <p-column field="BirthDate" header="BirthDate" [sortable]="true">
-            <template let-employee="rowData" pTemplate type="body">
+            <template let-employee="rowData" pTemplate="body">
                 {{ employee.BirthDate | date: 'medium' }}
             </template>
         </p-column>
