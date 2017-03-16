@@ -1,0 +1,13 @@
+{
+  "generator-angular-library": {
+    "githubUsername": "StefH",
+    "githubRepoName": "angular-odata-es5",
+    "npmModuleName": "angular-odata-es5",
+    "moduleGlobal": "AngularODataES5",
+    "ngModuleName": "AngularODataModule",
+    "selectorPrefix": "ao",
+    "projectTitle": "Angular OData Library (es5)",
+    "projectDescription": "... todo ...",
+    "authorName": "Stef Heyenrath"
+  }
+}
