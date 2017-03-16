@@ -11,7 +11,7 @@ import { HelloWorldComponent } from './helloWorld.component';
 })
 export class AngularODataModule {
 
-  static forRoot(): ModuleWithProviders {
+  public static forRoot(): ModuleWithProviders {
     return {
       ngModule: AngularODataModule
     };

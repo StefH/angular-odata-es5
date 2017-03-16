@@ -5,5 +5,5 @@ import { Component } from '@angular/core';
   template: 'Hello world from the {{ projectTitle }} module!'
 })
 export class HelloWorldComponent {
-  projectTitle: string = 'Angular OData Library (es5)';
+  public projectTitle: string = 'Angular OData Library (es5)';
 }
