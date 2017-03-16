@@ -1,0 +1,21 @@
+<div class="ContentSideSections Implementation">
+    <p-dataTable [value]="employees" selectionMode="single"
+            [paginator]="true"
+            [rows]="5"
+            [lazy]="true"
+            [totalRecords]="totalRecords"
+            (onLazyLoad)="loadEmployeesLazy($event)"
+            [responsive]="true">
+        <header>View Employees</header>
+        <p-column field="EmployeeID" header="Id (startsWith)" [sortable]="true" [filter]="true" filterMatchMode="startsWith"></p-column>
+        <p-column field="FirstName" header="FirstName (contains)" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+        <p-column field="LastName" header="LastName (contains)" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+        <p-column field="BirthDate" header="BirthDate" [sortable]="true">
+            <template let-employee="rowData" pTemplate type="body">
+                {{ employee.BirthDate | date: 'medium' }}
+            </template>
+        </p-column>
+    </p-dataTable>
+
+    <div>{{filter | json}}</div>
+</div>
