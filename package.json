@@ -1,6 +1,6 @@
 {
   "name": "angular-odata-es5",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "OData service for Angular (es5 version)",
   "main": "./bundles/angular-odata-es5.umd.js",
   "module": "./index.js",
@@ -47,15 +47,15 @@
   },
   "homepage": "https://github.com/StefH/angular-odata-es5#readme",
   "devDependencies": {
-    "@angular/common": "^2.4.9",
-    "@angular/compiler": "^2.4.9",
-    "@angular/compiler-cli": "^2.4.9",
-    "@angular/core": "^2.4.9",
-    "@angular/forms": "^2.4.9",
-    "@angular/http": "^2.4.9",
-    "@angular/platform-browser": "^2.4.9",
-    "@angular/platform-browser-dynamic": "^2.4.9",
-    "@angular/router": "^3.4.9",
+    "@angular/common": "^2.4.10",
+    "@angular/compiler": "^2.4.10",
+    "@angular/compiler-cli": "^2.4.10",
+    "@angular/core": "^2.4.10",
+    "@angular/forms": "^2.4.10",
+    "@angular/http": "^2.4.10",
+    "@angular/platform-browser": "^2.4.10",
+    "@angular/platform-browser-dynamic": "^2.4.10",
+    "@angular/router": "^3.4.10",
     "@types/chai": "^3.4.30",
     "@types/core-js": "^0.9.36",
     "@types/jasmine": "2.2.33",
@@ -105,7 +105,7 @@
     "zone.js": "^0.7.4"
   },
   "peerDependencies": {
-    "@angular/core": "^2.0.0"
+    "@angular/core": "^2.4.10"
   },
   "config": {
     "commitizen": {

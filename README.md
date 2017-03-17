@@ -11,7 +11,7 @@ https://StefH.github.io/angular-odata-es5/demo/
 
 - [About](#about)
 - [Installation](#installation)
-- [Usage example](#Usage)
+- [Usage example](#usage)
 - [Documentation](#documentation)
 - [Development](#development)
 
