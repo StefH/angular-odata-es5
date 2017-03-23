@@ -23,6 +23,7 @@
     "prerelease": "npm test",
     "release:git": "git add package.json && git commit -m \"chore: bump version number\" && standard-version --first-release && git push --follow-tags origin master",
     "release:npm": "npm run build:dist && npm run copyfiles && npm publish dist",
+    "pack:npm": "npm run build:dist && npm run copyfiles && npm pack dist",
     "release": "npm run release:git && npm run release:npm",
     "postrelease": "npm run build:clean && npm run gh-pages",
     "commitmsg": "validate-commit-msg",
@@ -90,7 +91,6 @@
     "karma-webpack": "^2.0.1",
     "phantomjs-prebuilt": "^2.1.7",
     "primeng": "^2.0.3",
-    "rxjs": "^5.0.1",
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0",
     "standard-version": "^4.0.0",
@@ -107,7 +107,9 @@
     "zone.js": "^0.7.4"
   },
   "peerDependencies": {
-    "@angular/core": ">=2.0.0 <5.0.0"
+    "@angular/common": ">=2.0.0 <5.0.0",
+    "@angular/core": ">=2.0.0 <5.0.0",
+    "@angular/http": ">=2.0.0 <5.0.0"
   },
   "config": {
     "commitizen": {
@@ -115,6 +117,7 @@
     }
   },
   "dependencies": {
+    "rxjs": "^5.0.0",
     "string": "^3.3.3"
   }
 }
