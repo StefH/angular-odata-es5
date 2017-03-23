@@ -5,47 +5,50 @@ import { ODataQuery } from './angularODataQuery';
 import { GetOperation } from './angularODataOperation';
 
 export class ODataService<T> {
+    private _entitiesUri: string;
 
-    constructor(private _typeName: string, private http: Http, private config: ODataConfiguration) { }
+    constructor(private _typeName: string, private _http: Http, private config: ODataConfiguration) {
+        this._entitiesUri = config.getEntitiesUri(_typeName);
+    }
 
-    public get TypeName(){
+    public get TypeName(): string {
         return this._typeName;
     }
 
     public Get(key: string): GetOperation<T> {
-        return new GetOperation<T>(this._typeName, this.config, this.http, key);
+        return new GetOperation<T>(this._typeName, this.config, this._http, key);
     }
 
     public Post(entity: T): Observable<T> {
         const body = JSON.stringify(entity);
-        return this.handleResponse(this.http.post(this.config.baseUrl + '/' + this.TypeName, body, this.config.postRequestOptions));
+        return this.handleResponse(this._http.post(this._entitiesUri, body, this.config.postRequestOptions));
     }
 
     public CustomAction(key: string, actionName: string, postdata: any): Observable<any> {
         const body = JSON.stringify(postdata);
-        return this.http.post(this.getEntityUri(key) + '/' + actionName, body, this.config.requestOptions).map(resp => resp.json());
+        return this._http.post(this.getEntityUri(key) + '/' + actionName, body, this.config.defaultRequestOptions).map(resp => resp.json());
     }
 
     public CustomFunction(key: string, actionName: string): Observable<any> {
-        return this.http.get(this.getEntityUri(key) + '/' + actionName, this.config.requestOptions).map(resp => resp.json());
+        return this._http.get(this.getEntityUri(key) + '/' + actionName, this.config.defaultRequestOptions).map(resp => resp.json());
     }
 
     public Patch(entity: any, key: string): Observable<Response> {
         const body = JSON.stringify(entity);
-        return this.http.patch(this.getEntityUri(key), body, this.config.postRequestOptions);
+        return this._http.patch(this.getEntityUri(key), body, this.config.postRequestOptions);
     }
 
     public Put(entity: T,  key: string): Observable<T> {
         const body = JSON.stringify(entity);
-        return this.handleResponse(this.http.put(this.getEntityUri(key), body, this.config.postRequestOptions));
+        return this.handleResponse(this._http.put(this.getEntityUri(key), body, this.config.postRequestOptions));
     }
 
     public Delete(key: string): Observable<Response> {
-        return this.http.delete(this.getEntityUri(key), this.config.requestOptions);
+        return this._http.delete(this.getEntityUri(key), this.config.defaultRequestOptions);
     }
 
     public Query(): ODataQuery<T> {
-        return new ODataQuery<T>(this.TypeName, this.config, this.http);
+        return new ODataQuery<T>(this.TypeName, this.config, this._http);
     }
 
     protected getEntityUri(entityKey: string): string {

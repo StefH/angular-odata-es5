@@ -1,3 +1,4 @@
+import * as S from 'string';
 import { Injectable } from '@angular/core';
 import { RequestOptions, Headers, Response } from '@angular/http';
 import { ODataPagedResult } from './angularODataPagedResult';
@@ -13,34 +14,42 @@ export class KeyConfigs {
 
 @Injectable()
 export class ODataConfiguration {
+    private readonly _postHeaders = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+
+    private _baseUrl: string = 'http://localhost/odata';
+
     public keys: KeyConfigs = new KeyConfigs();
-    public baseUrl: string = 'http://localhost/odata';
+    public defaultRequestOptions: RequestOptions = new RequestOptions({ body: '' });
+    public postRequestOptions: RequestOptions = new RequestOptions({ headers: this._postHeaders });
 
-    public getEntityUri(entityKey: string, _typeName: string) {
+    set baseUrl(baseUrl: string) {
+        this._baseUrl = S(baseUrl).stripRight('/').s;
+    }
 
-        // check if string is a GUID (UUID) type
+    get baseUrl(): string {
+        return this._baseUrl;
+    }
+
+    public getEntitiesUri(typeName: string): string {
+        return this.baseUrl + '/' + this.sanitizeTypeName(typeName);
+    }
+
+    public getEntityUri(entityKey: string, typeName: string): string {
+        // check if entityKey is a GUID (UUID) type
         if (/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(entityKey)) {
-            return this.baseUrl + '/' + _typeName + '(' + entityKey + ')';
+            return this.getEntitiesUri(typeName) + '(' + entityKey + ')';
         }
 
+        // check if entityKey is not a number
         if (!/^[0-9]*$/.test(entityKey)) {
-            return this.baseUrl + '/' + _typeName + '(\'' + entityKey + '\')';
+            return this.getEntitiesUri(typeName) + '(\'' + entityKey + '\')';
         }
 
-        return this.baseUrl + '/' + _typeName + '(' + entityKey + ')';
+        return this.getEntitiesUri(typeName) + '(' + entityKey + ')';
     }
 
     public handleError(err: any, caught: any): void {
         console.warn('OData error: ', err, caught);
-    };
-
-    get requestOptions(): RequestOptions {
-        return new RequestOptions({ body: '' });
-    };
-
-    get postRequestOptions(): RequestOptions {
-        const headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
-        return new RequestOptions({ headers: headers });
     }
 
     public extractQueryResultData<T>(res: Response): T[] {
@@ -74,5 +83,9 @@ export class ODataConfiguration {
         }
 
         return pagedResult;
+    }
+
+    private sanitizeTypeName(typeName: string): string {
+        return S(typeName).stripLeft('/').stripRight('/').s;
     }
 }

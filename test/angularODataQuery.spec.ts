@@ -3,7 +3,7 @@ import { Observable, Operator } from 'rxjs/Rx';
 import { Location } from '@angular/common';
 import { inject, TestBed } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
-import { BaseRequestOptions, Http, ConnectionBackend, HttpModule } from '@angular/http';
+import { BaseRequestOptions, Http, ConnectionBackend, HttpModule, Response } from '@angular/http';
 import { IEmployee } from './helpers/employee';
 
 import { AngularODataModule } from '../src';
@@ -51,6 +51,21 @@ describe('ODataQuery', () => {
             ]
         });
     });
+
+    it('TestBaseUrl', inject([ Http ], (http: Http) => {
+        // Assign
+        const config = new ODataConfiguration();
+        config.baseUrl = 'http://test.org/odata';
+
+        // https://blog.thoughtram.io/angular/2016/11/28/testing-services-with-http-in-angular-2.html
+        spyOn(http, 'get').and.returnValue(new Observable<Response>());
+
+        // Act
+        const result = new ODataQuery<IEmployee>('Employees', config, http).Exec();
+
+        // Assert
+        expect(http.get).toHaveBeenCalledWith('http://test.org/odata/Employees', jasmine.any(Object));
+    }));
 
     it('Exec', inject([ Http, ODataConfiguration ], (http: Http, config: ODataConfiguration) => {
         // Assign

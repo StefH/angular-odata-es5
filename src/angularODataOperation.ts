@@ -1,14 +1,16 @@
 import { URLSearchParams, Http, Response, RequestOptions } from '@angular/http';
 import { Observable, Operator } from 'rxjs/Rx';
+
 import { ODataConfiguration } from './angularODataConfiguration';
 
 export abstract class ODataOperation<T> {
     private _expand: string;
     private _select: string;
 
-    constructor(protected _typeName: string,
+    constructor(protected typeName: string,
                 protected config: ODataConfiguration,
-                protected http: Http) { }
+                protected http: Http) {
+    }
 
     public Expand(expand: string | string[]) {
         this._expand = this.parseStringOrStringArray(expand);
@@ -44,12 +46,8 @@ export abstract class ODataOperation<T> {
            });
     }
 
-    protected getEntityUri(entityKey: string): string {
-        return this.config.getEntityUri(entityKey, this._typeName);
-    }
-
     protected getRequestOptions(): RequestOptions {
-        const options = this.config.requestOptions;
+        const options = this.config.defaultRequestOptions;
         options.search = this.getParams();
         return options;
     }
@@ -79,7 +77,7 @@ export abstract class OperationWithKey<T> extends ODataOperation<T> {
     constructor(protected _typeName: string,
                 protected config: ODataConfiguration,
                 protected http: Http,
-                protected key: string) {
+                protected entityKey: string) {
                     super(_typeName, config, http);
                 }
     protected abstract Exec(...args): Observable<any>;
@@ -99,7 +97,7 @@ export abstract class OperationWithKeyAndEntity<T> extends ODataOperation<T> {
     constructor(protected _typeName: string,
                 protected config: ODataConfiguration,
                 protected http: Http,
-                protected key: string,
+                protected entityKey: string,
                 protected entity: T) {
                     super(_typeName, config, http);
                 }
@@ -110,7 +108,7 @@ export abstract class OperationWithKeyAndEntity<T> extends ODataOperation<T> {
 export class GetOperation<T> extends OperationWithKey<T> {
 
     public Exec(): Observable<T> {
-        return super.handleResponse(this.http.get(this.getEntityUri(this.key), this.getRequestOptions()));
+        return super.handleResponse(this.http.get(this.config.getEntityUri(this.typeName, this.entityKey), this.getRequestOptions()));
     }
 }
 

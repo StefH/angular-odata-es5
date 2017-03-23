@@ -10,9 +10,12 @@ export class ODataQuery<T> extends ODataOperation<T> {
     private _top: number;
     private _skip: number;
     private _orderBy: string;
+    private _entitiesUri: string;
 
-    constructor(_typeName: string, config: ODataConfiguration, http: Http) {
-        super(_typeName, config, http);
+    constructor(typeName: string, config: ODataConfiguration, http: Http) {
+        super(typeName, config, http);
+
+        this._entitiesUri = config.getEntitiesUri(this.typeName);
     }
 
     public Filter(filter: string): ODataQuery<T> {
@@ -38,7 +41,7 @@ export class ODataQuery<T> extends ODataOperation<T> {
     public Exec(): Observable<Array<T>> {
         const params = this.getQueryParams();
         const config = this.config;
-        return this.http.get(this.buildResourceURL(), { search: params })
+        return this.http.get(this._entitiesUri, { search: params })
             .map(res => this.extractArrayData(res, config))
             .catch((err: any, caught: Observable<Array<T>>) => {
                 if (this.config.handleError) {
@@ -53,7 +56,7 @@ export class ODataQuery<T> extends ODataOperation<T> {
         params.set('$count', 'true'); // OData v4 only
         const config = this.config;
 
-        return this.http.get(this.buildResourceURL(), { search: params })
+        return this.http.get(this._entitiesUri, { search: params })
             .map(res => this.extractArrayDataWithCount(res, config))
             .catch((err: any, caught: Observable<ODataPagedResult<T>>) => {
                 if (this.config.handleError) {
@@ -61,10 +64,6 @@ export class ODataQuery<T> extends ODataOperation<T> {
                 }
                 return Observable.throw(err);
             });
-    }
-
-    private buildResourceURL(): string {
-        return this.config.baseUrl + '/' + this._typeName + '/';
     }
 
     private getQueryParams(): URLSearchParams {

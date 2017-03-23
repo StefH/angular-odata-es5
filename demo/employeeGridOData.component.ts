@@ -43,9 +43,8 @@ export class EmployeeGridODataComponent implements OnInit {
     private getPagedData(event: LazyLoadEvent) {
         let query: ODataQuery<IEmployee> = this.odata
             .Query()
-            // .Expand('Orders($select=OrderID, CustomerID, EmployeeID, OrderDate, ShipName)')
-            .Expand('Orders')
-            .Select(['EmployeeID', 'FirstName', 'LastName', 'BirthDate', 'Orders'])
+            // .Expand('Orders')
+            .Select(['EmployeeID', 'FirstName', 'LastName', 'BirthDate'])
             .Top(event.rows)
             .Skip(event.first);
 
