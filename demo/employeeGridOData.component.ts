@@ -1,6 +1,6 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { LazyLoadEvent, FilterMetadata } from 'primeng/primeng';
-import { Observable, Operator } from 'rxjs/rx';
+import { Observable, Operator } from 'rxjs/Rx';
 import { IEmployee } from '../test/helpers/employee';
 import { NorthwindODataConfigurationFactory } from './NorthwindODataConfigurationFactory';
 
