@@ -44,27 +44,66 @@ export class EmployeeGridODataComponent implements OnInit {
         let query: ODataQuery<IEmployee> = this.odata
             .Query()
             .Expand('Orders')
-            .Select(['EmployeeID', 'FirstName', 'LastName', 'BirthDate', 'Orders'])
-            .Top(event.rows)
-            .Skip(event.first);
+            .Select(['EmployeeID', 'FirstName', 'LastName', 'BirthDate', 'City', 'Orders']);
+
+        if (event.rows) {
+            query = query.Top(event.rows);
+        }
+
+        if (event.first) {
+            query = query.Skip(event.first);
+        }
 
         if (event.filters) {
             const filterOData: string[] = [];
             for (const prop in event.filters) {
                 if (event.filters.hasOwnProperty(prop)) {
                     const filter = event.filters[prop] as FilterMetadata;
-                    const key: string = filter.matchMode.toLowerCase();
-                    if (key !== '') {
-                        filterOData.push(key + '(' + prop + ', \'' + filter.value + '\')');
+                    if (filter.matchMode && filter.matchMode !== '') {
+                        const params = filter.matchMode.toLowerCase().split(':');
+                        const operator = params[0];
+
+                        // http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part2-url-conventions.html
+                        switch (operator) {
+                            case 'length':
+                            case 'day':
+                            case 'fractionalseconds':
+                            case 'hour':
+                            case 'minute':
+                            case 'month':
+                            case 'second':
+                            case 'totaloffsetminutes':
+                            case 'totalseconds':
+                            case 'year':
+                                filterOData.push(`${operator}(${prop}) ${params[1]} ${filter.value}`);
+                                break;
+                            case 'eq':
+                            case 'ne':
+                            case 'gt':
+                            case 'ge':
+                            case 'lt':
+                            case 'le':
+                                filterOData.push(`${prop} ${operator} ${filter.value}`);
+                                break;
+                            case 'contains':
+                            case 'endswith':
+                            case 'startswith':
+                                filterOData.push(`${operator}(${prop}, '${filter.value}')`);
+                                break;
+                            default:
+                                // no action
+                        }
                     }
                  }
             }
 
-            query = query.Filter(filterOData.join(' and '));
+            if (filterOData.length > 0) {
+                query = query.Filter(filterOData.join(' and '));
+            }
         }
 
         if (event.sortField) {
-            const sortOrder: string = event.sortOrder > 0 ? 'asc' : 'desc';
+            const sortOrder: string = event.sortOrder && event.sortOrder > 0 ? 'asc' : 'desc';
             query = query.OrderBy(event.sortField + ' ' + sortOrder);
         }
 

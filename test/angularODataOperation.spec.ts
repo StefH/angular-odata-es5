@@ -44,7 +44,7 @@ describe('ODataOperation', () => {
         });
     });
 
-    it('Expand(string) via injection', inject([ Http, ODataConfiguration ], (http: Http, config: ODataConfiguration) => {
+    it('Expand(string)`1', inject([ Http, ODataConfiguration ], (http: Http, config: ODataConfiguration) => {
         // Assign
         const test = new ODataOperationTest<IEmployee>('Employees', config, http);
 
@@ -55,47 +55,47 @@ describe('ODataOperation', () => {
         assert.equal(test['_expand'], 'x');
     }));
 
-    it('Expand(string)', () => {
+    it('Expand(string)`2', inject([ Http, ODataConfiguration ], (http: Http, config: ODataConfiguration) => {
         // Assign
-        const test = new ODataOperationTest<IEmployee>('Employees', null, null);
+        const test = new ODataOperationTest<IEmployee>('Employees', config, http);
 
         // Act
         test.Expand('x, y');
 
         // Assert
         assert.equal(test['_expand'], 'x, y');
-    });
+    }));
 
-    it('Expand(string[])', () => {
+    it('Expand(string[])', inject([ Http, ODataConfiguration ], (http: Http, config: ODataConfiguration) => {
         // Assign
-        const test = new ODataOperationTest<IEmployee>('Employees', null, null);
+        const test = new ODataOperationTest<IEmployee>('Employees', config, http);
 
         // Act
         test.Expand([ 'a', 'b' ]);
 
         // Assert
         assert.equal(test['_expand'], 'a,b');
-    });
+    }));
 
-    it('Select(string)', () => {
+    it('Select(string)', inject([ Http, ODataConfiguration ], (http: Http, config: ODataConfiguration) => {
         // Assign
-        const test = new ODataOperationTest<IEmployee>('Employees', null, null);
+        const test = new ODataOperationTest<IEmployee>('Employees', config, http);
 
         // Act
         test.Select('x,y,z');
 
         // Assert
         assert.equal(test['_select'], 'x,y,z');
-    });
+    }));
 
-    it('Select(string[])', () => {
+    it('Select(string[])', inject([ Http, ODataConfiguration ], (http: Http, config: ODataConfiguration) => {
         // Assign
-        const test = new ODataOperationTest<IEmployee>('Employees', null, null);
+        const test = new ODataOperationTest<IEmployee>('Employees', config, http);
 
         // Act
         test.Select([ 'a', 'b' ]);
 
         // Assert
         assert.equal(test['_select'], 'a,b');
-    });
+    }));
 });

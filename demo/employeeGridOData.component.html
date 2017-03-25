@@ -1,21 +1,24 @@
-<div class="ContentSideSections Implementation">
-    <p-dataTable [value]="employees" selectionMode="single"
-            [paginator]="true"
-            [rows]="5"
-            [lazy]="true"
-            [totalRecords]="totalRecords"
-            (onLazyLoad)="loadEmployeesLazy($event)"
-            [responsive]="true">
-        <header>View Employees</header>
-        <p-column field="EmployeeID" header="Id (startsWith)" [sortable]="true" [filter]="true" filterMatchMode="startsWith"></p-column>
-        <p-column field="FirstName" header="FirstName (contains)" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
-        <p-column field="LastName" header="LastName (contains)" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
-        <p-column field="BirthDate" header="BirthDate" [sortable]="true">
-            <template let-employee="rowData" pTemplate="body">
-                {{ employee.BirthDate | date: 'medium' }}
-            </template>
-        </p-column>
-    </p-dataTable>
+<p-panel header="Northwind Employees">
+    <div class="ContentSideSections Implementation">
+        <p-dataTable [value]="employees" selectionMode="single"
+                [paginator]="true"
+                [rows]="5"
+                [lazy]="true"
+                [totalRecords]="totalRecords"
+                (onLazyLoad)="loadEmployeesLazy($event)"
+                [responsive]="true">
+            <header>Northwind Employees</header>
+            <p-column field="EmployeeID" header="Id (greaterThan)" [sortable]="true" [filter]="true" filterMatchMode="gt"></p-column>
+            <p-column field="FirstName" header="FirstName (contains)" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="LastName" header="LastName (endswith)" [sortable]="true" [filter]="true" filterMatchMode="endswith"></p-column>
+            <p-column field="City" header="City (length equals)" [sortable]="true" [filter]="true" filterMatchMode="length:eq"></p-column>
+            <p-column field="BirthDate" header="BirthDate (year greaterThan)" [sortable]="true" [filter]="true" filterMatchMode="year:gt">
+                <ng-template let-employee="rowData" pTemplate="body">
+                    {{ employee.BirthDate | date: 'medium' }}
+                </ng-template>
+            </p-column>
+        </p-dataTable>
 
-    <div>{{filter | json}}</div>
-</div>
+        <div>{{filter | json}}</div>
+    </div>
+</p-panel>
