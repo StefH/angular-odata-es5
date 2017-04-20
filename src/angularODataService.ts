@@ -38,7 +38,7 @@ export class ODataService<T> {
         return this._http.patch(this.getEntityUri(key), body, this.config.postRequestOptions);
     }
 
-    public Put(entity: T,  key: string): Observable<T> {
+    public Put(entity: T, key: string): Observable<T> {
         const body = JSON.stringify(entity);
         return this.handleResponse(this._http.put(this.getEntityUri(key), body, this.config.postRequestOptions));
     }
@@ -57,12 +57,12 @@ export class ODataService<T> {
 
     protected handleResponse(entity: Observable<Response>): Observable<T> {
         return entity.map(this.extractData)
-           .catch((err: any, caught: Observable<T>) => {
-               if (this.config.handleError) {
-                   this.config.handleError(err, caught);
-               }
-               return Observable.throw(err);
-           });
+            .catch((err: any, caught: Observable<T>) => {
+                if (this.config.handleError) {
+                    this.config.handleError(err, caught);
+                }
+                return Observable.throw(err);
+            });
     }
 
     private extractData(res: Response): T {

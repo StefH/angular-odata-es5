@@ -45,4 +45,17 @@ describe('ODataService', () => {
         // Assert
         assert.isNotNull(service);
     }));
+
+    it('Get', inject([ Http, ODataServiceFactory ], (http: Http, factory: ODataServiceFactory) => {
+        // Assign
+        const service = factory.CreateService<IEmployee>('Employees');
+
+        spyOn(http, 'get').and.returnValue(new Observable<Response>());
+
+        // Act
+        const result = service.Get('abc').Exec();
+
+        // Assert
+        expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees('abc')`, jasmine.any(Object));
+    }));
 });

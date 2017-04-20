@@ -7,9 +7,7 @@ export abstract class ODataOperation<T> {
     private _expand: string;
     private _select: string;
 
-    constructor(protected typeName: string,
-                protected config: ODataConfiguration,
-                protected http: Http) {
+    constructor(protected typeName: string, protected config: ODataConfiguration, protected http: Http) {
     }
 
     public Expand(expand: string | string[]) {
@@ -25,7 +23,7 @@ export abstract class ODataOperation<T> {
     protected getParams(): URLSearchParams {
         const params = new URLSearchParams();
 
-        if (this._select && this._select.length > 0)  {
+        if (this._select && this._select.length > 0) {
             params.set(this.config.keys.select, this._select);
         }
 
@@ -38,12 +36,12 @@ export abstract class ODataOperation<T> {
 
     protected handleResponse(entity: Observable<Response>): Observable<T> {
         return entity.map(this.extractData)
-           .catch((err: any, caught: Observable<T>) => {
-               if (this.config.handleError) {
-                   this.config.handleError(err, caught);
-               }
-               return Observable.throw(err);
-           });
+            .catch((err: any, caught: Observable<T>) => {
+                if (this.config.handleError) {
+                    this.config.handleError(err, caught);
+                }
+                return Observable.throw(err);
+            });
     }
 
     protected getRequestOptions(): RequestOptions {
@@ -75,40 +73,38 @@ export abstract class ODataOperation<T> {
 
 export abstract class OperationWithKey<T> extends ODataOperation<T> {
     constructor(protected _typeName: string,
-                protected config: ODataConfiguration,
-                protected http: Http,
-                protected entityKey: string) {
-                    super(_typeName, config, http);
-                }
+        protected config: ODataConfiguration,
+        protected http: Http,
+        protected entityKey: string) {
+        super(_typeName, config, http);
+    }
     protected abstract Exec(...args): Observable<any>;
 }
 
 export abstract class OperationWithEntity<T> extends ODataOperation<T> {
     constructor(protected _typeName: string,
-                protected config: ODataConfiguration,
-                protected http: Http,
-                protected entity: T) {
-                    super(_typeName, config, http);
-                }
+        protected config: ODataConfiguration,
+        protected http: Http,
+        protected entity: T) {
+        super(_typeName, config, http);
+    }
     protected abstract Exec(...args): Observable<any>;
 }
 
 export abstract class OperationWithKeyAndEntity<T> extends ODataOperation<T> {
     constructor(protected _typeName: string,
-                protected config: ODataConfiguration,
-                protected http: Http,
-                protected entityKey: string,
-                protected entity: T) {
-                    super(_typeName, config, http);
-                }
+        protected config: ODataConfiguration,
+        protected http: Http,
+        protected entityKey: string,
+        protected entity: T) {
+        super(_typeName, config, http);
+    }
     protected abstract Exec(...args): Observable<any>;
 }
 
-
 export class GetOperation<T> extends OperationWithKey<T> {
-
     public Exec(): Observable<T> {
-        return super.handleResponse(this.http.get(this.config.getEntityUri(this.typeName, this.entityKey), this.getRequestOptions()));
+        return super.handleResponse(this.http.get(this.config.getEntityUri(this.entityKey, this.typeName), this.getRequestOptions()));
     }
 }
 
