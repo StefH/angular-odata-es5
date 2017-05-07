@@ -2,6 +2,7 @@ import * as S from 'string';
 import { Injectable } from '@angular/core';
 import { RequestOptions, Headers, Response } from '@angular/http';
 import { ODataPagedResult } from './angularODataPagedResult';
+import { ODataUtils } from './angularODataUtils';
 
 export class KeyConfigs {
     public filter: string = '$filter';
@@ -35,17 +36,7 @@ export class ODataConfiguration {
     }
 
     public getEntityUri(entityKey: string, typeName: string): string {
-        // check if entityKey is a GUID (UUID) type
-        if (/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(entityKey)) {
-            return this.getEntitiesUri(typeName) + '(' + entityKey + ')';
-        }
-
-        // check if entityKey is not a number
-        if (!/^[0-9]*$/.test(entityKey)) {
-            return this.getEntitiesUri(typeName) + '(\'' + entityKey + '\')';
-        }
-
-        return this.getEntitiesUri(typeName) + '(' + entityKey + ')';
+        return this.getEntitiesUri(typeName) + `(${ODataUtils.quoteValue(entityKey)})`;
     }
 
     public handleError(err: any, caught: any): void {
@@ -78,7 +69,7 @@ export class ODataConfiguration {
             const count = parseInt(body['@odata.count'], 10) || entities.length;
             pagedResult.count = count;
         } catch (error) {
-            console.warn('Cannot determine OData entities count. Falling back to collection length...');
+            console.warn('Cannot determine OData entities count. Falling back to collection length.');
             pagedResult.count = entities.length;
         }
 

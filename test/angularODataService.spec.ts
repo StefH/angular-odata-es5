@@ -58,8 +58,8 @@ describe('ODataService', () => {
         // Assert
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees('abc')`, jasmine.any(Object));
     }));
-    
-    it('Custom Function', inject([ Http, ODataServiceFactory ], (http: Http, factory: ODataServiceFactory) => {
+
+    it('Custom Function 1', inject([ Http, ODataServiceFactory ], (http: Http, factory: ODataServiceFactory) => {
       // Assign
       const service = factory.CreateService<IEmployee>('Employees');
 
@@ -70,5 +70,31 @@ describe('ODataService', () => {
 
       // Assert
       expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees/calculateLatestTimeCard()`, jasmine.any(Object));
+  }));
+
+  it('Custom Function 2', inject([ Http, ODataServiceFactory ], (http: Http, factory: ODataServiceFactory) => {
+      // Assign
+      const service = factory.CreateService<IEmployee>('Employees');
+
+      spyOn(http, 'get').and.returnValue(new Observable<Response>());
+
+      // Act
+      const result = service.CustomFunction(`getSalesTaxRate(area='abc', postalCode=10)`)
+
+      // Assert
+      expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees/getSalesTaxRate(area='abc', postalCode=10)`, jasmine.any(Object));
+  }));
+
+  it('Custom Function with Parameters', inject([ Http, ODataServiceFactory ], (http: Http, factory: ODataServiceFactory) => {
+      // Assign
+      const service = factory.CreateService<IEmployee>('Employees');
+
+      spyOn(http, 'get').and.returnValue(new Observable<Response>());
+
+      // Act
+      const result = service.CustomFunction('getSalesTaxRate', { area: 'abc', postalCode: 10 })
+
+      // Assert
+      expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees/getSalesTaxRate(area='abc', postalCode=10)`, jasmine.any(Object));
   }));
 });
