@@ -29,8 +29,8 @@ export class ODataService<T> {
         return this._http.post(this.getEntityUri(key) + '/' + actionName, body, this.config.defaultRequestOptions).map(resp => resp.json());
     }
 
-    public CustomFunction(key: string, actionName: string): Observable<any> {
-        return this._http.get(this.getEntityUri(key) + '/' + actionName, this.config.defaultRequestOptions).map(resp => resp.json());
+    public CustomFunction(functionName: string): Observable<any> {
+        return this._http.get(`${this._entitiesUri}/${functionName}()`, this.config.defaultRequestOptions).map(resp => resp.json());
     }
 
     public Patch(entity: any, key: string): Observable<Response> {
