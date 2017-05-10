@@ -20,7 +20,7 @@ export class ODataConfiguration {
     private _baseUrl: string = 'http://localhost/odata';
 
     public keys: KeyConfigs = new KeyConfigs();
-    public defaultRequestOptions: RequestOptions = new RequestOptions({ body: '' });
+    public defaultRequestOptions: RequestOptions = new RequestOptions();
     public postRequestOptions: RequestOptions = new RequestOptions({ headers: this._postHeaders });
 
     set baseUrl(baseUrl: string) {

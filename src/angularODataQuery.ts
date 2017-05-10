@@ -1,4 +1,4 @@
-import { URLSearchParams, Http, Response } from '@angular/http';
+import { URLSearchParams, Http, Response, RequestOptions } from '@angular/http';
 import { Observable, Operator, Subject } from 'rxjs/Rx';
 
 import { ODataConfiguration } from './angularODataConfiguration';
@@ -39,10 +39,10 @@ export class ODataQuery<T> extends ODataOperation<T> {
     }
 
     public Exec(): Observable<Array<T>> {
-        const params = this.getQueryParams();
-        const config = this.config;
-        return this.http.get(this._entitiesUri, { search: params })
-            .map(res => this.extractArrayData(res, config))
+        const requestOptions: RequestOptions = this.getQueryRequestOptions(false);
+
+        return this.http.get(this._entitiesUri, requestOptions)
+            .map(res => this.extractArrayData(res, this.config))
             .catch((err: any, caught: Observable<Array<T>>) => {
                 if (this.config.handleError) {
                     this.config.handleError(err, caught);
@@ -52,12 +52,10 @@ export class ODataQuery<T> extends ODataOperation<T> {
     }
 
     public ExecWithCount(): Observable<ODataPagedResult<T>> {
-        const params = this.getQueryParams();
-        params.set('$count', 'true'); // OData v4 only
-        const config = this.config;
+        const requestOptions: RequestOptions = this.getQueryRequestOptions(true);
 
-        return this.http.get(this._entitiesUri, { search: params })
-            .map(res => this.extractArrayDataWithCount(res, config))
+        return this.http.get(this._entitiesUri, requestOptions)
+            .map(res => this.extractArrayDataWithCount(res, this.config))
             .catch((err: any, caught: Observable<ODataPagedResult<T>>) => {
                 if (this.config.handleError) {
                     this.config.handleError(err, caught);
@@ -66,7 +64,8 @@ export class ODataQuery<T> extends ODataOperation<T> {
             });
     }
 
-    private getQueryParams(): URLSearchParams {
+    private getQueryRequestOptions(odata4: boolean): RequestOptions {
+        const options = this.config.defaultRequestOptions;
         const params = super.getParams();
 
         if (this._filter) {
@@ -85,7 +84,13 @@ export class ODataQuery<T> extends ODataOperation<T> {
             params.set(this.config.keys.orderBy, this._orderBy);
         }
 
-        return params;
+        if (odata4) {
+            params.set('$count', 'true'); // OData v4 only
+        }
+
+        options.search = params;
+
+        return options;
     }
 
     private extractArrayData(res: Response, config: ODataConfiguration): Array<T> {
