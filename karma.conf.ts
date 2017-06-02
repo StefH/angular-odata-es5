@@ -25,7 +25,7 @@ export default config => {
 
     webpack: {
       resolve: {
-        extensions: ['.ts', '.js'],
+        extensions: [ '.ts', '.js', '.json' ],
         alias: {
           sinon: 'sinon/pkg/sinon'
         }
