@@ -9,7 +9,7 @@ import { IEmployee } from './helpers/employee';
 import { AngularODataModule } from '../src';
 import { ODataOperation, ODataServiceFactory, ODataConfiguration } from './../src/index';
 
-export class ODataOperationTest<IEmployee> extends ODataOperation<IEmployee> {
+export class ODataOperationTest extends ODataOperation<IEmployee> {
     public Exec(): Observable<Array<IEmployee>> {
         return Observable.of(new Array<IEmployee>());
     }
@@ -46,7 +46,7 @@ describe('ODataOperation', () => {
 
     it('Expand(string)`1', inject([ Http, ODataConfiguration ], (http: Http, config: ODataConfiguration) => {
         // Assign
-        const test = new ODataOperationTest<IEmployee>('Employees', config, http);
+        const test = new ODataOperationTest('Employees', config, http);
 
         // Act
         test.Expand('x');
@@ -57,7 +57,7 @@ describe('ODataOperation', () => {
 
     it('Expand(string)`2', inject([ Http, ODataConfiguration ], (http: Http, config: ODataConfiguration) => {
         // Assign
-        const test = new ODataOperationTest<IEmployee>('Employees', config, http);
+        const test = new ODataOperationTest('Employees', config, http);
 
         // Act
         test.Expand('x, y');
@@ -68,7 +68,7 @@ describe('ODataOperation', () => {
 
     it('Expand(string[])', inject([ Http, ODataConfiguration ], (http: Http, config: ODataConfiguration) => {
         // Assign
-        const test = new ODataOperationTest<IEmployee>('Employees', config, http);
+        const test = new ODataOperationTest('Employees', config, http);
 
         // Act
         test.Expand([ 'a', 'b' ]);
@@ -79,7 +79,7 @@ describe('ODataOperation', () => {
 
     it('Select(string)', inject([ Http, ODataConfiguration ], (http: Http, config: ODataConfiguration) => {
         // Assign
-        const test = new ODataOperationTest<IEmployee>('Employees', config, http);
+        const test = new ODataOperationTest('Employees', config, http);
 
         // Act
         test.Select('x,y,z');
@@ -90,7 +90,7 @@ describe('ODataOperation', () => {
 
     it('Select(string[])', inject([ Http, ODataConfiguration ], (http: Http, config: ODataConfiguration) => {
         // Assign
-        const test = new ODataOperationTest<IEmployee>('Employees', config, http);
+        const test = new ODataOperationTest('Employees', config, http);
 
         // Act
         test.Select([ 'a', 'b' ]);
