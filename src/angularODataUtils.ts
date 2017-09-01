@@ -13,7 +13,7 @@ export class ODataUtils {
                 properties.push(`${prop}=${value}`);
             }
         }
-        return properties.join(', ')
+        return properties.join(', ');
     }
 
     public static quoteValue(value: string): string {
