@@ -1,0 +1,14 @@
+https://github.com/mattlewis92/generator-angular-library/issues/47
+
+Ah I see where you're going wrong. Features, fixes should be their own independent changes. The release script is designed to release a set of commits all in own go. So your workflow should look something like
+1/ Make a change in a file (let's assume it's a fix)
+2/ Stage files
+3/ npm run commit to use the interface to create the text
+4/ Repeat steps 1-3 as many times as you want until you're ready to release
+5/ Increase the version in package.json (but don't commit it)
+6/ npm run release:git
+7/ Optionally do npm run gh-pages
+
+It might help to see the workflow I use in a real project: https://github.com/mattlewis92/angular-calendar/commits/master
+
+Hope that helps! 😄
