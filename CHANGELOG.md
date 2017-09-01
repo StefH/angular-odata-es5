@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.6"></a>
+## [0.1.6](https://github.com/StefH/angular-odata-es5/compare/v0.1.5...v0.1.6) (2017-09-01)
+
+
+### Bug Fixes
+
+* **demo:** Fix demo css ([1ec2c4c](https://github.com/StefH/angular-odata-es5/commit/1ec2c4c))
+* **demo:** Fix omega/theme.css ([fd61bcd](https://github.com/StefH/angular-odata-es5/commit/fd61bcd))
+
+
+
 <a name="0.1.5"></a>
 ## [0.1.5](https://github.com/StefH/angular-odata-es5/compare/v0.1.4...v0.1.5) (2017-05-10)
 
