@@ -2,12 +2,13 @@ import { URLSearchParams, Http, Response, RequestOptions } from '@angular/http';
 import { Observable, Operator } from 'rxjs/Rx';
 
 import { ODataConfiguration } from './angularODataConfiguration';
+import { HttpClient, HttpParams, HttpHeaders, HttpResponse } from '@angular/common/http';
 
 export abstract class ODataOperation<T> {
     private _expand: string;
     private _select: string;
 
-    constructor(protected typeName: string, protected config: ODataConfiguration, protected http: Http) {
+    constructor(protected typeName: string, protected config: ODataConfiguration, protected http: HttpClient) {
     }
 
     public Expand(expand: string | string[]) {
@@ -20,8 +21,8 @@ export abstract class ODataOperation<T> {
         return this;
     }
 
-    protected getParams(): URLSearchParams {
-        const params = new URLSearchParams();
+    protected getParams(): HttpParams {
+        const params = new HttpParams();
 
         if (this._select && this._select.length > 0) {
             params.set(this.config.keys.select, this._select);
@@ -34,7 +35,7 @@ export abstract class ODataOperation<T> {
         return params;
     }
 
-    protected handleResponse(entity: Observable<Response>): Observable<T> {
+    protected handleResponse(entity: Observable<HttpResponse<T>>): Observable<T> {
         return entity.map(this.extractData)
             .catch((err: any, caught: Observable<T>) => {
                 if (this.config.handleError) {
@@ -44,9 +45,16 @@ export abstract class ODataOperation<T> {
             });
     }
 
-    protected getRequestOptions(): RequestOptions {
+    protected getRequestOptions(): {
+        headers?: HttpHeaders;
+        observe: 'response';
+        params?: HttpParams;
+        reportProgress?: boolean;
+        responseType?: 'json';
+        withCredentials?: boolean;
+    } {
         const options = this.config.defaultRequestOptions;
-        options.search = this.getParams();
+        options.params = this.getParams();
         return options;
     }
 
@@ -60,12 +68,12 @@ export abstract class ODataOperation<T> {
         return input as string;
     }
 
-    private extractData(res: Response): T {
+    private extractData(res: HttpResponse<T>): T {
         if (res.status < 200 || res.status >= 300) {
             throw new Error('Bad response status: ' + res.status);
         }
 
-        const body: any = res.json();
+        const body: any = res;
         const entity: T = body;
         return entity || null;
     }
@@ -74,7 +82,7 @@ export abstract class ODataOperation<T> {
 export abstract class OperationWithKey<T> extends ODataOperation<T> {
     constructor(protected _typeName: string,
         protected config: ODataConfiguration,
-        protected http: Http,
+        protected http: HttpClient,
         protected entityKey: string) {
         super(_typeName, config, http);
     }
@@ -84,7 +92,7 @@ export abstract class OperationWithKey<T> extends ODataOperation<T> {
 export abstract class OperationWithEntity<T> extends ODataOperation<T> {
     constructor(protected _typeName: string,
         protected config: ODataConfiguration,
-        protected http: Http,
+        protected http: HttpClient,
         protected entity: T) {
         super(_typeName, config, http);
     }
@@ -94,7 +102,7 @@ export abstract class OperationWithEntity<T> extends ODataOperation<T> {
 export abstract class OperationWithKeyAndEntity<T> extends ODataOperation<T> {
     constructor(protected _typeName: string,
         protected config: ODataConfiguration,
-        protected http: Http,
+        protected http: HttpClient,
         protected entityKey: string,
         protected entity: T) {
         super(_typeName, config, http);
@@ -104,7 +112,7 @@ export abstract class OperationWithKeyAndEntity<T> extends ODataOperation<T> {
 
 export class GetOperation<T> extends OperationWithKey<T> {
     public Exec(): Observable<T> {
-        return super.handleResponse(this.http.get(this.config.getEntityUri(this.entityKey, this.typeName), this.getRequestOptions()));
+        return super.handleResponse(this.http.get<T>(this.config.getEntityUri(this.entityKey, this.typeName), this.getRequestOptions()));
     }
 }
 
