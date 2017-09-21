@@ -30,10 +30,11 @@ describe('ODataQuery', () => {
             providers: [
                 ODataConfiguration,
                 ODataServiceFactory,
-                HttpClientTestingModule
+                HttpClient
             ],
             imports: [
                 AngularODataModule.forRoot(),
+                HttpClientTestingModule
             ]
         });
     });
@@ -71,10 +72,10 @@ describe('ODataQuery', () => {
         const result = query.Exec();
 
         const params = new HttpParams();
-        params.set(this.config.keys.filter, 'x');
-        params.set(this.config.keys.top, '10');
-        params.set(this.config.keys.skip, '20');
-        params.set(this.config.keys.orderBy, '0');
+        params.set(config.keys.filter, 'x');
+        params.set(config.keys.top, '10');
+        params.set(config.keys.skip, '20');
+        params.set(config.keys.orderBy, '0');
 
         // Assert
         const testOptions: {
@@ -105,10 +106,10 @@ describe('ODataQuery', () => {
 
         const result = query.ExecWithCount();
         const params = new HttpParams();
-        params.set(this.config.keys.filter, 'x');
-        params.set(this.config.keys.top, '10');
-        params.set(this.config.keys.skip, '20');
-        params.set(this.config.keys.orderBy, '0');
+        params.set(config.keys.filter, 'x');
+        params.set(config.keys.top, '10');
+        params.set(config.keys.skip, '20');
+        params.set(config.keys.orderBy, '0');
         params.set('$count', 'true');
         // Assert
         const testOptions: {

@@ -16,10 +16,11 @@ describe('ODataService', () => {
             providers: [
                 ODataConfiguration,
                 ODataServiceFactory,
-                HttpClientTestingModule
+                HttpClient
             ],
             imports: [
-                AngularODataModule.forRoot()
+                AngularODataModule.forRoot(),
+                HttpClientTestingModule
             ]
         });
     });

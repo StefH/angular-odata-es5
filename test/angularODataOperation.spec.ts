@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { Observable, Operator } from 'rxjs/Rx';
 import { Location } from '@angular/common';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { IEmployee } from './helpers/employee';
 
@@ -32,17 +32,18 @@ describe('ODataOperation', () => {
                 //         };
                 //     }
                 // },
+                HttpClient,
                 ODataConfiguration,
-                ODataServiceFactory,
-                HttpClientTestingModule
+                ODataServiceFactory
             ],
             imports: [
-                AngularODataModule.forRoot()
+                AngularODataModule.forRoot(),
+                HttpClientTestingModule
             ]
         });
     });
 
-    it('Expand(string)`1', inject([ HttpClient, ODataConfiguration ], (http: HttpClient, config: ODataConfiguration) => {
+    it('Expand(string)`1', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
         // Assign
         const test = new ODataOperationTest('Employees', config, http);
 
@@ -53,7 +54,7 @@ describe('ODataOperation', () => {
         assert.equal(test['_expand'], 'x');
     }));
 
-    it('Expand(string)`2', inject([ HttpClient, ODataConfiguration ], (http: HttpClient, config: ODataConfiguration) => {
+    it('Expand(string)`2', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
         // Assign
         const test = new ODataOperationTest('Employees', config, http);
 
@@ -64,18 +65,18 @@ describe('ODataOperation', () => {
         assert.equal(test['_expand'], 'x, y');
     }));
 
-    it('Expand(string[])', inject([ HttpClient, ODataConfiguration ], (http: HttpClient, config: ODataConfiguration) => {
+    it('Expand(string[])', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
         // Assign
         const test = new ODataOperationTest('Employees', config, http);
 
         // Act
-        test.Expand([ 'a', 'b' ]);
+        test.Expand(['a', 'b']);
 
         // Assert
         assert.equal(test['_expand'], 'a,b');
     }));
 
-    it('Select(string)', inject([ HttpClient, ODataConfiguration ], (http: HttpClient, config: ODataConfiguration) => {
+    it('Select(string)', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
         // Assign
         const test = new ODataOperationTest('Employees', config, http);
 
@@ -86,12 +87,12 @@ describe('ODataOperation', () => {
         assert.equal(test['_select'], 'x,y,z');
     }));
 
-    it('Select(string[])', inject([ HttpClient, ODataConfiguration ], (http: HttpClient, config: ODataConfiguration) => {
+    it('Select(string[])', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
         // Assign
         const test = new ODataOperationTest('Employees', config, http);
 
         // Act
-        test.Select([ 'a', 'b' ]);
+        test.Select(['a', 'b']);
 
         // Assert
         assert.equal(test['_select'], 'a,b');
