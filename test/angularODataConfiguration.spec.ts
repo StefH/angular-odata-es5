@@ -2,31 +2,22 @@ import { assert } from 'chai';
 import { Observable, Operator } from 'rxjs/Rx';
 import { Location } from '@angular/common';
 import { inject, TestBed } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
-import { BaseRequestOptions, Http, ConnectionBackend, HttpModule, Response } from '@angular/http';
 import { IEmployee } from './helpers/employee';
 
 import { AngularODataModule } from '../src';
 import { ODataOperation, ODataServiceFactory, ODataConfiguration, ODataQuery, ODataPagedResult } from './../src/index';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ODataConfiguration', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                BaseRequestOptions,
-                MockBackend,
-                {
-                    provide: Http, useFactory: (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) => {
-                        return new Http(backend, defaultOptions);
-                    },
-                    deps: [MockBackend, BaseRequestOptions]
-                },
                 ODataConfiguration,
-                ODataServiceFactory
+                ODataServiceFactory,
+                HttpClientTestingModule
             ],
             imports: [
-                AngularODataModule.forRoot(),
-                HttpModule
+                AngularODataModule.forRoot()
             ]
         });
     });

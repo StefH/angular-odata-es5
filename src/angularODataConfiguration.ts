@@ -1,6 +1,5 @@
 import * as S from 'string';
 import { Injectable } from '@angular/core';
-import { RequestOptions, Headers, Response } from '@angular/http';
 import { ODataPagedResult } from './angularODataPagedResult';
 import { ODataUtils } from './angularODataUtils';
 import { HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';

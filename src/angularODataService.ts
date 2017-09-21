@@ -1,5 +1,4 @@
 import * as S from 'string';
-import { URLSearchParams, Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable, Operator } from 'rxjs/Rx';
 import { ODataConfiguration } from './angularODataConfiguration';
 import { ODataQuery } from './angularODataQuery';

@@ -1,4 +1,3 @@
-import { URLSearchParams, Http, Response, RequestOptions } from '@angular/http';
 import { Observable, Operator, Subject } from 'rxjs/Rx';
 
 import { ODataConfiguration } from './angularODataConfiguration';
