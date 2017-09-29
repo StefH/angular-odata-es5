@@ -1,15 +1,15 @@
 import * as S from 'string';
-import { URLSearchParams, Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable, Operator } from 'rxjs/Rx';
 import { ODataConfiguration } from './angularODataConfiguration';
 import { ODataQuery } from './angularODataQuery';
 import { GetOperation } from './angularODataOperation';
 import { ODataUtils } from './angularODataUtils';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 export class ODataService<T> {
     private _entitiesUri: string;
 
-    constructor(private _typeName: string, private _http: Http, private config: ODataConfiguration) {
+    constructor(private _typeName: string, private _http: HttpClient, private config: ODataConfiguration) {
         this._entitiesUri = config.getEntitiesUri(_typeName);
     }
 
@@ -23,12 +23,12 @@ export class ODataService<T> {
 
     public Post(entity: T): Observable<T> {
         const body = JSON.stringify(entity);
-        return this.handleResponse(this._http.post(this._entitiesUri, body, this.config.postRequestOptions));
+        return this.handleResponse(this._http.post<T>(this._entitiesUri, body, this.config.postRequestOptions));
     }
 
     public CustomAction(key: string, actionName: string, postdata: any): Observable<any> {
         const body = JSON.stringify(postdata);
-        return this._http.post(this.getEntityUri(key) + '/' + actionName, body, this.config.defaultRequestOptions).map(resp => resp.json());
+        return this._http.post(this.getEntityUri(key) + '/' + actionName, body, this.config.defaultRequestOptions).map(resp => resp);
     }
 
     public CustomFunction(functionName: string, parameters?: any): Observable<any> {
@@ -39,21 +39,21 @@ export class ODataService<T> {
             functionName = `${functionName}()`;
         }
 
-        return this._http.get(`${this._entitiesUri}/${functionName}`, this.config.defaultRequestOptions).map(resp => resp.json());
+        return this._http.get(`${this._entitiesUri}/${functionName}`, this.config.defaultRequestOptions).map(resp => resp);
     }
 
-    public Patch(entity: any, key: string): Observable<Response> {
+    public Patch(entity: any, key: string): Observable<HttpResponse<T>> {
         const body = JSON.stringify(entity);
-        return this._http.patch(this.getEntityUri(key), body, this.config.postRequestOptions);
+        return this._http.patch<T>(this.getEntityUri(key), body, this.config.postRequestOptions);
     }
 
     public Put(entity: T, key: string): Observable<T> {
         const body = JSON.stringify(entity);
-        return this.handleResponse(this._http.put(this.getEntityUri(key), body, this.config.postRequestOptions));
+        return this.handleResponse(this._http.put<T>(this.getEntityUri(key), body, this.config.postRequestOptions));
     }
 
-    public Delete(key: string): Observable<Response> {
-        return this._http.delete(this.getEntityUri(key), this.config.defaultRequestOptions);
+    public Delete(key: string): Observable<HttpResponse<T>> {
+        return this._http.delete<T>(this.getEntityUri(key), this.config.defaultRequestOptions);
     }
 
     public Query(): ODataQuery<T> {
@@ -64,7 +64,7 @@ export class ODataService<T> {
         return this.config.getEntityUri(entityKey, this._typeName);
     }
 
-    protected handleResponse(entity: Observable<Response>): Observable<T> {
+    protected handleResponse(entity: Observable<HttpResponse<T>>): Observable<T> {
         return entity.map(this.extractData)
             .catch((err: any, caught: Observable<T>) => {
                 if (this.config.handleError) {
@@ -74,12 +74,12 @@ export class ODataService<T> {
             });
     }
 
-    private extractData(res: Response): T {
+    private extractData(res: HttpResponse<T>): T {
         if (res.status < 200 || res.status >= 300) {
             throw new Error('Bad response status: ' + res.status);
         }
 
-        const body: any = res.json();
+        const body: any = res;
         const entity: T = body;
 
         return entity || null;
