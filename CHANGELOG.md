@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.0-preview-01"></a>
+# [0.2.0-preview-01](https://github.com/StefH/angular-odata-es5/compare/v0.1.6...v0.2.0-preview-01) (2017-09-29)
+
+
+### Bug Fixes
+
+* **test:** Fix all tests ([3dfc8ac](https://github.com/StefH/angular-odata-es5/commit/3dfc8ac))
+
+
+### Features
+
+* **$httpclient:** HttpClient : fixes ([3f803c5](https://github.com/StefH/angular-odata-es5/commit/3f803c5))
+
+
+
 <a name="0.1.6"></a>
 ## [0.1.6](https://github.com/StefH/angular-odata-es5/compare/v0.1.5...v0.1.6) (2017-09-01)
 
