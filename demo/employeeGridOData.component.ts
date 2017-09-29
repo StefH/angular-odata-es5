@@ -23,6 +23,8 @@ export class EmployeeGridODataComponent implements OnInit {
 
     public filter: LazyLoadEvent;
 
+    public query: ODataQuery<IEmployee>;
+
     private odata: ODataService<IEmployee>;
 
     constructor(private odataFactory: ODataServiceFactory) {
@@ -34,7 +36,6 @@ export class EmployeeGridODataComponent implements OnInit {
     }
 
     public loadEmployeesLazy(event: LazyLoadEvent) {
-        console.log('event = ' + JSON.stringify(event));
         this.filter = event;
 
         this.getPagedData(event);
@@ -106,6 +107,8 @@ export class EmployeeGridODataComponent implements OnInit {
             const sortOrder: string = event.sortOrder && event.sortOrder > 0 ? 'asc' : 'desc';
             query = query.OrderBy(event.sortField + ' ' + sortOrder);
         }
+
+        this.query = query;
 
         query
             .ExecWithCount()

@@ -86,29 +86,29 @@ export class ODataQuery<T> extends ODataOperation<T> {
         responseType?: 'json';
         withCredentials?: boolean;
     } {
-        const options = this.config.defaultRequestOptions;
-        const params = super.getParams();
+        let params = super.getParams();
 
         if (this._filter) {
-            params.set(this.config.keys.filter, this._filter);
+            params = params.append(this.config.keys.filter, this._filter);
         }
 
         if (this._top) {
-            params.set(this.config.keys.top, this._top.toString());
+            params = params.append(this.config.keys.top, this._top.toString());
         }
 
         if (this._skip) {
-            params.set(this.config.keys.skip, this._skip.toString());
+            params = params.append(this.config.keys.skip, this._skip.toString());
         }
 
         if (this._orderBy) {
-            params.set(this.config.keys.orderBy, this._orderBy);
+            params = params.append(this.config.keys.orderBy, this._orderBy);
         }
 
         if (odata4) {
-            params.set('$count', 'true'); // OData v4 only
+            params = params.append('$count', 'true'); // OData v4 only
         }
 
+        const options = this.config.defaultRequestOptions;
         options.params = params;
 
         return options;

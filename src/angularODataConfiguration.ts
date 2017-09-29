@@ -27,7 +27,7 @@ export class ODataConfiguration {
         reportProgress?: boolean;
         responseType?: 'json';
         withCredentials?: boolean;
-    } = { observe: 'response'  };
+    } = { observe: 'response' };
 
     public postRequestOptions: {
         headers?: HttpHeaders;
@@ -69,19 +69,19 @@ export class ODataConfiguration {
     }
 
     public extractQueryResultDataWithCount<T>(res: HttpResponse<T>): ODataPagedResult<T> {
-        const pagedResult = new ODataPagedResult<T>();
+        const pagedResult: ODataPagedResult<T> = new ODataPagedResult<T>();
 
         if (res.status < 200 || res.status >= 300) {
             throw new Error('Bad response status: ' + res.status);
         }
 
-        const body = res;
-        const entities: T[] = body['value'];
+        const body: any = res.body;
+        const entities: T[] = body.value;
 
         pagedResult.data = entities;
 
         try {
-            const count = parseInt(body['@odata.count'], 10) || entities.length;
+            const count: number = parseInt(body['@odata.count'], 10) || entities.length;
             pagedResult.count = count;
         } catch (error) {
             console.warn('Cannot determine OData entities count. Falling back to collection length.');

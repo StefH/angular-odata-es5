@@ -21,14 +21,14 @@ export abstract class ODataOperation<T> {
     }
 
     protected getParams(): HttpParams {
-        const params = new HttpParams();
+        let params = new HttpParams();
 
         if (this._select && this._select.length > 0) {
-            params.set(this.config.keys.select, this._select);
+            params = params.append(this.config.keys.select, this._select);
         }
 
         if (this._expand && this._expand.length > 0) {
-            params.set(this.config.keys.expand, this._expand);
+            params = params.append(this.config.keys.expand, this._expand);
         }
 
         return params;
@@ -72,7 +72,7 @@ export abstract class ODataOperation<T> {
             throw new Error('Bad response status: ' + res.status);
         }
 
-        const body: any = res;
+        const body: any = res.body;
         const entity: T = body;
         return entity || null;
     }

@@ -67,15 +67,15 @@ describe('ODataQuery', () => {
             .Filter('x')
             .Top(10)
             .Skip(20)
-            .OrderBy('o');
+            .OrderBy('y');
 
         const result = query.Exec();
 
-        const params = new HttpParams();
-        params.set(config.keys.filter, 'x');
-        params.set(config.keys.top, '10');
-        params.set(config.keys.skip, '20');
-        params.set(config.keys.orderBy, '0');
+        const params = new HttpParams()
+            .append(config.keys.filter, 'x')
+            .append(config.keys.top, '10')
+            .append(config.keys.skip, '20')
+            .append(config.keys.orderBy, 'y');
 
         // Assert
         const testOptions: {
@@ -102,15 +102,17 @@ describe('ODataQuery', () => {
             .Filter('x')
             .Top(10)
             .Skip(20)
-            .OrderBy('o');
+            .OrderBy('y');
 
         const result = query.ExecWithCount();
-        const params = new HttpParams();
-        params.set(config.keys.filter, 'x');
-        params.set(config.keys.top, '10');
-        params.set(config.keys.skip, '20');
-        params.set(config.keys.orderBy, '0');
-        params.set('$count', 'true');
+
+        const params = new HttpParams()
+            .append(config.keys.filter, 'x')
+            .append(config.keys.top, '10')
+            .append(config.keys.skip, '20')
+            .append(config.keys.orderBy, 'y')
+            .append('$count', 'true');
+
         // Assert
         const testOptions: {
             headers?: HttpHeaders;
