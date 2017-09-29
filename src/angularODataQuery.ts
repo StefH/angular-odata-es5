@@ -1,9 +1,9 @@
-import { URLSearchParams, Http, Response, RequestOptions } from '@angular/http';
 import { Observable, Operator, Subject } from 'rxjs/Rx';
 
 import { ODataConfiguration } from './angularODataConfiguration';
 import { ODataOperation } from './angularODataOperation';
 import { ODataPagedResult } from './angularODataPagedResult';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 
 export class ODataQuery<T> extends ODataOperation<T> {
     private _filter: string;
@@ -12,7 +12,7 @@ export class ODataQuery<T> extends ODataOperation<T> {
     private _orderBy: string;
     private _entitiesUri: string;
 
-    constructor(typeName: string, config: ODataConfiguration, http: Http) {
+    constructor(typeName: string, config: ODataConfiguration, http: HttpClient) {
         super(typeName, config, http);
 
         this._entitiesUri = config.getEntitiesUri(this.typeName);
@@ -39,9 +39,16 @@ export class ODataQuery<T> extends ODataOperation<T> {
     }
 
     public Exec(): Observable<Array<T>> {
-        const requestOptions: RequestOptions = this.getQueryRequestOptions(false);
+        const requestOptions: {
+            headers?: HttpHeaders;
+            observe: 'response';
+            params?: HttpParams;
+            reportProgress?: boolean;
+            responseType?: 'json';
+            withCredentials?: boolean;
+        } = this.getQueryRequestOptions(false);
 
-        return this.http.get(this._entitiesUri, requestOptions)
+        return this.http.get<T>(this._entitiesUri, requestOptions)
             .map(res => this.extractArrayData(res, this.config))
             .catch((err: any, caught: Observable<Array<T>>) => {
                 if (this.config.handleError) {
@@ -52,9 +59,16 @@ export class ODataQuery<T> extends ODataOperation<T> {
     }
 
     public ExecWithCount(): Observable<ODataPagedResult<T>> {
-        const requestOptions: RequestOptions = this.getQueryRequestOptions(true);
+        const requestOptions: {
+            headers?: HttpHeaders;
+            observe: 'response';
+            params?: HttpParams;
+            reportProgress?: boolean;
+            responseType?: 'json';
+            withCredentials?: boolean;
+        } = this.getQueryRequestOptions(true);
 
-        return this.http.get(this._entitiesUri, requestOptions)
+        return this.http.get<T>(this._entitiesUri, requestOptions)
             .map(res => this.extractArrayDataWithCount(res, this.config))
             .catch((err: any, caught: Observable<ODataPagedResult<T>>) => {
                 if (this.config.handleError) {
@@ -64,7 +78,14 @@ export class ODataQuery<T> extends ODataOperation<T> {
             });
     }
 
-    private getQueryRequestOptions(odata4: boolean): RequestOptions {
+    private getQueryRequestOptions(odata4: boolean): {
+        headers?: HttpHeaders;
+        observe: 'response';
+        params?: HttpParams;
+        reportProgress?: boolean;
+        responseType?: 'json';
+        withCredentials?: boolean;
+    } {
         const options = this.config.defaultRequestOptions;
         const params = super.getParams();
 
@@ -88,16 +109,16 @@ export class ODataQuery<T> extends ODataOperation<T> {
             params.set('$count', 'true'); // OData v4 only
         }
 
-        options.search = params;
+        options.params = params;
 
         return options;
     }
 
-    private extractArrayData(res: Response, config: ODataConfiguration): Array<T> {
+    private extractArrayData(res: HttpResponse<T>, config: ODataConfiguration): Array<T> {
         return config.extractQueryResultData<T>(res);
     }
 
-    private extractArrayDataWithCount(res: Response, config: ODataConfiguration): ODataPagedResult<T> {
+    private extractArrayDataWithCount(res: HttpResponse<T>, config: ODataConfiguration): ODataPagedResult<T> {
         return config.extractQueryResultDataWithCount<T>(res);
     }
 }

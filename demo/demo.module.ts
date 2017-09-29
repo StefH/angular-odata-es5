@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AngularODataModule } from '../src';
@@ -11,7 +11,7 @@ import { DataTableModule, DialogModule, PaginatorModule, TooltipModule, PanelMod
 @NgModule({
   declarations: [ DemoComponent, EmployeeGridODataComponent ],
   exports: [ PanelModule, NoopAnimationsModule ],
-  imports: [ BrowserModule, HttpModule, DataTableModule, TooltipModule, PaginatorModule, DialogModule, PanelModule, NoopAnimationsModule, AngularODataModule.forRoot() ],
+  imports: [ BrowserModule, HttpClient, DataTableModule, TooltipModule, PaginatorModule, DialogModule, PanelModule, NoopAnimationsModule, AngularODataModule.forRoot() ],
   bootstrap: [ DemoComponent ]
 })
 export class DemoModule {}
