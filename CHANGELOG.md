@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.1"></a>
+## [0.2.1](https://github.com/StefH/angular-odata-es5/compare/v0.2.0...v0.2.1) (2017-10-11)
+
+
+### Bug Fixes
+
+* **$demo:** fix demo ([64b40be](https://github.com/StefH/angular-odata-es5/commit/64b40be))
+* **$options:** Use Object.assign to create a copy from defaultRequestOptions ([b278d8f](https://github.com/StefH/angular-odata-es5/commit/b278d8f))
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://github.com/StefH/angular-odata-es5/compare/v0.2.0-preview-01...v0.2.0) (2017-10-03)
 
