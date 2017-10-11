@@ -19,19 +19,6 @@ describe('ODataOperation', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                // {
-                //     provide: Http, useFactory: (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) => {
-                //         return new Http(backend, defaultOptions);
-                //     },
-                //     deps: [MockBackend, BaseRequestOptions]
-                // },
-                // {
-                //     provide: Location, useFactory: () => {
-                //         return {
-                //             path: 'http://localhost/test'
-                //         };
-                //     }
-                // },
                 HttpClient,
                 ODataConfiguration,
                 ODataServiceFactory

@@ -52,7 +52,7 @@ export abstract class ODataOperation<T> {
         responseType?: 'json';
         withCredentials?: boolean;
     } {
-        const options = this.config.defaultRequestOptions;
+        const options = Object.assign({}, this.config.defaultRequestOptions);
         options.params = this.getParams();
         return options;
     }

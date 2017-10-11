@@ -21,12 +21,12 @@ export class ODataQuery<T> extends ODataOperation<T> {
     public Filter(filter: string): ODataQuery<T> {
         this._filter = filter;
         return this;
-    };
+    }
 
     public Top(top: number): ODataQuery<T> {
         this._top = top;
         return this;
-    };
+    }
 
     public Skip(skip: number): ODataQuery<T> {
         this._skip = skip;
@@ -108,7 +108,7 @@ export class ODataQuery<T> extends ODataOperation<T> {
             params = params.append('$count', 'true'); // OData v4 only
         }
 
-        const options = this.config.defaultRequestOptions;
+        const options = Object.assign({}, this.config.defaultRequestOptions);
         options.params = params;
 
         return options;
