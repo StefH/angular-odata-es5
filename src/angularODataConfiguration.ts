@@ -63,7 +63,7 @@ export class ODataConfiguration {
             throw new Error('Bad response status: ' + res.status);
         }
 
-        const body = res.body;
+        const body: any = res.body;
         const entities: T[] = body.value;
         return entities;
     }
