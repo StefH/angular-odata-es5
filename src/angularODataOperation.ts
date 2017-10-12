@@ -1,7 +1,7 @@
-import { Observable, Operator } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { ODataConfiguration } from './angularODataConfiguration';
-import { HttpClient, HttpParams, HttpHeaders, HttpResponse } from '@angular/common/http';
 
 export abstract class ODataOperation<T> {
     private _expand: string;

@@ -1,10 +1,10 @@
-import * as S from 'string';
-import { Observable, Operator } from 'rxjs/Rx';
-import { ODataConfiguration } from './angularODataConfiguration';
-import { ODataQuery } from './angularODataQuery';
+import { Observable } from 'rxjs/Rx';
+
+import { HttpClient, HttpResponse } from '@angular/common/http';
+
 import { GetOperation } from './angularODataOperation';
 import { ODataUtils } from './angularODataUtils';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { ODataConfiguration, ODataQuery } from './index';
 
 export class ODataService<T> {
     private _entitiesUri: string;
@@ -83,9 +83,5 @@ export class ODataService<T> {
         const entity: T = body;
 
         return entity || null;
-    }
-
-    private escapeKey() {
-
     }
 }

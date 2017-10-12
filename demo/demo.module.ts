@@ -1,9 +1,9 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { DataTableModule, DialogModule, PaginatorModule, TooltipModule, PanelModule } from 'primeng/primeng';
+import { DataTableModule, DialogModule, PaginatorModule, PanelModule, TooltipModule } from 'primeng/primeng';
 
 import { AngularODataModule } from '../src';
 import { DemoComponent } from './demo.component';

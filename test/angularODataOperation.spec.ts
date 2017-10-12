@@ -1,13 +1,14 @@
 import { assert } from 'chai';
 import { Observable, Operator } from 'rxjs/Rx';
+
 import { Location } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
-import { IEmployee } from './helpers/employee';
 
 import { AngularODataModule } from '../src';
-import { ODataOperation, ODataServiceFactory, ODataConfiguration } from './../src/index';
-import { HttpClient } from '@angular/common/http';
+import { ODataConfiguration, ODataOperation, ODataServiceFactory } from './../src/index';
+import { IEmployee } from './helpers/employee';
 
 export class ODataOperationTest extends ODataOperation<IEmployee> {
     public Exec(): Observable<Array<IEmployee>> {

@@ -1,7 +1,3 @@
-import { forEach } from '@angular/router/src/utils/collection';
-import * as util from 'util';
-import * as S from 'string';
-
 export class ODataUtils {
     public static convertObjectToString(obj: any): string {
         const properties: string[] = [];
