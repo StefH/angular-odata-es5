@@ -1,8 +1,10 @@
 import * as S from 'string';
-import { Injectable } from '@angular/core';
-import { ODataPagedResult } from './angularODataPagedResult';
-import { ODataUtils } from './angularODataUtils';
+
 import { HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+import { ODataUtils } from './angularODataUtils';
+import { IODataResponseModel, ODataPagedResult } from './index';
 
 export class KeyConfigs {
     public filter: string = '$filter';
@@ -58,7 +60,7 @@ export class ODataConfiguration {
         console.warn('OData error: ', err, caught);
     }
 
-    public extractQueryResultData<T>(res: HttpResponse<T>): T[] {
+    public extractQueryResultData<T>(res: HttpResponse<IODataResponseModel<T>>): T[] {
         if (res.status < 200 || res.status >= 300) {
             throw new Error('Bad response status: ' + res.status);
         }
@@ -68,7 +70,7 @@ export class ODataConfiguration {
         return entities;
     }
 
-    public extractQueryResultDataWithCount<T>(res: HttpResponse<T>): ODataPagedResult<T> {
+    public extractQueryResultDataWithCount<T>(res: HttpResponse<IODataResponseModel<T>>): ODataPagedResult<T> {
         const pagedResult: ODataPagedResult<T> = new ODataPagedResult<T>();
 
         if (res.status < 200 || res.status >= 300) {

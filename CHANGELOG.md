@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.2"></a>
+## [0.2.2](https://github.com/StefH/angular-odata-es5/compare/v0.2.1...v0.2.2) (2017-10-12)
+
+
+### Bug Fixes
+
+* **function:** Function extractQueryResultData always returned `undefined` ([6bb0f8b](https://github.com/StefH/angular-odata-es5/commit/6bb0f8b))
+
+
+
 <a name="0.2.1"></a>
 ## [0.2.1](https://github.com/StefH/angular-odata-es5/compare/v0.2.0...v0.2.1) (2017-10-11)
 

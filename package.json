@@ -1,6 +1,6 @@
 {
   "name": "angular-odata-es5",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "OData service for Angular (es5 version)",
   "main": "./bundles/angular-odata-es5.umd.js",
   "module": "./index.js",
@@ -98,9 +98,9 @@
     "sinon-chai": "^2.8.0",
     "standard-version": "^4.0.0",
     "ts-node": "^3.0.2",
-    "tslint": "^5.1.0",
+    "tslint": "^5.7.0",
     "tslint-loader": "^3.5.3",
-    "typescript": "^2.2.1",
+    "typescript": "^2.5.3",
     "validate-commit-msg": "^2.8.0",
     "webpack": "^2.4.1",
     "webpack-angular-externals": "^1.0.0",
@@ -111,7 +111,7 @@
   "peerDependencies": {
     "@angular/common": ">=2.0.0 <5.0.0",
     "@angular/core": ">=2.0.0 <5.0.0",
-    "@angular/http": ">=2.0.0 <5.0.0"
+    "@angular/common/http": ">=4.3.0 <5.0.0"
   },
   "config": {
     "commitizen": {
