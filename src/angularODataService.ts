@@ -79,7 +79,7 @@ export class ODataService<T> {
             throw new Error('Bad response status: ' + res.status);
         }
 
-        const body: any = res;
+        const body: any = res.body;
         const entity: T = body;
 
         return entity || null;
