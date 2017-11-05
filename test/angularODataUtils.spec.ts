@@ -19,6 +19,14 @@ describe('ODataUtils', () => {
         assert.equal(value, `'te\'\'st'`);
     });
 
+    it('quoteValue boolean', () => {
+        // Act
+        const value: string = ODataUtils.quoteValue(true);
+
+        // Assert
+        assert.equal(value, `true`);
+    });
+
     it('quoteValue integer', () => {
         // Act
         const value: string = ODataUtils.quoteValue(10);
