@@ -1,14 +1,13 @@
 import { assert } from 'chai';
-import { Observable, Operator } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 
-import { Location } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 
 import { AngularODataModule } from '../src';
-import { ODataConfiguration, ODataOperation, ODataPagedResult, ODataQuery, ODataServiceFactory } from './../src/index';
+import { ODataConfiguration, ODataPagedResult, ODataQuery, ODataServiceFactory } from './../src/index';
 import { IEmployee } from './helpers/employee';
 
 export class ODataQueryMock extends ODataQuery<IEmployee> {
@@ -52,6 +51,7 @@ describe('ODataQuery', () => {
         const result = new ODataQuery<IEmployee>('Employees', config, http).Exec();
 
         // Assert
+        assert.isNotNull(result);
         expect(http.get).toHaveBeenCalledWith('http://test.org/odata/Employees', jasmine.any(Object));
     }));
 
@@ -87,6 +87,8 @@ describe('ODataQuery', () => {
             responseType?: 'json';
             withCredentials?: boolean;
         } = { headers: testHeaders, params: params, observe: 'response' };
+
+        assert.isNotNull(result);
         expect(http.get).toHaveBeenCalledWith('http://localhost/odata/Employees', testOptions);
     }));
 
@@ -123,6 +125,8 @@ describe('ODataQuery', () => {
             responseType?: 'json';
             withCredentials?: boolean;
         } = { headers: testHeaders, params: params, observe: 'response' };
+
+        assert.isNotNull(result);
         expect(http.get).toHaveBeenCalledWith('http://localhost/odata/Employees', testOptions);
     }));
 

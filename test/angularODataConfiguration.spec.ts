@@ -1,12 +1,10 @@
 import { assert } from 'chai';
-import { Observable, Operator } from 'rxjs/Rx';
 
-import { Location } from '@angular/common';
 import { HttpResponse } from '@angular/common/http';
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { AngularODataModule } from '../src';
-import { IODataResponseModel, ODataConfiguration, ODataOperation, ODataPagedResult, ODataQuery, ODataServiceFactory } from './../src/index';
+import { IODataResponseModel, ODataConfiguration, ODataServiceFactory } from './../src/index';
 import { IEmployee } from './helpers/employee';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';

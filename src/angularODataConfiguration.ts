@@ -65,9 +65,7 @@ export class ODataConfiguration {
             throw new Error('Bad response status: ' + res.status);
         }
 
-        const body: any = res.body;
-        const entities: T[] = body.value;
-        return entities;
+        return res.body.value;
     }
 
     public extractQueryResultDataWithCount<T>(res: HttpResponse<IODataResponseModel<T>>): ODataPagedResult<T> {
