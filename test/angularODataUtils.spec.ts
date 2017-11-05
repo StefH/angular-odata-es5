@@ -37,7 +37,8 @@ describe('ODataUtils', () => {
 
     it('convertObjectToString', () => {
         // Act
-        const value: string = ODataUtils.convertObjectToString({ str: 'abc', int: 10, double: -10.01, guid: 'eefea99a-c988-44b8-ac37-b326a489c1e3' });
+        const value: string = ODataUtils.convertObjectToString(
+          { str: 'abc', int: 10, double: -10.01, guid: 'eefea99a-c988-44b8-ac37-b326a489c1e3', omitted: undefined });
 
         // Assert
         assert.equal(value, `str='abc', int=10, double=-10.01, guid=eefea99a-c988-44b8-ac37-b326a489c1e3`);
