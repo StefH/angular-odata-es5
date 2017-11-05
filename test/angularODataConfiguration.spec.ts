@@ -94,7 +94,7 @@ describe('ODataConfiguration', () => {
         config.baseUrl = 'http://test.org/odata';
 
         // Act
-        const result = config.getEntityUri('123', 'Employees');
+        const result = config.getEntityUri(123, 'Employees');
 
         // Assert
         assert.equal(result, 'http://test.org/odata/Employees(123)');
