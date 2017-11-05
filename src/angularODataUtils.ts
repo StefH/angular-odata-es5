@@ -4,7 +4,7 @@ export class ODataUtils {
 
         for (const prop in obj) {
             if (obj.hasOwnProperty(prop)) {
-                const value: string = this.quoteValue(obj[prop]);
+                const value: any = ODataUtils.quoteValue(obj[prop]);
 
                 properties.push(`${prop}=${value}`);
             }

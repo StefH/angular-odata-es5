@@ -1,7 +1,6 @@
 import { assert } from 'chai';
-import { Observable, Operator } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 
-import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';

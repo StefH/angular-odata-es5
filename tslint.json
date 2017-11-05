@@ -1,114 +1,99 @@
 {
+  "extends": [
+    "tslint-consistent-codestyle"
+  ],
   "rulesDirectory": [
     "node_modules/codelyzer"
   ],
   "rules": {
-    "callable-types": true,
-    "class-name": true,
-    "comment-format": [
-      true,
-      "check-space"
+    "trailing-comma": [
+      false,
+      {
+        "multiline": "always",
+        "singleline": "never"
+      }
     ],
-    "curly": true,
-    "eofline": true,
-    "forin": true,
-    "import-blacklist": [true, "rxjs"],
-    "import-spacing": true,
     "indent": [
       true,
-      "spaces"
+      "spaces",
+      4
     ],
-    "interface-over-type-literal": true,
-    "label-position": true,
-    "max-line-length": [
-      true,
-      200
+    "interface-name": [
+      false,
+      "always-prefix"
     ],
-    "member-access": true,
-    "no-arg": true,
-    "no-bitwise": true,
-    "no-console": [
+    "component-selector": [
       true,
-      "debug",
-      "info",
-      "time",
-      "timeEnd",
-      "trace"
+      "element",
+      "wnp",
+      "kebab-case"
     ],
-    "no-construct": true,
-    "no-debugger": true,
-    "no-duplicate-variable": true,
-    "no-empty": false,
-    "no-empty-interface": true,
-    "no-eval": true,
-    //"no-inferrable-types": [true, "ignore-params"],
-    "no-shadowed-variable": true,
-    "no-string-literal": false,
-    "no-string-throw": true,
-    "no-switch-case-fall-through": true,
-    "no-trailing-whitespace": true,
-    "no-unused-variable": true,
-    "no-unused-expression": true,
-    "no-use-before-declare": true,
-    "no-var-keyword": true,
-    "object-literal-sort-keys": false,
-    "ordered-imports": true,
-    "one-line": [
+    "directive-selector": [
       true,
-      "check-open-brace",
-      "check-catch",
-      "check-else",
-      "check-whitespace"
+      "attribute",
+      "wnp",
+      "camelCase"
+    ],
+    "eofline": true,
+    "import-destructuring-spacing": true,
+    "invoke-injectable": true,
+    "no-access-missing-member": false,
+    "no-attribute-parameter-decorator": true,
+    "no-forward-ref": true,
+    "no-input-rename": true,
+    "no-output-rename": true,
+    "no-trailing-whitespace": [
+      true,
+      "ignore-comments"
     ],
     "prefer-const": true,
-    "quotemark": [
+    "pipe-naming": [
       true,
-      "single"
+      "camelCase",
+      "wnp"
     ],
-    "radix": true,
     "semicolon": [
       true,
       "always"
     ],
-    "triple-equals": [
-      true,
-      "allow-null-check"
-    ],
-    "typedef-whitespace": [
-      true,
-      {
-        "call-signature": "nospace",
-        "index-signature": "nospace",
-        "parameter": "nospace",
-        "property-declaration": "nospace",
-        "variable-declaration": "nospace"
-      }
-    ],
-    "typeof-compare": true,
-    "unified-signatures": true,
-    "variable-name": false,
-    "whitespace": [
-      true,
-      "check-branch",
-      "check-decl",
-      "check-operator",
-      "check-separator",
-      "check-type"
-    ],
-
-    "directive-selector": [true, "attribute", "ao", "camelCase"],
-    "component-selector": [true, "element", "ao", "kebab-case"],
-    "use-input-property-decorator": true,
-    "use-output-property-decorator": true,
-    "use-host-property-decorator": true,
-    "no-input-rename": true,
-    "no-output-rename": true,
-    "use-life-cycle-interface": true,
-    "use-pipe-transform-interface": true,
-    "component-class-suffix": true,
-    "directive-class-suffix": true,
-    "no-access-missing-member": true,
     "templates-use-public": true,
-    "invoke-injectable": true
+    "use-host-property-decorator": true,
+    "use-input-property-decorator": true,
+    "use-life-cycle-interface": true,
+    "use-output-property-decorator": true,
+    "use-pipe-transform-interface": true,
+    // General
+    "no-console": [
+      true,
+      "time",
+      "timeEnd",
+      "trace"
+    ],
+    "max-line-length": [
+      true,
+      500
+    ],
+    "no-string-literal": false,
+    "no-use-before-declare": true,
+    "object-literal-sort-keys": false,
+    "ordered-imports": [],
+    // tslint-consistent-codestyle settings-start
+    "no-unused": true, // Disallows unused imports, variables, functions, classes, type parameters and more.
+    "no-static-this": true,
+    "no-var-before-return": true,
+    "prefer-const-enum": true,
+    // tslint-consistent-codestyle settings-end
+    "quotemark": [
+      true,
+      "single",
+      "avoid-escape"
+    ],
+    "variable-name": [
+      true,
+      "allow-leading-underscore",
+      "allow-pascal-case",
+      "ban-keywords",
+      "check-format"
+    ]
   }
 }

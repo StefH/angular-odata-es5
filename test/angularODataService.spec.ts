@@ -1,14 +1,13 @@
 import { assert } from 'chai';
-import { Observable, Operator } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 
-import { Location } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 
 import { AngularODataModule } from '../src';
-import { ODataConfiguration, ODataOperation, ODataServiceFactory } from './../src/index';
+import { ODataConfiguration, ODataServiceFactory } from './../src/index';
 import { IEmployee } from './helpers/employee';
 
 describe('ODataService', () => {
@@ -44,6 +43,7 @@ describe('ODataService', () => {
         const result = service.Get('abc').Exec();
 
         // Assert
+        assert.isNotNull(result);
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees('abc')`, jasmine.any(Object));
     }));
 
@@ -66,10 +66,12 @@ describe('ODataService', () => {
             responseType?: 'json';
             withCredentials?: boolean;
         } = { params: params, observe: 'response' };
+
+        assert.isNotNull(result);
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees`, testOptions);
     }));
 
-    it('Delete', inject([HttpClient, ODataServiceFactory, ODataConfiguration], (http: HttpClient, factory: ODataServiceFactory, config: ODataConfiguration) => {
+    it('Delete', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
         // Assign
         const service = factory.CreateService<IEmployee>('Employees');
 
@@ -87,6 +89,8 @@ describe('ODataService', () => {
             responseType?: 'json';
             withCredentials?: boolean;
         } = { observe: 'response' };
+
+        assert.isNotNull(result);
         expect(http.delete).toHaveBeenCalledWith(`http://localhost/odata/Employees('x')`, testOptions);
     }));
 
@@ -110,6 +114,8 @@ describe('ODataService', () => {
             responseType?: 'json';
             withCredentials?: boolean;
         } = { params: new HttpParams().append(config.keys.top, '100'), observe: 'response' };
+
+        assert.isNotNull(result1);
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees`, getOptions);
 
         // Assert DELETE
@@ -121,6 +127,8 @@ describe('ODataService', () => {
             responseType?: 'json';
             withCredentials?: boolean;
         } = { observe: 'response' };
+
+        assert.isNotNull(result2);
         expect(http.delete).toHaveBeenCalledWith(`http://localhost/odata/Employees('x')`, deleteOptions);
     }));
 
@@ -134,6 +142,7 @@ describe('ODataService', () => {
         const result = service.CustomFunction('calculateLatestTimeCard');
 
         // Assert
+        assert.isNotNull(result);
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees/calculateLatestTimeCard()`, jasmine.any(Object));
     }));
 
@@ -147,6 +156,7 @@ describe('ODataService', () => {
         const result = service.CustomFunction(`getSalesTaxRate(area='abc', postalCode=10)`);
 
         // Assert
+        assert.isNotNull(result);
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees/getSalesTaxRate(area='abc', postalCode=10)`, jasmine.any(Object));
     }));
 
@@ -160,6 +170,7 @@ describe('ODataService', () => {
         const result = service.CustomFunction('getSalesTaxRate', { area: 'abc', postalCode: 10 });
 
         // Assert
+        assert.isNotNull(result);
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees/getSalesTaxRate(area='abc', postalCode=10)`, jasmine.any(Object));
     }));
 });
