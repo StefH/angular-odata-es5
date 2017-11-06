@@ -11,9 +11,25 @@ describe('ODataUtils', () => {
         assert.equal(value, `'test'`);
     });
 
+    it('quoteValue string with quotes', () => {
+        // Act
+        const value: string = ODataUtils.quoteValue('te\'st');
+
+        // Assert
+        assert.equal(value, `'te\'\'st'`);
+    });
+
+    it('quoteValue boolean', () => {
+        // Act
+        const value: string = ODataUtils.quoteValue(true);
+
+        // Assert
+        assert.equal(value, `true`);
+    });
+
     it('quoteValue integer', () => {
         // Act
-        const value: string = ODataUtils.quoteValue('10');
+        const value: string = ODataUtils.quoteValue(10);
 
         // Assert
         assert.equal(value, '10');
@@ -21,7 +37,7 @@ describe('ODataUtils', () => {
 
     it('quoteValue double', () => {
         // Act
-        const value: string = ODataUtils.quoteValue('-10.01');
+        const value: string = ODataUtils.quoteValue(-10.01);
 
         // Assert
         assert.equal(value, '-10.01');
