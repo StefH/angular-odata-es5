@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.4"></a>
+## [0.2.4](https://github.com/StefH/angular-odata-es5/compare/v0.2.3...v0.2.4) (2017-11-07)
+
+
+### Bug Fixes
+
+* **utils:** Allows numbers as strings ([df15d0d](https://github.com/StefH/angular-odata-es5/commit/df15d0d))
+* **utils:** Omits undefined values from serialized params ([c339a89](https://github.com/StefH/angular-odata-es5/commit/c339a89))
+* **utils:** Support boolean as entity key ([ac631e0](https://github.com/StefH/angular-odata-es5/commit/ac631e0))
+
+
+
 <a name="0.2.3"></a>
 ## [0.2.3](https://github.com/StefH/angular-odata-es5/compare/v0.2.2...v0.2.3) (2017-10-17)
 
