@@ -82,7 +82,7 @@ export abstract class OperationWithKey<T> extends ODataOperation<T> {
     constructor(protected _typeName: string,
         protected config: ODataConfiguration,
         protected http: HttpClient,
-        protected entityKey: string) {
+        protected entityKey: string | number | boolean) {
         super(_typeName, config, http);
     }
     protected abstract Exec(...args): Observable<any>;
@@ -102,7 +102,7 @@ export abstract class OperationWithKeyAndEntity<T> extends ODataOperation<T> {
     constructor(protected _typeName: string,
         protected config: ODataConfiguration,
         protected http: HttpClient,
-        protected entityKey: string,
+        protected entityKey: string | number | boolean,
         protected entity: T) {
         super(_typeName, config, http);
     }

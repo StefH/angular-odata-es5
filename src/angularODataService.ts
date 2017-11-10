@@ -17,7 +17,7 @@ export class ODataService<T> {
         return this._typeName;
     }
 
-    public Get(key: string): GetOperation<T> {
+    public Get(key: string | number | boolean): GetOperation<T> {
         return new GetOperation<T>(this._typeName, this.config, this._http, key);
     }
 
@@ -42,17 +42,17 @@ export class ODataService<T> {
         return this._http.get(`${this._entitiesUri}/${functionName}`, this.config.defaultRequestOptions).map(resp => resp);
     }
 
-    public Patch(entity: any, key: string): Observable<HttpResponse<T>> {
+    public Patch(entity: any, key: string | number | boolean) : Observable<HttpResponse<T>> {
         const body = JSON.stringify(entity);
         return this._http.patch<T>(this.getEntityUri(key), body, this.config.postRequestOptions);
     }
 
-    public Put(entity: T, key: string): Observable<T> {
+    public Put(entity: T, key: string | number | boolean): Observable<T> {
         const body = JSON.stringify(entity);
         return this.handleResponse(this._http.put<T>(this.getEntityUri(key), body, this.config.postRequestOptions));
     }
 
-    public Delete(key: string): Observable<HttpResponse<T>> {
+    public Delete(key: string | number | boolean): Observable<HttpResponse<T>> {
         return this._http.delete<T>(this.getEntityUri(key), this.config.defaultRequestOptions);
     }
 
@@ -60,7 +60,7 @@ export class ODataService<T> {
         return new ODataQuery<T>(this.TypeName, this.config, this._http);
     }
 
-    protected getEntityUri(entityKey: string): string {
+    protected getEntityUri(entityKey: string | number| boolean ): string {
         return this.config.getEntityUri(entityKey, this._typeName);
     }
 
