@@ -47,6 +47,94 @@ describe('ODataService', () => {
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees('abc')`, jasmine.any(Object));
     }));
 
+    it('Get with uuid key', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
+        // Assign
+        const service = factory.CreateService<IEmployee>('Employees');
+
+        spyOn(http, 'get').and.returnValue(new Observable<Response>());
+
+        // Act
+        const result = service.Get('3dde7303-5414-4af6-b96b-591f33d25445').Exec();
+
+        // Assert
+        assert.isNotNull(result);
+        expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees(3dde7303-5414-4af6-b96b-591f33d25445)`, jasmine.any(Object));
+    }));
+
+    it('Get with bool key', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
+        // Assign
+        const service = factory.CreateService<IEmployee>('Employees');
+
+        spyOn(http, 'get').and.returnValue(new Observable<Response>());
+
+        // Act
+        const result = service.Get(true).Exec();
+
+        // Assert
+        assert.isNotNull(result);
+        expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees(true)`, jasmine.any(Object));
+    }));
+
+    it('Get with guild key', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
+        // Assign
+        const service = factory.CreateService<IEmployee>('Employees');
+
+        spyOn(http, 'get').and.returnValue(new Observable<Response>());
+
+        // Act
+        const result = service.Get(12).Exec();
+
+        // Assert
+        assert.isNotNull(result);
+        expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees(12)`, jasmine.any(Object));
+    }));
+
+    it('Put', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
+        // Assign
+        const service = factory.CreateService<IEmployee>('Employees');
+        const employee: IEmployee = <IEmployee> {};
+
+        spyOn(http, 'put').and.returnValue(new Observable<Response>());
+
+        // Act
+        const result = service.Put(employee, 'abc');
+
+        // Assert
+        assert.isNotNull(result);
+        expect(http.put).toHaveBeenCalledWith(`http://localhost/odata/Employees('abc')`, '{}', jasmine.any(Object));
+    }));
+
+    it('Put with Numeric Key', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
+        // Assign
+        const service = factory.CreateService<IEmployee>('Employees');
+        const employee: IEmployee = <IEmployee> {};
+
+        spyOn(http, 'put').and.returnValue(new Observable<Response>());
+
+        // Act
+        const result = service.Put(employee, 123);
+
+        // Assert
+        assert.isNotNull(result);
+        expect(http.put).toHaveBeenCalledWith(`http://localhost/odata/Employees(123)`, '{}', jasmine.any(Object));
+    }));
+
+    it('Put with UUID Key', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
+        // Assign
+        const service = factory.CreateService<IEmployee>('Employees');
+        const employee: IEmployee = <IEmployee> {};
+
+        spyOn(http, 'put').and.returnValue(new Observable<Response>());
+
+        // Act
+        const result = service.Put(employee, '3dde7303-5414-4af6-b96b-591f33d25445');
+
+        // Assert
+        assert.isNotNull(result);
+        expect(http.put).toHaveBeenCalledWith(`http://localhost/odata/Employees(3dde7303-5414-4af6-b96b-591f33d25445)`, '{}', jasmine.any(Object));
+    }));
+
+
     it('Query', inject([HttpClient, ODataServiceFactory, ODataConfiguration], (http: HttpClient, factory: ODataServiceFactory, config: ODataConfiguration) => {
         // Assign
         const service = factory.CreateService<IEmployee>('Employees');
