@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.5"></a>
+## [0.2.5](https://github.com/StefH/angular-odata-es5/compare/v0.2.4...v0.2.5) (2017-11-10)
+
+
+### Bug Fixes
+
+* **$service): fix(operation:** numeric/guid/boolean keys should not be quoted ([7f40f95](https://github.com/StefH/angular-odata-es5/commit/7f40f95))
+
+
+
 <a name="0.2.4"></a>
 ## [0.2.4](https://github.com/StefH/angular-odata-es5/compare/v0.2.3...v0.2.4) (2017-11-07)
 
