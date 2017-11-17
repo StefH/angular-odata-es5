@@ -23,7 +23,7 @@ export class ODataUtils {
             return value;
         }
 
-        const escaped = value.replace('\'', '\'\'');
+        const escaped = value.replace(/'/g, '\'\'');
         return `'${escaped}'`;
     }
 }
