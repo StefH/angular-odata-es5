@@ -1,25 +1,24 @@
-import * as S from 'string';
-
 import { HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { ODataPagedResult } from './angularODataPagedResult';
+import { IODataResponseModel } from './angularODataResponseModel';
 import { ODataUtils } from './angularODataUtils';
-import { IODataResponseModel, ODataPagedResult } from './index';
 
 export class KeyConfigs {
-    public filter: string = '$filter';
-    public top: string = '$top';
-    public skip: string = '$skip';
-    public orderBy: string = '$orderby';
-    public select: string = '$select';
-    public expand: string = '$expand';
+    public filter = '$filter';
+    public top = '$top';
+    public skip = '$skip';
+    public orderBy = '$orderby';
+    public select = '$select';
+    public expand = '$expand';
 }
 
 @Injectable()
 export class ODataConfiguration {
     private readonly _postHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
 
-    private _baseUrl: string = 'http://localhost/odata';
+    private _baseUrl = 'http://localhost/odata';
 
     public keys: KeyConfigs = new KeyConfigs();
     public defaultRequestOptions: {
@@ -41,7 +40,7 @@ export class ODataConfiguration {
     } = { headers: this._postHeaders, observe: 'response' };
 
     set baseUrl(baseUrl: string) {
-        this._baseUrl = S(baseUrl).stripRight('/').s;
+        this._baseUrl = baseUrl.replace(/\/+$/, '');
     }
 
     get baseUrl(): string {
@@ -65,7 +64,7 @@ export class ODataConfiguration {
             throw new Error('Bad response status: ' + res.status);
         }
 
-        return res.body.value;
+        return (res && res.body && res.body.value) as T[];
     }
 
     public extractQueryResultDataWithCount<T>(res: HttpResponse<IODataResponseModel<T>>): ODataPagedResult<T> {
@@ -92,6 +91,6 @@ export class ODataConfiguration {
     }
 
     private sanitizeTypeName(typeName: string): string {
-        return S(typeName).stripLeft('/').stripRight('/').s;
+        return typeName.replace(/\/+$/, '').replace(/^\/+/, '');
     }
 }

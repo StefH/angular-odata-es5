@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { ODataConfiguration, ODataService } from './index';
+import { ODataConfiguration } from './angularODataConfiguration';
+import { ODataService } from './angularODataService';
 
 @Injectable()
 export class ODataServiceFactory {

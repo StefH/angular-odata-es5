@@ -4,9 +4,10 @@ import { Observable } from 'rxjs/Observable';
 
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
+import { ODataConfiguration } from './angularODataConfiguration';
 import { GetOperation } from './angularODataOperation';
+import { ODataQuery } from './angularODataQuery';
 import { ODataUtils } from './angularODataUtils';
-import { ODataConfiguration, ODataQuery } from './index';
 
 export class ODataService<T> {
     private _entitiesUri: string;
