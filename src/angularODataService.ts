@@ -1,4 +1,6 @@
-import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable';
 
 import { HttpClient, HttpResponse } from '@angular/common/http';
 

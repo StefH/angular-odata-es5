@@ -1,7 +1,6 @@
 import { FilterMetadata, LazyLoadEvent } from 'primeng/primeng';
-import { Observable, Operator } from 'rxjs/Rx';
 
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { ODataConfiguration, ODataPagedResult, ODataQuery, ODataService, ODataServiceFactory } from '../src/index';
 import { IEmployee } from '../test/helpers/employee';
@@ -11,7 +10,7 @@ console.log('`EmployeeGridODataComponent` component loaded asynchronously');
 
 @Component({
     templateUrl: './employeeGridOData.component.html',
-    selector: 'ao-employee-grid-odata',
+    selector: 'wnp-employee-grid-odata',
     providers: [ { provide: ODataConfiguration, useFactory: NorthwindODataConfigurationFactory }, ODataServiceFactory ],
     styleUrls: [ './employeeGridOData.component.css']
 })

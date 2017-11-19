@@ -1,4 +1,5 @@
-import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable';
 
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 

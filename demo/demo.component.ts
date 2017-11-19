@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'ao-demo-app',
-  template: '<ao-employee-grid-odata></ao-employee-grid-odata>'
+  selector: 'wnp-demo-app',
+  template: '<wnp-employee-grid-odata></wnp-employee-grid-odata>'
 })
 export class DemoComponent {}

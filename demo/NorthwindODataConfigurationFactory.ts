@@ -1,4 +1,3 @@
-import { FactoryProvider  } from '@angular/core';
 import { ODataConfiguration } from '../src/index';
 
 export class NorthwindODataConfigurationFactory {
