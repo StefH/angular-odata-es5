@@ -76,7 +76,7 @@
     "no-string-literal": false,
     "no-use-before-declare": true,
     "object-literal-sort-keys": false,
-    "ordered-imports": [],
+    "ordered-imports": true,
     // tslint-consistent-codestyle settings-start
     "no-unused": true, // Disallows unused imports, variables, functions, classes, type parameters and more.
     "no-static-this": true,

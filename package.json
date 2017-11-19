@@ -94,6 +94,7 @@
     "karma-webpack": "^2.0.3",
     "phantomjs-prebuilt": "^2.1.14",
     "primeng": "^4.3.0",
+    "rxjs": "^5.2.0",
     "sinon": "^2.1.0",
     "sinon-chai": "^2.8.0",
     "standard-version": "^4.0.0",
@@ -112,15 +113,11 @@
   "peerDependencies": {
     "@angular/common": ">=2.0.0 <6.0.0",
     "@angular/core": ">=2.0.0 <6.0.0",
-    "@angular/common/http": ">=4.3.0 <6.0.0"
+    "rxjs": "^5.2.0"
   },
   "config": {
     "commitizen": {
       "path": "node_modules/cz-conventional-changelog"
     }
-  },
-  "dependencies": {
-    "rxjs": "^5.2.0",
-    "string": "^3.3.3"
   }
 }
