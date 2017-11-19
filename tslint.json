@@ -25,13 +25,13 @@
     "component-selector": [
       true,
       "element",
-      "wnp",
+      "ao",
       "kebab-case"
     ],
     "directive-selector": [
       true,
       "attribute",
-      "wnp",
+      "ao",
       "camelCase"
     ],
     "eofline": true,
@@ -50,7 +50,7 @@
     "pipe-naming": [
       true,
       "camelCase",
-      "wnp"
+      "ao"
     ],
     "semicolon": [
       true,

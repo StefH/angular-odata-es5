@@ -10,7 +10,7 @@ console.log('`EmployeeGridODataComponent` component loaded asynchronously');
 
 @Component({
     templateUrl: './employeeGridOData.component.html',
-    selector: 'wnp-employee-grid-odata',
+    selector: 'ao-employee-grid-odata',
     providers: [ { provide: ODataConfiguration, useFactory: NorthwindODataConfigurationFactory }, ODataServiceFactory ],
     styleUrls: [ './employeeGridOData.component.css']
 })
