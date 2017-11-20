@@ -1,5 +1,6 @@
 import { assert } from 'chai';
-import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/observable/of';
+import { Observable } from 'rxjs/Observable';
 
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';

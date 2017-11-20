@@ -1,4 +1,5 @@
-import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable';
 
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { ODataConfiguration } from './angularODataConfiguration';
@@ -57,7 +58,7 @@ export abstract class ODataOperation<T> {
         return options;
     }
 
-    protected abstract Exec(...args): Observable<any>;
+    protected abstract Exec(...args: any[]): Observable<any>;
 
     protected parseStringOrStringArray(input: string | string[]): string {
         if (input instanceof Array) {
@@ -85,7 +86,7 @@ export abstract class OperationWithKey<T> extends ODataOperation<T> {
         protected entityKey: string | number | boolean) {
         super(_typeName, config, http);
     }
-    protected abstract Exec(...args): Observable<any>;
+    protected abstract Exec(...args: any[]): Observable<any>;
 }
 
 export abstract class OperationWithEntity<T> extends ODataOperation<T> {
@@ -95,7 +96,7 @@ export abstract class OperationWithEntity<T> extends ODataOperation<T> {
         protected entity: T) {
         super(_typeName, config, http);
     }
-    protected abstract Exec(...args): Observable<any>;
+    protected abstract Exec(...args: any[]): Observable<any>;
 }
 
 export abstract class OperationWithKeyAndEntity<T> extends ODataOperation<T> {
@@ -106,7 +107,7 @@ export abstract class OperationWithKeyAndEntity<T> extends ODataOperation<T> {
         protected entity: T) {
         super(_typeName, config, http);
     }
-    protected abstract Exec(...args): Observable<any>;
+    protected abstract Exec(...args: any[]): Observable<any>;
 }
 
 export class GetOperation<T> extends OperationWithKey<T> {
