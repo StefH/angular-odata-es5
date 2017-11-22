@@ -13,10 +13,10 @@ describe('ODataUtils', () => {
 
     it('quoteValue string with quotes', () => {
         // Act
-        const value: string = ODataUtils.quoteValue('te\'st');
+        const value: string = ODataUtils.quoteValue('te\'st\'');
 
         // Assert
-        assert.equal(value, `'te\'\'st'`);
+        assert.equal(value, `'te\'\'st\'\''`);
     });
 
     it('quoteValue boolean', () => {
