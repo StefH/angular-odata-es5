@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.6"></a>
+## [0.2.6](https://github.com/StefH/angular-odata-es5/compare/v0.2.5...v0.2.6) (2017-11-22)
+
+
+### Bug Fixes
+
+* **utils:** fix single quote escaping ([#36](https://github.com/StefH/angular-odata-es5/issues/36)) ([a11441d](https://github.com/StefH/angular-odata-es5/commit/a11441d)), closes [#35](https://github.com/StefH/angular-odata-es5/issues/35)
+
+
+
 <a name="0.2.5"></a>
 ## [0.2.5](https://github.com/StefH/angular-odata-es5/compare/v0.2.4...v0.2.5) (2017-11-10)
 
