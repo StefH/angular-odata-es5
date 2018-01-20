@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.7"></a>
+## [0.2.7](https://github.com/StefH/angular-odata-es5/compare/v0.2.6...v0.2.7) (2018-01-20)
+
+
+### Bug Fixes
+
+* **$query:** Fixed issue [#40](https://github.com/StefH/angular-odata-es5/issues/40) (nested property support for expand,filter and orderby) ([8afea2f](https://github.com/StefH/angular-odata-es5/commit/8afea2f))
+
+
+
 <a name="0.2.6"></a>
 ## [0.2.6](https://github.com/StefH/angular-odata-es5/compare/v0.2.5...v0.2.6) (2017-11-22)
 
