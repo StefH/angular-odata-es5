@@ -1,3 +1,4 @@
+import { Dictionary, IEnumerable, IQueryable, List } from 'linq-collections';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 
@@ -5,31 +6,67 @@ import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/comm
 import { ODataConfiguration } from './angularODataConfiguration';
 
 export abstract class ODataOperation<T> {
-    private _expand: string;
-    private _select: string;
+    private _expand: string[] = [];
+    private _select: string[] = [];
 
     constructor(protected typeName: string, protected config: ODataConfiguration, protected http: HttpClient) {
     }
 
     public Expand(expand: string | string[]) {
-        this._expand = this.parseStringOrStringArray(expand);
+        if (expand) {
+            this._expand = this.toStringArray(expand);
+        }
         return this;
     }
 
     public Select(select: string | string[]) {
-        this._select = this.parseStringOrStringArray(select);
+        if (select) {
+            this._select = this.toStringArray(select);
+        }
         return this;
     }
 
     protected getParams(): HttpParams {
+        const expandData = new Dictionary<string, List<string>>();
+        const normalSelects = new List<string>();
+
+        this._expand.forEach((name) => expandData.set(name, new List<string>()));
+
+        this._select.forEach((select: string) => {
+            const items = select.split('.');
+
+            // Expand contains string like: `Boss.Name`
+            if (items.length > 1) {
+                const expandName = items[0];
+                const propertyName = items[1];
+
+                if (!expandData.containsKey(expandName)) {
+                    expandData.set(expandName, new List<string>());
+                }
+
+                expandData.get(expandName).push(propertyName);
+            }
+            else {
+                // Expand is just a simple string like: `Boss`
+                normalSelects.push(select);
+            }
+        });
+
         let params = new HttpParams();
 
-        if (this._select && this._select.length > 0) {
-            params = params.append(this.config.keys.select, this._select);
+        const expands = expandData.distinct().select((element) => {
+            if (element.value.any()) {
+                return `${element.key}(${this.config.keys.select}=${this.toCommaString(element.value)})`;
+            }
+
+            return element.key;
+        });
+        if (expands.any()) {
+            params = params.append(this.config.keys.expand, this.toCommaString(expands.toArray()));
         }
 
-        if (this._expand && this._expand.length > 0) {
-            params = params.append(this.config.keys.expand, this._expand);
+        if (normalSelects.any()) {
+            params = params.append(this.config.keys.select, this.toCommaString(normalSelects));
         }
 
         return params;
@@ -60,12 +97,36 @@ export abstract class ODataOperation<T> {
 
     protected abstract Exec(...args: any[]): Observable<any>;
 
-    protected parseStringOrStringArray(input: string | string[]): string {
-        if (input instanceof Array) {
-            return input.join(',');
+    protected toStringArray(input: string | string[] | IEnumerable<string> | IQueryable<string>): string[] {
+        if (!input) {
+            return [];
         }
 
-        return input as string;
+        if (input instanceof String || typeof input === 'string') {
+            return input.split(',').map(s => s.trim());
+        }
+
+        if (input instanceof Array) {
+            return input;
+        }
+
+        return input.toArray();
+    }
+
+    protected toCommaString(input: string | string[] | IEnumerable<string> | IQueryable<string>): string {
+        function replaceDot(value: string): string {
+            return value.replace('.', '/');
+        }
+
+        if (input instanceof String || typeof input === 'string') {
+            return replaceDot(input);
+        }
+
+        if (input instanceof Array) {
+            return input.map(s => replaceDot(s)).join(',');
+        }
+
+        return input.toArray().map(s => replaceDot(s)).join(',');
     }
 
     private extractData(res: HttpResponse<T>): T {

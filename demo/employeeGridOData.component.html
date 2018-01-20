@@ -17,9 +17,11 @@
                     {{ employee.BirthDate | date: 'medium' }}
                 </ng-template>
             </p-column>
+            <p-column field="Boss.FirstName" header="Boss (contains)" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
         </p-dataTable>
-
-        <div>filter : {{filter | json}}</div>
-        <div>query  : {{query | json}}</div>
+        <hr>
+        <pre>filter : {{filter | json}}</pre>
+        <hr>
+        <pre>query  : {{query | json}}</pre>
     </div>
 </p-panel>

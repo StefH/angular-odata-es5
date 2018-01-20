@@ -42,17 +42,17 @@ export class EmployeeGridODataComponent implements OnInit {
     }
 
     private getPagedData(event: LazyLoadEvent) {
-        let query: ODataQuery<IEmployee> = this.odata
+        this.query = this.odata
             .Query()
             .Expand('Orders')
-            .Select(['EmployeeID', 'FirstName', 'LastName', 'BirthDate', 'City', 'Orders']);
+            .Select(['EmployeeID', 'FirstName', 'LastName', 'BirthDate', 'City', 'Orders', 'Boss.FirstName']);
 
         if (event.rows) {
-            query = query.Top(event.rows);
+            this.query = this.query.Top(event.rows);
         }
 
         if (event.first) {
-            query = query.Skip(event.first);
+            this.query = this.query.Skip(event.first);
         }
 
         if (event.filters) {
@@ -99,18 +99,16 @@ export class EmployeeGridODataComponent implements OnInit {
             }
 
             if (filterOData.length > 0) {
-                query = query.Filter(filterOData.join(' and '));
+                this.query = this.query.Filter(filterOData.join(' and '));
             }
         }
 
         if (event.sortField) {
             const sortOrder: string = event.sortOrder && event.sortOrder > 0 ? 'asc' : 'desc';
-            query = query.OrderBy(event.sortField + ' ' + sortOrder);
+            this.query = this.query.OrderBy(event.sortField + ' ' + sortOrder);
         }
 
-        this.query = query;
-
-        query
+        this.query
             .ExecWithCount()
             .subscribe((pagedResult: ODataPagedResult<IEmployee>) => {
                     this.employees = pagedResult.data;

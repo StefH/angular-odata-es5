@@ -6,5 +6,6 @@ export interface IEmployee {
     LastName: string;
     City: string;
     BirthDate: Date;
+    Boss: IEmployee;
     Orders: IOrder[];
 }

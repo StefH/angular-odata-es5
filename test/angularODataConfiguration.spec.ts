@@ -134,7 +134,8 @@ describe('ODataConfiguration', () => {
                     LastName: 'Davolio',
                     BirthDate: new Date('1948-12-08T00:00:00Z'),
                     City: 'Seattle',
-                    Orders: []
+                    Orders: [],
+                    Boss: null
                 },
                 {
                     EmployeeID: 2,
@@ -142,7 +143,8 @@ describe('ODataConfiguration', () => {
                     LastName: 'Y',
                     BirthDate: new Date('1978-12-08T00:00:00Z'),
                     City: 'Paris',
-                    Orders: []
+                    Orders: [],
+                    Boss: null
                 }
             ]
         };
@@ -171,7 +173,8 @@ describe('ODataConfiguration', () => {
                     LastName: 'Davolio',
                     BirthDate: new Date('1948-12-08T00:00:00Z'),
                     City: 'Seattle',
-                    Orders: []
+                    Orders: [],
+                    Boss: null
                 },
                 {
                     EmployeeID: 2,
@@ -179,7 +182,8 @@ describe('ODataConfiguration', () => {
                     LastName: 'Y',
                     BirthDate: new Date('1978-12-08T00:00:00Z'),
                     City: 'Paris',
-                    Orders: []
+                    Orders: [],
+                    Boss: null
                 }
             ]
         };

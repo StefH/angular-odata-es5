@@ -66,18 +66,22 @@ describe('ODataQuery', () => {
 
         // Act
         query
-            .Filter('x')
+            .Filter(['x', 'Boss.Filter'])
+            .Expand('EXP')
             .Top(10)
             .Skip(20)
-            .OrderBy('y');
+            .Select(['s1', 's2', 'Boss.Select'])
+            .OrderBy(['y', 'Boss.OrderBy']);
 
         const result = query.Exec();
 
         const params = new HttpParams()
-            .append(config.keys.filter, 'x')
+            .append(config.keys.expand, `EXP,Boss(${config.keys.select}=Select)`)
+            .append(config.keys.select, 's1,s2')
+            .append(config.keys.filter, 'x,Boss/Filter')
             .append(config.keys.top, '10')
             .append(config.keys.skip, '20')
-            .append(config.keys.orderBy, 'y');
+            .append(config.keys.orderBy, 'y,Boss/OrderBy');
 
         // Assert
         const testOptions: {
@@ -136,10 +140,21 @@ describe('ODataQuery', () => {
         const test = new ODataQueryMock('Employees', config, http);
 
         // Act
-        test.Filter('x');
+        test.Filter('f');
 
         // Assert
-        assert.equal(test['_filter'], 'x');
+        assert.deepEqual(test['_filter'], ['f']);
+    }));
+
+    it('Filter(string[])', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+        // Assign
+        const test = new ODataQueryMock('Employees', config, http);
+
+        // Act
+        test.Filter(['x', 'Boss.FirstName']);
+
+        // Assert
+        assert.deepEqual(test['_filter'], ['x', 'Boss.FirstName']);
     }));
 
     it('OrderBy(string)', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
@@ -150,7 +165,18 @@ describe('ODataQuery', () => {
         test.OrderBy('o');
 
         // Assert
-        assert.equal(test['_orderBy'], 'o');
+        assert.deepEqual(test['_orderBy'], ['o']);
+    }));
+
+    it('OrderBy(string[])', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+        // Assign
+        const test = new ODataQueryMock('Employees', config, http);
+
+        // Act
+        test.OrderBy(['o', 'Boss.FirstName']);
+
+        // Assert
+        assert.deepEqual(test['_orderBy'], ['o', 'Boss.FirstName']);
     }));
 
     it('Skip(number)', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {

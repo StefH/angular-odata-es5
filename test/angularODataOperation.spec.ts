@@ -39,7 +39,7 @@ describe('ODataOperation', () => {
         test.Expand('x');
 
         // Assert
-        assert.equal(test['_expand'], 'x');
+        assert.deepEqual(test['_expand'], ['x']);
     }));
 
     it('Expand(string)`2', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
@@ -50,7 +50,7 @@ describe('ODataOperation', () => {
         test.Expand('x, y');
 
         // Assert
-        assert.equal(test['_expand'], 'x, y');
+        assert.deepEqual(test['_expand'], ['x', 'y']);
     }));
 
     it('Expand(string[])', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
@@ -58,10 +58,10 @@ describe('ODataOperation', () => {
         const test = new ODataOperationTest('Employees', config, http);
 
         // Act
-        test.Expand(['a', 'b']);
+        test.Expand(['a', 'b', 'Boss.FirstName']);
 
         // Assert
-        assert.equal(test['_expand'], 'a,b');
+        assert.deepEqual(test['_expand'], ['a', 'b', 'Boss.FirstName']);
     }));
 
     it('Select(string)', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
@@ -72,7 +72,7 @@ describe('ODataOperation', () => {
         test.Select('x,y,z');
 
         // Assert
-        assert.equal(test['_select'], 'x,y,z');
+        assert.deepEqual(test['_select'], ['x', 'y', 'z']);
     }));
 
     it('Select(string[])', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
@@ -83,6 +83,6 @@ describe('ODataOperation', () => {
         test.Select(['a', 'b']);
 
         // Assert
-        assert.equal(test['_select'], 'a,b');
+        assert.deepEqual(test['_select'], ['a', 'b']);
     }));
 });

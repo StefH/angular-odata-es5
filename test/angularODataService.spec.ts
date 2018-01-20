@@ -98,7 +98,8 @@ describe('ODataService', () => {
             LastName: 'l',
             City: 'c',
             BirthDate: null,
-            Orders: null
+            Orders: null,
+            Boss: null
         };
 
         spyOn(http, 'post').and.returnValue(new Observable<Response>());
@@ -108,7 +109,7 @@ describe('ODataService', () => {
 
         // Assert
         assert.isNotNull(result);
-        expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees`, `{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null}`, jasmine.any(Object));
+        expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees`, `{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null,"Boss":null}`, jasmine.any(Object));
     }));
 
     it('Patch with string key', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
@@ -120,7 +121,8 @@ describe('ODataService', () => {
             LastName: 'l',
             City: 'c',
             BirthDate: null,
-            Orders: null
+            Orders: null,
+            Boss: null
         };
 
         spyOn(http, 'patch').and.returnValue(new Observable<Response>());
@@ -130,7 +132,7 @@ describe('ODataService', () => {
 
         // Assert
         assert.isNotNull(result);
-        expect(http.patch).toHaveBeenCalledWith(`http://localhost/odata/Employees('x')`, '{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null}', jasmine.any(Object));
+        expect(http.patch).toHaveBeenCalledWith(`http://localhost/odata/Employees('x')`, '{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null,"Boss":null}', jasmine.any(Object));
     }));
 
     it('Patch with number key', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
@@ -193,7 +195,8 @@ describe('ODataService', () => {
             LastName: 'l',
             City: 'c',
             BirthDate: null,
-            Orders: null
+            Orders: null,
+            Boss: null
         };
 
         spyOn(http, 'put').and.returnValue(new Observable<Response>());
@@ -203,7 +206,7 @@ describe('ODataService', () => {
 
         // Assert
         assert.isNotNull(result);
-        expect(http.put).toHaveBeenCalledWith(`http://localhost/odata/Employees('x')`, '{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null}', jasmine.any(Object));
+        expect(http.put).toHaveBeenCalledWith(`http://localhost/odata/Employees('x')`, '{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null,"Boss":null}', jasmine.any(Object));
     }));
 
     it('Put with number key', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
