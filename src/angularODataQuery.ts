@@ -14,7 +14,7 @@ export class ODataQuery<T> extends ODataOperation<T> {
     private _top: number;
     private _skip: number;
     private _orderBy: string[] = [];
-    private _apply: string[]= [];
+    private _apply: string[] = [];
     private _entitiesUri: string;
 
     constructor(typeName: string, config: ODataConfiguration, http: HttpClient) {
