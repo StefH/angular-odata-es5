@@ -9,10 +9,12 @@ import { ODataPagedResult } from './angularODataPagedResult';
 import { IODataResponseModel } from './angularODataResponseModel';
 
 export class ODataQuery<T> extends ODataOperation<T> {
+
     private _filter: string[] = [];
     private _top: number;
     private _skip: number;
     private _orderBy: string[] = [];
+    private _apply: string[];
     private _entitiesUri: string;
 
     constructor(typeName: string, config: ODataConfiguration, http: HttpClient) {
@@ -28,13 +30,6 @@ export class ODataQuery<T> extends ODataOperation<T> {
         return this;
     }
 
-    public OrderBy(orderBy: string | string[]): ODataQuery<T> {
-        if (orderBy) {
-            this._orderBy = this.toStringArray(orderBy);
-        }
-        return this;
-    }
-
     public Top(top: number): ODataQuery<T> {
         this._top = top;
         return this;
@@ -42,6 +37,20 @@ export class ODataQuery<T> extends ODataOperation<T> {
 
     public Skip(skip: number): ODataQuery<T> {
         this._skip = skip;
+        return this;
+    }
+
+    public OrderBy(orderBy: string | string[]): ODataQuery<T> {
+        if (orderBy) {
+            this._orderBy = this.toStringArray(orderBy);
+        }
+        return this;
+    }
+
+    public Apply(apply: string | string[]): ODataQuery<T> {
+        if (apply) {
+            this._apply = this.toStringArray(apply);
+        }
         return this;
     }
 
@@ -109,6 +118,10 @@ export class ODataQuery<T> extends ODataOperation<T> {
 
         if (this._orderBy.length > 0) {
             params = params.append(this.config.keys.orderBy, this.toCommaString(this._orderBy));
+        }
+
+        if (this._apply.length > 0) {
+            params = params.append(this.config.keys.apply, this.toCommaString(this._apply));
         }
 
         if (odata4) {

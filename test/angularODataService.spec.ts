@@ -314,42 +314,42 @@ describe('ODataService', () => {
         expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees('strKey')/act`, `{"x":42}`, jasmine.any(Object));
     }));
 
-    it('Custom Function 1', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
+    it('Custom Collection Function 1', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
         // Assign
         const service = factory.CreateService<IEmployee>('Employees');
 
         spyOn(http, 'get').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.CustomFunction('calculateLatestTimeCard');
+        const result = service.CustomCollectionFunction('calculateLatestTimeCard');
 
         // Assert
         assert.isNotNull(result);
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees/calculateLatestTimeCard()`, jasmine.any(Object));
     }));
 
-    it('Custom Function 2', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
+    it('Custom Collection Function 2', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
         // Assign
         const service = factory.CreateService<IEmployee>('Employees');
 
         spyOn(http, 'get').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.CustomFunction(`getSalesTaxRate(area='abc', postalCode=10)`);
+        const result = service.CustomCollectionFunction(`getSalesTaxRate(area='abc', postalCode=10)`);
 
         // Assert
         assert.isNotNull(result);
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees/getSalesTaxRate(area='abc', postalCode=10)`, jasmine.any(Object));
     }));
 
-    it('Custom Function with Parameters', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
+    it('Custom Collection Function with Parameters', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
         // Assign
         const service = factory.CreateService<IEmployee>('Employees');
 
         spyOn(http, 'get').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.CustomFunction('getSalesTaxRate', { area: 'abc', postalCode: 10 });
+        const result = service.CustomCollectionFunction('getSalesTaxRate', { area: 'abc', postalCode: 10 });
 
         // Assert
         assert.isNotNull(result);

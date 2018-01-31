@@ -200,4 +200,15 @@ describe('ODataQuery', () => {
         // Assert
         assert.equal(test['_top'], 20);
     }));
+
+    it('Apply(string)', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+        // Assign
+        const test = new ODataQueryMock('Employees', config, http);
+
+        // Act
+        test.Apply('groupby((LastName))');
+
+        // Assert
+        assert.equal(test['_apply'], ['groupby((LastName))']);
+    }));
 });
