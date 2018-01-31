@@ -314,18 +314,46 @@ describe('ODataService', () => {
         expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees('strKey')/act`, `{"x":42}`, jasmine.any(Object));
     }));
 
-    it('Custom Collection Action', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
+    it('Custom Action number key', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
         // Assign
         const service = factory.CreateService<IEmployee>('Employees');
 
         spyOn(http, 'post').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.CustomCollectionAction('act', { 'x': 42 });
+        const result = service.CustomAction(118, 'act', { 'x': 42 });
 
         // Assert
         assert.isNotNull(result);
-        expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees/act`, `{"x":42}`, jasmine.any(Object));
+        expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees(118)/act`, `{"x":42}`, jasmine.any(Object));
+    }));
+
+    it('Custom Collection Action 1', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
+        // Assign
+        const service = factory.CreateService<IEmployee>('Employees');
+
+        spyOn(http, 'post').and.returnValue(new Observable<Response>());
+
+        // Act
+        const result = service.CustomCollectionAction('sleep', { 'time': 12, 'reason': 'tired' });
+
+        // Assert
+        assert.isNotNull(result);
+        expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees/sleep`, `{"time":12, "reason":"tired"}`, jasmine.any(Object));
+    }));
+
+    it('Custom Collection Action 2', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
+        // Assign
+        const service = factory.CreateService<IEmployee>('Employees');
+
+        spyOn(http, 'post').and.returnValue(new Observable<Response>());
+
+        // Act
+        const result = service.CustomCollectionAction('check', { 'task': 'hit' });
+
+        // Assert
+        assert.isNotNull(result);
+        expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees/sleep`, `{"task":"hit"}`, jasmine.any(Object));
     }));
 
     it('Custom Function 1', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
