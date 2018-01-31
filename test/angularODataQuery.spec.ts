@@ -67,6 +67,7 @@ describe('ODataQuery', () => {
         // Act
         query
             .Filter(['x', 'Boss.Filter'])
+            .Apply(['groupby((Age))'])
             .Expand('EXP')
             .Top(10)
             .Skip(20)
@@ -81,7 +82,8 @@ describe('ODataQuery', () => {
             .append(config.keys.filter, 'x,Boss/Filter')
             .append(config.keys.top, '10')
             .append(config.keys.skip, '20')
-            .append(config.keys.orderBy, 'y,Boss/OrderBy');
+            .append(config.keys.orderBy, 'y,Boss/OrderBy')
+            .append(config.keys.apply, 'groupby((Age))');
 
         // Assert
         const testOptions: {
