@@ -209,6 +209,6 @@ describe('ODataQuery', () => {
         test.Apply('groupby((LastName))');
 
         // Assert
-        assert.equal(test['_apply'], ['groupby((LastName))']);
+        assert.deepEqual(test['_apply'], ['groupby((LastName))']);
     }));
 });
