@@ -339,7 +339,7 @@ describe('ODataService', () => {
 
         // Assert
         assert.isNotNull(result);
-        expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees/sleep`, `{"task":1}`, jasmine.any(Object));
+        expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees/check`, `{"task":1}`, jasmine.any(Object));
     }));
 
     it('Custom Function 1', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
