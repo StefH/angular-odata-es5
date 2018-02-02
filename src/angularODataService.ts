@@ -45,17 +45,31 @@ export class ODataService<T> {
 
     public CustomAction(key: string | number | boolean, actionName: string, postdata: any): Observable<any> {
         const body = postdata ? JSON.stringify(postdata) : null;
-        return this._http.post(this.getEntityUri(key) + '/' + actionName, body, this.config.defaultRequestOptions).map(resp => resp);
+        return this._http.post(`${this.getEntityUri(key)}/${actionName}`, body, this.config.defaultRequestOptions).map(resp => resp);
     }
 
-    public CustomFunction(functionName: string, parameters?: any): Observable<any> {
+    public CustomCollectionAction(actionName: string, postdata: any): Observable<any> {
+        const body = postdata ? JSON.stringify(postdata) : null;
+        return this._http.post(`${this._entitiesUri}/${actionName}`, body, this.config.defaultRequestOptions).map(resp => resp);
+    }
+
+    public CustomFunction(key: string | number | boolean, functionName: string, parameters?: any): Observable<any> {
         if (parameters) {
             const params: string = ODataUtils.convertObjectToString(parameters);
             functionName = `${functionName}(${params})`;
         } else if (!functionName.endsWith(')') && !functionName.endsWith('()')) {
             functionName = `${functionName}()`;
         }
+        return this._http.get(`${this.getEntityUri(key)}/${functionName}`, this.config.defaultRequestOptions).map(resp => resp);
+    }
 
+    public CustomCollectionFunction(functionName: string, parameters?: any): Observable<any> {
+        if (parameters) {
+            const params: string = ODataUtils.convertObjectToString(parameters);
+            functionName = `${functionName}(${params})`;
+        } else if (!functionName.endsWith(')') && !functionName.endsWith('()')) {
+            functionName = `${functionName}()`;
+        }
         return this._http.get(`${this._entitiesUri}/${functionName}`, this.config.defaultRequestOptions).map(resp => resp);
     }
 
@@ -81,10 +95,8 @@ export class ODataService<T> {
         if (res.status < 200 || res.status >= 300) {
             throw new Error('Bad response status: ' + res.status);
         }
-
         const body: any = res.body;
         const entity: T = body;
-
         return entity || null;
     }
 }

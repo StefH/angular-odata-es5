@@ -12,6 +12,7 @@ export class KeyConfigs {
     public orderBy = '$orderby';
     public select = '$select';
     public expand = '$expand';
+    public apply = '$apply';
 }
 
 @Injectable()
