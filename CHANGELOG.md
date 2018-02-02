@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.8"></a>
+## [0.2.8](https://github.com/StefH/angular-odata-es5/compare/v0.2.7...v0.2.8) (2018-02-02)
+
+
+### Features
+
+* **function:** Add methods CustomCollectionAction, CustomCollectionF… ([#45](https://github.com/StefH/angular-odata-es5/issues/45)) ([2b6e3c7](https://github.com/StefH/angular-odata-es5/commit/2b6e3c7))
+
+
+
 <a name="0.2.7"></a>
 ## [0.2.7](https://github.com/StefH/angular-odata-es5/compare/v0.2.6...v0.2.7) (2018-01-20)
 
