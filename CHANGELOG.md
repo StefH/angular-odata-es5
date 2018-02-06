@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.9"></a>
+## [0.2.9](https://github.com/StefH/angular-odata-es5/compare/v0.2.8...v0.2.9) (2018-02-06)
+
+
+### Bug Fixes
+
+* **$rxjs:** import 'rxjs/add/observable/throw' ([2f88057](https://github.com/StefH/angular-odata-es5/commit/2f88057))
+
+
+
 <a name="0.2.8"></a>
 ## [0.2.8](https://github.com/StefH/angular-odata-es5/compare/v0.2.7...v0.2.8) (2018-02-02)
 
