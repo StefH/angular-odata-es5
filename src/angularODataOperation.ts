@@ -1,10 +1,10 @@
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Dictionary, IEnumerable, IQueryable, List } from 'linq-collections';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
 
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 import { ODataConfiguration } from './angularODataConfiguration';
 
 export abstract class ODataOperation<T> {
@@ -35,9 +35,9 @@ export abstract class ODataOperation<T> {
         this._expand.forEach((name) => expandData.set(name, new List<string>()));
 
         this._select.forEach((select: string) => {
-            const items = select.split('.');
+            const items: string[] = select.split('/');
 
-            // Expand contains string like: `Boss.Name`
+            // Expand contains string like: `Boss/Name`
             if (items.length > 1) {
                 const expandName = items[0];
                 const propertyName = items[1];
@@ -63,8 +63,9 @@ export abstract class ODataOperation<T> {
 
             return element.key;
         });
+
         if (expands.any()) {
-            params = params.append(this.config.keys.expand, this.toCommaString(expands.toArray()));
+            params = params.append(this.config.keys.expand, this.toCommaString(expands));
         }
 
         if (normalSelects.any()) {
@@ -116,19 +117,15 @@ export abstract class ODataOperation<T> {
     }
 
     protected toCommaString(input: string | string[] | IEnumerable<string> | IQueryable<string>): string {
-        function replaceDot(value: string): string {
-            return value.replace('.', '/');
-        }
-
         if (input instanceof String || typeof input === 'string') {
-            return replaceDot(input);
+            return input;
         }
 
         if (input instanceof Array) {
-            return input.map(s => replaceDot(s)).join(',');
+            return input.join();
         }
 
-        return input.toArray().map(s => replaceDot(s)).join(',');
+        return input.toArray().join();
     }
 
     private extractData(res: HttpResponse<T>): T {

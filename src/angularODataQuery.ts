@@ -12,7 +12,7 @@ import { IODataResponseModel } from './angularODataResponseModel';
 
 export class ODataQuery<T> extends ODataOperation<T> {
 
-    private _filter: string[] = [];
+    private _filter: string;
     private _top: number;
     private _skip: number;
     private _orderBy: string[] = [];
@@ -25,9 +25,9 @@ export class ODataQuery<T> extends ODataOperation<T> {
         this._entitiesUri = config.getEntitiesUri(this.typeName);
     }
 
-    public Filter(filter: string | string[]): ODataQuery<T> {
+    public Filter(filter: string): ODataQuery<T> {
         if (filter) {
-            this._filter = this.toStringArray(filter);
+            this._filter = filter;
         }
         return this;
     }
@@ -106,8 +106,8 @@ export class ODataQuery<T> extends ODataOperation<T> {
     } {
         let params = super.getParams();
 
-        if (this._filter.length > 0) {
-            params = params.append(this.config.keys.filter, this.toCommaString(this._filter));
+        if (this._filter) {
+            params = params.append(this.config.keys.filter, this._filter);
         }
 
         if (this._top > 0) {

@@ -11,8 +11,8 @@ console.log('`EmployeeGridODataComponent` component loaded asynchronously');
 @Component({
     templateUrl: './employeeGridOData.component.html',
     selector: 'ao-employee-grid-odata',
-    providers: [ { provide: ODataConfiguration, useFactory: NorthwindODataConfigurationFactory }, ODataServiceFactory ],
-    styleUrls: [ './employeeGridOData.component.css']
+    providers: [{ provide: ODataConfiguration, useFactory: NorthwindODataConfigurationFactory }, ODataServiceFactory],
+    styleUrls: ['./employeeGridOData.component.css']
 })
 
 export class EmployeeGridODataComponent implements OnInit {
@@ -45,7 +45,7 @@ export class EmployeeGridODataComponent implements OnInit {
         this.query = this.odata
             .Query()
             .Expand('Orders')
-            .Select(['EmployeeID', 'FirstName', 'LastName', 'BirthDate', 'City', 'Orders', 'Boss.FirstName']);
+            .Select(['EmployeeID', 'FirstName', 'LastName', 'BirthDate', 'City', 'Orders', 'Boss/FirstName']);
 
         if (event.rows) {
             this.query = this.query.Top(event.rows);
@@ -57,12 +57,15 @@ export class EmployeeGridODataComponent implements OnInit {
 
         if (event.filters) {
             const filterOData: string[] = [];
-            for (const prop in event.filters) {
-                if (event.filters.hasOwnProperty(prop)) {
-                    const filter = event.filters[prop] as FilterMetadata;
+            for (const filterProperty in event.filters) {
+                if (event.filters.hasOwnProperty(filterProperty)) {
+                    const filter = event.filters[filterProperty] as FilterMetadata;
                     if (filter.matchMode && filter.matchMode !== '') {
                         const params = filter.matchMode.toLowerCase().split(':');
                         const operator = params[0];
+
+                        // Replace Boss.Name by Boss/Name
+                        const odataProperty = filterProperty.replace(/\./g, '/');
 
                         // http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part2-url-conventions.html
                         switch (operator) {
@@ -76,7 +79,7 @@ export class EmployeeGridODataComponent implements OnInit {
                             case 'totaloffsetminutes':
                             case 'totalseconds':
                             case 'year':
-                                filterOData.push(`${operator}(${prop}) ${params[1]} ${filter.value}`);
+                                filterOData.push(`${operator}(${odataProperty}) ${params[1]} ${filter.value}`);
                                 break;
                             case 'eq':
                             case 'ne':
@@ -84,18 +87,18 @@ export class EmployeeGridODataComponent implements OnInit {
                             case 'ge':
                             case 'lt':
                             case 'le':
-                                filterOData.push(`${prop} ${operator} ${filter.value}`);
+                                filterOData.push(`${odataProperty} ${operator} ${filter.value}`);
                                 break;
                             case 'contains':
                             case 'endswith':
                             case 'startswith':
-                                filterOData.push(`${operator}(${prop}, '${filter.value}')`);
+                                filterOData.push(`${operator}(${odataProperty}, '${filter.value}')`);
                                 break;
                             default:
-                                // no action
+                            // no action
                         }
                     }
-                 }
+                }
             }
 
             if (filterOData.length > 0) {
@@ -111,11 +114,11 @@ export class EmployeeGridODataComponent implements OnInit {
         this.query
             .ExecWithCount()
             .subscribe((pagedResult: ODataPagedResult<IEmployee>) => {
-                    this.employees = pagedResult.data;
-                    this.totalRecords = pagedResult.count;
-                },
-                (error) => {
-                    console.log('getPagedData ERROR ' + error);
-                });
+                this.employees = pagedResult.data;
+                this.totalRecords = pagedResult.count;
+            },
+            (error) => {
+                console.log('getPagedData ERROR ' + error);
+            });
     }
 }

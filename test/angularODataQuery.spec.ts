@@ -66,20 +66,20 @@ describe('ODataQuery', () => {
 
         // Act
         query
-            .Filter(['x', 'Boss.Filter'])
+            .Filter(`x gt 1 and Boss/Filter eq 42 and EndDate lt 2018-02-07T09:58:30.897Z`)
             .Apply(['groupby((Age))'])
             .Expand('EXP')
             .Top(10)
             .Skip(20)
-            .Select(['s1', 's2', 'Boss.Select'])
-            .OrderBy(['y', 'Boss.OrderBy']);
+            .Select(['s1', 's2', 'Boss/Select'])
+            .OrderBy(['y', 'Boss/OrderBy']);
 
         const result = query.Exec();
 
         const params = new HttpParams()
             .append(config.keys.expand, `EXP,Boss(${config.keys.select}=Select)`)
             .append(config.keys.select, 's1,s2')
-            .append(config.keys.filter, 'x,Boss/Filter')
+            .append(config.keys.filter, 'x gt 1 and Boss/Filter eq 42 and EndDate lt 2018-02-07T09:58:30.897Z')
             .append(config.keys.top, '10')
             .append(config.keys.skip, '20')
             .append(config.keys.orderBy, 'y,Boss/OrderBy')
@@ -145,19 +145,19 @@ describe('ODataQuery', () => {
         test.Filter('f');
 
         // Assert
-        assert.deepEqual(test['_filter'], ['f']);
+        assert.equal(test['_filter'], 'f');
     }));
 
-    it('Filter(string[])', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
-        // Assign
-        const test = new ODataQueryMock('Employees', config, http);
+    // it('Filter(string[])', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+    //     // Assign
+    //     const test = new ODataQueryMock('Employees', config, http);
 
-        // Act
-        test.Filter(['x', 'Boss.FirstName']);
+    //     // Act
+    //     test.Filter(['x', 'Boss.FirstName']);
 
-        // Assert
-        assert.deepEqual(test['_filter'], ['x', 'Boss.FirstName']);
-    }));
+    //     // Assert
+    //     assert.deepEqual(test['_filter'], ['x', 'Boss.FirstName']);
+    // }));
 
     it('OrderBy(string)', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
         // Assign
