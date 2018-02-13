@@ -530,6 +530,87 @@
                         <tbody>
                             <tr>
                                 <td class="col-md-4">
+                                    <b><span class="modifier">Public</span> Exec</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play circle">
+                                            <span class="fa fa-circle"></span>
+                                        </span>
+                                    <code>Exec(returnType: ODataExecReturnType.Count)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>Observable&lt;number&gt;</code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b><span class="modifier">Public</span> Exec</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play circle">
+                                            <span class="fa fa-circle"></span>
+                                        </span>
+                                    <code>Exec(returnType: ODataExecReturnType.PagedResult)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code><a href="../classes/ODataPagedResult.html" target="_self" >Observable&lt;ODataPagedResult&lt;T&gt;&gt;</a></code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b><span class="modifier">Public</span> Exec</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play circle">
+                                            <span class="fa fa-circle"></span>
+                                        </span>
+                                    <code>Exec(returnType: ODataExecReturnType)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code><a href="../classes/ODataPagedResult.html" target="_self" >Observable&lt;number | T[] | ODataPagedResult&lt;T&gt;&gt;</a></code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
                                     <b><span class="modifier">Public</span> ExecWithCount</b>
                                 </td>
                             </tr>
@@ -566,12 +647,15 @@ import { Observable } from &#x27;rxjs/Observable&#x27;;
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from &#x27;@angular/common/http&#x27;;
 
 import { ODataConfiguration } from &#x27;./angularODataConfiguration&#x27;;
+import { ODataExecReturnType } from &#x27;./angularODataEnums&#x27;;
 import { ODataOperation } from &#x27;./angularODataOperation&#x27;;
 import { ODataPagedResult } from &#x27;./angularODataPagedResult&#x27;;
 import { IODataResponseModel } from &#x27;./angularODataResponseModel&#x27;;
 
 export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
 
+    // private _count: boolean;
+    // private _paged: boolean;
     private _filter: string;
     private _top: number;
     private _skip: number;
@@ -616,7 +700,10 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
         return this;
     }
 
-    public Exec(): Observable&lt;T[]&gt; {
+    public Exec(): Observable&lt;T[]&gt;;
+    public Exec(returnType: ODataExecReturnType.Count): Observable&lt;number&gt;;
+    public Exec(returnType: ODataExecReturnType.PagedResult): Observable&lt;ODataPagedResult&lt;T&gt;&gt;;
+    public Exec(returnType?: ODataExecReturnType): Observable&lt;T[] | ODataPagedResult&lt;T&gt; | number&gt; {
         const requestOptions: {
             headers?: HttpHeaders;
             observe: &#x27;response&#x27;;
@@ -624,36 +711,44 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
             reportProgress?: boolean;
             responseType?: &#x27;json&#x27;;
             withCredentials?: boolean;
-        } &#x3D; this.getQueryRequestOptions(false);
+        } &#x3D; this.getQueryRequestOptions(returnType &#x3D;&#x3D;&#x3D; ODataExecReturnType.PagedResult);
 
-        return this.http.get&lt;IODataResponseModel&lt;T&gt;&gt;(this._entitiesUri, requestOptions)
-            .map(res &#x3D;&gt; this.extractArrayData(res, this.config))
-            .catch((err: any, caught: Observable&lt;Array&lt;T&gt;&gt;) &#x3D;&gt; {
-                if (this.config.handleError) {
-                    this.config.handleError(err, caught);
-                }
-                return Observable.throw(err);
-            });
+        switch (returnType) {
+            case ODataExecReturnType.Count:
+                const countUrl &#x3D; &#x60;${this._entitiesUri}/${this.config.keys.count}&#x60;;
+                return this.http.get&lt;number&gt;(countUrl, requestOptions)
+                    .map(res &#x3D;&gt; this.extractDataAsNumber(res, this.config))
+                    .catch((err: any, caught: Observable&lt;number&gt;) &#x3D;&gt; {
+                        if (this.config.handleError) {
+                            this.config.handleError(err, caught);
+                        }
+                        return Observable.throw(err);
+                    });
+
+            case ODataExecReturnType.PagedResult:
+                return this.http.get&lt;IODataResponseModel&lt;T&gt;&gt;(this._entitiesUri, requestOptions)
+                    .map(res &#x3D;&gt; this.extractArrayDataWithCount(res, this.config))
+                    .catch((err: any, caught: Observable&lt;ODataPagedResult&lt;T&gt;&gt;) &#x3D;&gt; {
+                        if (this.config.handleError) {
+                            this.config.handleError(err, caught);
+                        }
+                        return Observable.throw(err);
+                    });
+
+            default:
+                return this.http.get&lt;IODataResponseModel&lt;T&gt;&gt;(this._entitiesUri, requestOptions)
+                    .map(res &#x3D;&gt; this.extractArrayData(res, this.config))
+                    .catch((err: any, caught: Observable&lt;Array&lt;T&gt;&gt;) &#x3D;&gt; {
+                        if (this.config.handleError) {
+                            this.config.handleError(err, caught);
+                        }
+                        return Observable.throw(err);
+                    });
+        }
     }
 
     public ExecWithCount(): Observable&lt;ODataPagedResult&lt;T&gt;&gt; {
-        const requestOptions: {
-            headers?: HttpHeaders;
-            observe: &#x27;response&#x27;;
-            params?: HttpParams;
-            reportProgress?: boolean;
-            responseType?: &#x27;json&#x27;;
-            withCredentials?: boolean;
-        } &#x3D; this.getQueryRequestOptions(true);
-
-        return this.http.get&lt;IODataResponseModel&lt;T&gt;&gt;(this._entitiesUri, requestOptions)
-            .map(res &#x3D;&gt; this.extractArrayDataWithCount(res, this.config))
-            .catch((err: any, caught: Observable&lt;ODataPagedResult&lt;T&gt;&gt;) &#x3D;&gt; {
-                if (this.config.handleError) {
-                    this.config.handleError(err, caught);
-                }
-                return Observable.throw(err);
-            });
+        return this.Exec(ODataExecReturnType.PagedResult);
     }
 
     private getQueryRequestOptions(odata4: boolean): {
@@ -694,6 +789,10 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
         options.params &#x3D; params;
 
         return options;
+    }
+
+    private extractDataAsNumber(res: HttpResponse&lt;number&gt;, config: ODataConfiguration): number {
+        return config.extractQueryResultDataAsNumber(res);
     }
 
     private extractArrayData(res: HttpResponse&lt;IODataResponseModel&lt;T&gt;&gt;, config: ODataConfiguration): T[] {

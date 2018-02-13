@@ -374,6 +374,26 @@
                         <tbody>
                             <tr>
                                 <td class="col-md-4">
+                                    <b><span class="modifier">Public</span> count</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <span class="modifier-icon fa fa-circle"></span><code>count:     <code>string</code>
+            </bcode>
+                                </td>
+                            </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <i>Default value: </i><code>$count</code>
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
                                     <b><span class="modifier">Public</span> expand</b>
                                 </td>
                             </tr>
@@ -508,6 +528,7 @@ export class KeyConfigs {
     public select &#x3D; &#x27;$select&#x27;;
     public expand &#x3D; &#x27;$expand&#x27;;
     public apply &#x3D; &#x27;$apply&#x27;;
+    public count &#x3D; &#x27;$count&#x27;;
 }
 
 @Injectable()
@@ -544,15 +565,23 @@ export class ODataConfiguration {
     }
 
     public getEntitiesUri(typeName: string): string {
-        return this.baseUrl + &#x27;/&#x27; + this.sanitizeTypeName(typeName);
+        return &#x60;${this.baseUrl}/${this.sanitizeTypeName(typeName)}&#x60;;
     }
 
     public getEntityUri(entityKey: string | number | boolean, typeName: string): string {
-        return this.getEntitiesUri(typeName) + &#x60;(${ODataUtils.quoteValue(entityKey)})&#x60;;
+        return &#x60;${this.getEntitiesUri(typeName)}(${ODataUtils.quoteValue(entityKey)})&#x60;;
     }
 
     public handleError(err: any, caught: any): void {
         console.warn(&#x27;OData error: &#x27;, err, caught);
+    }
+
+    public extractQueryResultDataAsNumber(res: HttpResponse&lt;number&gt;): number {
+        if (res.status &lt; 200 || res.status &gt;&#x3D; 300) {
+            throw new Error(&#x27;Bad response status: &#x27; + res.status);
+        }
+
+        return (res &amp;&amp; res.body) as number;
     }
 
     public extractQueryResultData&lt;T&gt;(res: HttpResponse&lt;IODataResponseModel&lt;T&gt;&gt;): T[] {

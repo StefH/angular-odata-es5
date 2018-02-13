@@ -705,7 +705,7 @@ export abstract class ODataOperation&lt;T&gt; {
 
     protected toCommaString(input: string | string[] | IEnumerable&lt;string&gt; | IQueryable&lt;string&gt;): string {
         if (input instanceof String || typeof input &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
-            return input;
+            return input as string;
         }
 
         if (input instanceof Array) {
