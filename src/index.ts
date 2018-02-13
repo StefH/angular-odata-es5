@@ -6,3 +6,4 @@ export { ODataQuery } from './angularODataQuery';
 export { ODataPagedResult } from './angularODataPagedResult';
 export { ODataServiceFactory } from './angularODataServiceFactory';
 export { IODataResponseModel } from './angularODataResponseModel';
+export { ODataExecReturnType } from './angularODataEnums';

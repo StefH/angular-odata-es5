@@ -13,6 +13,7 @@ export class KeyConfigs {
     public select = '$select';
     public expand = '$expand';
     public apply = '$apply';
+    public count = '$count';
 }
 
 @Injectable()
@@ -49,15 +50,23 @@ export class ODataConfiguration {
     }
 
     public getEntitiesUri(typeName: string): string {
-        return this.baseUrl + '/' + this.sanitizeTypeName(typeName);
+        return `${this.baseUrl}/${this.sanitizeTypeName(typeName)}`;
     }
 
     public getEntityUri(entityKey: string | number | boolean, typeName: string): string {
-        return this.getEntitiesUri(typeName) + `(${ODataUtils.quoteValue(entityKey)})`;
+        return `${this.getEntitiesUri(typeName)}(${ODataUtils.quoteValue(entityKey)})`;
     }
 
     public handleError(err: any, caught: any): void {
         console.warn('OData error: ', err, caught);
+    }
+
+    public extractQueryResultDataAsNumber(res: HttpResponse<number>): number {
+        if (res.status < 200 || res.status >= 300) {
+            throw new Error('Bad response status: ' + res.status);
+        }
+
+        return (res && res.body) as number;
     }
 
     public extractQueryResultData<T>(res: HttpResponse<IODataResponseModel<T>>): T[] {
