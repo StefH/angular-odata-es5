@@ -2,7 +2,7 @@ import { FilterMetadata, LazyLoadEvent } from 'primeng/primeng';
 
 import { Component, OnInit } from '@angular/core';
 
-import { ODataConfiguration, ODataPagedResult, ODataQuery, ODataService, ODataServiceFactory } from '../src/index';
+import { ODataConfiguration, ODataExecReturnType, ODataPagedResult, ODataQuery, ODataService, ODataServiceFactory } from '../src/index';
 import { IEmployee } from '../test/helpers/employee';
 import { NorthwindODataConfigurationFactory } from './NorthwindODataConfigurationFactory';
 
@@ -18,6 +18,8 @@ console.log('`EmployeeGridODataComponent` component loaded asynchronously');
 export class EmployeeGridODataComponent implements OnInit {
 
     public employees: IEmployee[] = [];
+
+    public count: number = 0;
 
     public totalRecords: number;
 
@@ -112,13 +114,23 @@ export class EmployeeGridODataComponent implements OnInit {
         }
 
         this.query
-            .ExecWithCount()
+            .Exec(ODataExecReturnType.PagedResult)
             .subscribe((pagedResult: ODataPagedResult<IEmployee>) => {
                 this.employees = pagedResult.data;
                 this.totalRecords = pagedResult.count;
-            },
-            (error) => {
-                console.log('getPagedData ERROR ' + error);
+            }, (error) => {
+                this.employees = [];
+                this.totalRecords = 0;
+                console.log('ODataExecReturnType.PagedResult ERROR ' + error);
+            });
+
+        this.query
+            .Exec(ODataExecReturnType.Count)
+            .subscribe((count: number) => {
+                this.count = count;
+            }, (error) => {
+                this.count = 0;
+                console.log('ODataExecReturnType.Count ERROR ' + error);
             });
     }
 }

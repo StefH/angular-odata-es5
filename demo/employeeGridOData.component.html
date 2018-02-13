@@ -20,6 +20,8 @@
             <p-column field="Boss.FirstName" header="Boss (contains)" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
         </p-dataTable>
         <hr>
+        <pre>count : {{count}}</pre>
+        <hr>
         <pre>filter : {{filter | json}}</pre>
         <hr>
         <pre>query  : {{query | json}}</pre>

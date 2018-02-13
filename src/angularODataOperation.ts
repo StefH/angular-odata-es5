@@ -118,7 +118,7 @@ export abstract class ODataOperation<T> {
 
     protected toCommaString(input: string | string[] | IEnumerable<string> | IQueryable<string>): string {
         if (input instanceof String || typeof input === 'string') {
-            return input;
+            return input as string;
         }
 
         if (input instanceof Array) {
