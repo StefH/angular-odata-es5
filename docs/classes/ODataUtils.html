@@ -391,7 +391,7 @@
                                         <span class="modifier-icon method fa fa-play circle">
                                             <span class="fa fa-circle"></span>
                                         </span>
-                                    <code>quoteValue(value: string | number | boolean)</code>
+                                    <code>quoteValue(value: any)</code>
                                 </td>
                             </tr>
             
@@ -424,19 +424,30 @@
         return properties.join(&#x27;, &#x27;);
     }
 
-    public static quoteValue(value: number | string | boolean): string {
-        // check if string
-        if (typeof value !&#x3D;&#x3D; &#x27;string&#x27;) {
-            return &#x60;${value}&#x60;;
-        }
-
+    public static quoteValue(value: number | string | boolean | any): string {
         // check if GUID (UUID) type
         if (/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value)) {
             return value;
         }
 
-        const escaped &#x3D; value.replace(/&#x27;/g, &#x27;\&#x27;\&#x27;&#x27;);
-        return &#x60;&#x27;${escaped}&#x27;&#x60;;
+        // check if string
+        if (typeof value &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
+            const escaped &#x3D; value.replace(/&#x27;/g, &#x27;\&#x27;\&#x27;&#x27;);
+            return &#x60;&#x27;${escaped}&#x27;&#x60;;
+        }
+
+        // check if boolean or number
+        if (typeof value &#x3D;&#x3D;&#x3D; &#x27;boolean&#x27; || typeof value &#x3D;&#x3D;&#x3D; &#x27;number&#x27;) {
+            return &#x60;${value}&#x60;;
+        }
+
+        const parts: string[] &#x3D; [];
+        Object.getOwnPropertyNames(value).forEach((propertyName: string) &#x3D;&gt; {
+            const propertyValue: any &#x3D; value[propertyName];
+            parts.push(&#x60;${propertyName}&#x3D;${ODataUtils.quoteValue(propertyValue)}&#x60;);
+        });
+
+        return parts.length &gt; 0 ? parts.join(&#x27;, &#x27;) : &#x60;${value}&#x60;;
     }
 }
 </code></pre>

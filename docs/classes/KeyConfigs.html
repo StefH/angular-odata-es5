@@ -571,8 +571,8 @@ export class ODataConfiguration {
         return &#x60;${this.baseUrl}/${this.sanitizeTypeName(typeName)}&#x60;;
     }
 
-    public getEntityUri(entityKey: string | number | boolean, typeName: string): string {
-        return &#x60;${this.getEntitiesUri(typeName)}(${ODataUtils.quoteValue(entityKey)})&#x60;;
+    public getEntityUri(key: any, typeName: string): string {
+        return &#x60;${this.getEntitiesUri(typeName)}(${ODataUtils.quoteValue(key)})&#x60;;
     }
 
     public handleError(err: any, caught: any): void {

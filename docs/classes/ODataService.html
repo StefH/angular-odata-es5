@@ -377,7 +377,7 @@
                                         <span class="modifier-icon method fa fa-play circle">
                                             <span class="fa fa-circle"></span>
                                         </span>
-                                    <code>Get(key: string | number | boolean)</code>
+                                    <code>Get(key: any)</code>
                                 </td>
                             </tr>
             
@@ -431,7 +431,7 @@
                                         <span class="modifier-icon method fa fa-play circle">
                                             <span class="fa fa-circle"></span>
                                         </span>
-                                    <code>Patch(entity: any, key: string | number | boolean)</code>
+                                    <code>Patch(entity: any, key: any)</code>
                                 </td>
                             </tr>
             
@@ -458,7 +458,7 @@
                                         <span class="modifier-icon method fa fa-play circle">
                                             <span class="fa fa-circle"></span>
                                         </span>
-                                    <code>Put(entity: T, key: string | number | boolean)</code>
+                                    <code>Put(entity: T, key: any)</code>
                                 </td>
                             </tr>
             
@@ -485,7 +485,7 @@
                                         <span class="modifier-icon method fa fa-play circle">
                                             <span class="fa fa-circle"></span>
                                         </span>
-                                    <code>Delete(key: string | number | boolean)</code>
+                                    <code>Delete(key: any)</code>
                                 </td>
                             </tr>
             
@@ -512,7 +512,7 @@
                                         <span class="modifier-icon method fa fa-play circle">
                                             <span class="fa fa-circle"></span>
                                         </span>
-                                    <code>CustomAction(key: string | number | boolean, actionName: string, postdata: any)</code>
+                                    <code>CustomAction(key: any, actionName: string, postdata: any)</code>
                                 </td>
                             </tr>
             
@@ -566,7 +566,7 @@
                                         <span class="modifier-icon method fa fa-play circle">
                                             <span class="fa fa-circle"></span>
                                         </span>
-                                    <code>CustomFunction(key: string | number | boolean, functionName: string, parameters: any)</code>
+                                    <code>CustomFunction(key: any, functionName: string, parameters: any)</code>
                                 </td>
                             </tr>
             
@@ -647,7 +647,7 @@
                                         <span class="modifier-icon method fa fa-play lock">
                                             <span class="fa fa-lock"></span>
                                         </span>
-                                    <code>getEntityUri(entityKey: string | number | boolean)</code>
+                                    <code>getEntityUri(key: any)</code>
                                 </td>
                             </tr>
             
@@ -734,7 +734,7 @@ export class ODataService&lt;T&gt; {
         return this._typeName;
     }
 
-    public Get(key: string | number | boolean): GetOperation&lt;T&gt; {
+    public Get(key: any): GetOperation&lt;T&gt; {
         return new GetOperation&lt;T&gt;(this._typeName, this.config, this._http, key);
     }
 
@@ -743,21 +743,21 @@ export class ODataService&lt;T&gt; {
         return this.handleResponse(this._http.post&lt;T&gt;(this._entitiesUri, body, this.config.postRequestOptions));
     }
 
-    public Patch(entity: any, key: string | number | boolean): Observable&lt;HttpResponse&lt;T&gt;&gt; {
+    public Patch(entity: any, key: any): Observable&lt;HttpResponse&lt;T&gt;&gt; {
         const body &#x3D; entity ? JSON.stringify(entity) : null;
         return this._http.patch&lt;T&gt;(this.getEntityUri(key), body, this.config.postRequestOptions);
     }
 
-    public Put(entity: T, key: string | number | boolean): Observable&lt;T&gt; {
+    public Put(entity: T, key: any): Observable&lt;T&gt; {
         const body &#x3D; entity ? JSON.stringify(entity) : null;
         return this.handleResponse(this._http.put&lt;T&gt;(this.getEntityUri(key), body, this.config.postRequestOptions));
     }
 
-    public Delete(key: string | number | boolean): Observable&lt;HttpResponse&lt;T&gt;&gt; {
+    public Delete(key: any): Observable&lt;HttpResponse&lt;T&gt;&gt; {
         return this._http.delete&lt;T&gt;(this.getEntityUri(key), this.config.defaultRequestOptions);
     }
 
-    public CustomAction(key: string | number | boolean, actionName: string, postdata: any): Observable&lt;any&gt; {
+    public CustomAction(key: any, actionName: string, postdata: any): Observable&lt;any&gt; {
         const body &#x3D; postdata ? JSON.stringify(postdata) : null;
         return this._http.post(&#x60;${this.getEntityUri(key)}/${actionName}&#x60;, body, this.config.defaultRequestOptions).map(resp &#x3D;&gt; resp);
     }
@@ -767,7 +767,7 @@ export class ODataService&lt;T&gt; {
         return this._http.post(&#x60;${this._entitiesUri}/${actionName}&#x60;, body, this.config.defaultRequestOptions).map(resp &#x3D;&gt; resp);
     }
 
-    public CustomFunction(key: string | number | boolean, functionName: string, parameters?: any): Observable&lt;any&gt; {
+    public CustomFunction(key: any, functionName: string, parameters?: any): Observable&lt;any&gt; {
         if (parameters) {
             const params: string &#x3D; ODataUtils.convertObjectToString(parameters);
             functionName &#x3D; &#x60;${functionName}(${params})&#x60;;
@@ -791,8 +791,8 @@ export class ODataService&lt;T&gt; {
         return new ODataQuery&lt;T&gt;(this.TypeName, this.config, this._http);
     }
 
-    protected getEntityUri(entityKey: string | number | boolean): string {
-        return this.config.getEntityUri(entityKey, this._typeName);
+    protected getEntityUri(key: any): string {
+        return this.config.getEntityUri(key, this._typeName);
     }
 
     protected handleResponse(entity: Observable&lt;HttpResponse&lt;T&gt;&gt;): Observable&lt;T&gt; {
