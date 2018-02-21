@@ -21,7 +21,7 @@ export class ODataService<T> {
         return this._typeName;
     }
 
-    public Get(key: string | number | boolean): GetOperation<T> {
+    public Get(key: any): GetOperation<T> {
         return new GetOperation<T>(this._typeName, this.config, this._http, key);
     }
 
@@ -30,21 +30,21 @@ export class ODataService<T> {
         return this.handleResponse(this._http.post<T>(this._entitiesUri, body, this.config.postRequestOptions));
     }
 
-    public Patch(entity: any, key: string | number | boolean): Observable<HttpResponse<T>> {
+    public Patch(entity: any, key: any): Observable<HttpResponse<T>> {
         const body = entity ? JSON.stringify(entity) : null;
         return this._http.patch<T>(this.getEntityUri(key), body, this.config.postRequestOptions);
     }
 
-    public Put(entity: T, key: string | number | boolean): Observable<T> {
+    public Put(entity: T, key: any): Observable<T> {
         const body = entity ? JSON.stringify(entity) : null;
         return this.handleResponse(this._http.put<T>(this.getEntityUri(key), body, this.config.postRequestOptions));
     }
 
-    public Delete(key: string | number | boolean): Observable<HttpResponse<T>> {
+    public Delete(key: any): Observable<HttpResponse<T>> {
         return this._http.delete<T>(this.getEntityUri(key), this.config.defaultRequestOptions);
     }
 
-    public CustomAction(key: string | number | boolean, actionName: string, postdata: any): Observable<any> {
+    public CustomAction(key: any, actionName: string, postdata: any): Observable<any> {
         const body = postdata ? JSON.stringify(postdata) : null;
         return this._http.post(`${this.getEntityUri(key)}/${actionName}`, body, this.config.defaultRequestOptions).map(resp => resp);
     }
@@ -54,7 +54,7 @@ export class ODataService<T> {
         return this._http.post(`${this._entitiesUri}/${actionName}`, body, this.config.defaultRequestOptions).map(resp => resp);
     }
 
-    public CustomFunction(key: string | number | boolean, functionName: string, parameters?: any): Observable<any> {
+    public CustomFunction(key: any, functionName: string, parameters?: any): Observable<any> {
         if (parameters) {
             const params: string = ODataUtils.convertObjectToString(parameters);
             functionName = `${functionName}(${params})`;
@@ -78,8 +78,8 @@ export class ODataService<T> {
         return new ODataQuery<T>(this.TypeName, this.config, this._http);
     }
 
-    protected getEntityUri(entityKey: string | number | boolean): string {
-        return this.config.getEntityUri(entityKey, this._typeName);
+    protected getEntityUri(key: any): string {
+        return this.config.getEntityUri(key, this._typeName);
     }
 
     protected handleResponse(entity: Observable<HttpResponse<T>>): Observable<T> {

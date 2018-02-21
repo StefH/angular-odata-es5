@@ -53,8 +53,8 @@ export class ODataConfiguration {
         return `${this.baseUrl}/${this.sanitizeTypeName(typeName)}`;
     }
 
-    public getEntityUri(entityKey: string | number | boolean, typeName: string): string {
-        return `${this.getEntitiesUri(typeName)}(${ODataUtils.quoteValue(entityKey)})`;
+    public getEntityUri(key: any, typeName: string): string {
+        return `${this.getEntitiesUri(typeName)}(${ODataUtils.quoteValue(key)})`;
     }
 
     public handleError(err: any, caught: any): void {
