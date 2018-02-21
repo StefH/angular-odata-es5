@@ -89,6 +89,21 @@ describe('ODataService', () => {
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees(true)`, jasmine.any(Object));
     }));
 
+    it('Get with composite key', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
+        // Assign
+        const service = factory.CreateService<IEmployee>('Employees');
+
+        spyOn(http, 'get').and.returnValue(new Observable<Response>());
+
+        // Act
+        const key = { S: 'Stef', N: 500, B: true, U: '3dde7303-5414-4af6-b96b-591f33d25445' };
+        const result = service.Get(key).Exec();
+
+        // Assert
+        assert.isNotNull(result);
+        expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees(S='Stef', N=500, B=true, U=3dde7303-5414-4af6-b96b-591f33d25445)`, jasmine.any(Object));
+    }));
+
     it('Post', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
         // Assign
         const service = factory.CreateService<IEmployee>('Employees');

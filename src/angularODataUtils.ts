@@ -12,18 +12,29 @@ export class ODataUtils {
         return properties.join(', ');
     }
 
-    public static quoteValue(value: number | string | boolean): string {
-        // check if string
-        if (typeof value !== 'string') {
-            return `${value}`;
-        }
-
+    public static quoteValue(value: number | string | boolean | any): string {
         // check if GUID (UUID) type
         if (/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value)) {
             return value;
         }
 
-        const escaped = value.replace(/'/g, '\'\'');
-        return `'${escaped}'`;
+        // check if string
+        if (typeof value === 'string') {
+            const escaped = value.replace(/'/g, '\'\'');
+            return `'${escaped}'`;
+        }
+
+        // check if boolean or number
+        if (typeof value === 'boolean' || typeof value === 'number') {
+            return `${value}`;
+        }
+
+        const parts: string[] = [];
+        Object.getOwnPropertyNames(value).forEach((propertyName: string) => {
+            const propertyValue: any = value[propertyName];
+            parts.push(`${propertyName}=${ODataUtils.quoteValue(propertyValue)}`);
+        });
+
+        return parts.length > 0 ? parts.join(', ') : `${value}`;
     }
 }
