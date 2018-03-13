@@ -46,12 +46,12 @@ export class ODataService<T> {
 
     public CustomAction(key: any, actionName: string, postdata: any): Observable<any> {
         const body = postdata ? JSON.stringify(postdata) : null;
-        return this._http.post(`${this.getEntityUri(key)}/${actionName}`, body, this.config.defaultRequestOptions).map(resp => resp);
+        return this._http.post(`${this.getEntityUri(key)}/${actionName}`, body, this.config.postRequestOptions).map(resp => resp);
     }
 
     public CustomCollectionAction(actionName: string, postdata: any): Observable<any> {
         const body = postdata ? JSON.stringify(postdata) : null;
-        return this._http.post(`${this._entitiesUri}/${actionName}`, body, this.config.defaultRequestOptions).map(resp => resp);
+        return this._http.post(`${this._entitiesUri}/${actionName}`, body, this.config.postRequestOptions).map(resp => resp);
     }
 
     public CustomFunction(key: any, functionName: string, parameters?: any): Observable<any> {
