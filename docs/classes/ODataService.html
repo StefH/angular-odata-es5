@@ -759,12 +759,12 @@ export class ODataService&lt;T&gt; {
 
     public CustomAction(key: any, actionName: string, postdata: any): Observable&lt;any&gt; {
         const body &#x3D; postdata ? JSON.stringify(postdata) : null;
-        return this._http.post(&#x60;${this.getEntityUri(key)}/${actionName}&#x60;, body, this.config.defaultRequestOptions).map(resp &#x3D;&gt; resp);
+        return this._http.post(&#x60;${this.getEntityUri(key)}/${actionName}&#x60;, body, this.config.postRequestOptions).map(resp &#x3D;&gt; resp);
     }
 
     public CustomCollectionAction(actionName: string, postdata: any): Observable&lt;any&gt; {
         const body &#x3D; postdata ? JSON.stringify(postdata) : null;
-        return this._http.post(&#x60;${this._entitiesUri}/${actionName}&#x60;, body, this.config.defaultRequestOptions).map(resp &#x3D;&gt; resp);
+        return this._http.post(&#x60;${this._entitiesUri}/${actionName}&#x60;, body, this.config.postRequestOptions).map(resp &#x3D;&gt; resp);
     }
 
     public CustomFunction(key: any, functionName: string, parameters?: any): Observable&lt;any&gt; {
