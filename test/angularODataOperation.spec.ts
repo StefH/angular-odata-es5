@@ -1,6 +1,5 @@
 import { assert } from 'chai';
-import 'rxjs/add/observable/of';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -12,7 +11,7 @@ import { IEmployee } from './helpers/employee';
 
 export class ODataOperationTest extends ODataOperation<IEmployee> {
     public Exec(): Observable<Array<IEmployee>> {
-        return Observable.of(new Array<IEmployee>());
+        return of(new Array<IEmployee>());
     }
 }
 

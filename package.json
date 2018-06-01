@@ -49,16 +49,16 @@
   },
   "homepage": "https://github.com/StefH/angular-odata-es5#readme",
   "devDependencies": {
-    "@angular/animations": "^4.3.0",
-    "@angular/common": "^4.3.0",
-    "@angular/compiler": "^4.3.0",
-    "@angular/compiler-cli": "^4.3.0",
-    "@angular/core": "^4.3.0",
-    "@angular/forms": "^4.3.0",
-    "@angular/platform-browser": "^4.3.0",
-    "@angular/platform-browser-dynamic": "^4.3.0",
-    "@angular/platform-server": "^4.3.0",
-    "@angular/router": "^4.3.0",
+    "@angular/animations": "^6.0.3",
+    "@angular/common": "^6.0.3",
+    "@angular/compiler": "^6.0.3",
+    "@angular/compiler-cli": "^6.0.3",
+    "@angular/core": "^6.0.3",
+    "@angular/forms": "^6.0.3",
+    "@angular/platform-browser": "^6.0.3",
+    "@angular/platform-browser-dynamic": "^6.0.3",
+    "@angular/platform-server": "^6.0.3",
+    "@angular/router": "^6.0.3",
     "@types/chai": "^3.4.30",
     "@types/core-js": "^0.9.36",
     "@types/jasmine": "2.5.48",
@@ -71,7 +71,7 @@
     "bootstrap": "^3.3.7",
     "chai": "^3.5.0",
     "codecov-lite": "^0.1.3",
-    "codelyzer": "^3.0.1",
+    "codelyzer": "^4.3.0",
     "commitizen": "^2.8.1",
     "compodoc": "^0.0.41",
     "concurrently": "^3.0.0",
@@ -93,8 +93,8 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.3",
     "phantomjs-prebuilt": "^2.1.14",
-    "primeng": "^4.3.0",
-    "rxjs": "^5.2.0",
+    "primeng": "^5.2.7",
+    "rxjs": "^6.2.0",
     "sinon": "^2.1.0",
     "sinon-chai": "^2.8.0",
     "standard-version": "^4.0.0",
@@ -102,7 +102,7 @@
     "tslint": "^5.7.0",
     "tslint-consistent-codestyle": "^1.8.0",
     "tslint-loader": "^3.5.3",
-    "typescript": "^2.5.3",
+    "typescript": "^2.7.2",
     "validate-commit-msg": "^2.8.0",
     "webpack": "^2.4.1",
     "webpack-angular-externals": "^1.0.0",
@@ -111,9 +111,9 @@
     "zone.js": "^0.8.5"
   },
   "peerDependencies": {
-    "@angular/common": ">=2.0.0 <6.0.0",
-    "@angular/core": ">=2.0.0 <6.0.0",
-    "rxjs": "^5.2.0"
+    "@angular/common": ">=6.0.0 <7.0.0",
+    "@angular/core": ">=6.0.0 <7.0.0",
+    "rxjs": "^6.2.0"
   },
   "config": {
     "commitizen": {
@@ -121,6 +121,8 @@
     }
   },
   "dependencies": {
-    "linq-collections": "^1.0.249"
+    "@angular/cli": "^6.0.7",
+    "linq-collections": "^1.0.249",
+    "rxjs-compat": "^6.2.0"
   }
 }
