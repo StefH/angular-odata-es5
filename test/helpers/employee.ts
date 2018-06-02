@@ -5,7 +5,7 @@ export interface IEmployee {
     FirstName: string;
     LastName: string;
     City: string;
-    BirthDate: Date;
-    Boss: IEmployee;
-    Orders: IOrder[];
+    BirthDate?: Date;
+    Boss?: IEmployee;
+    Orders?: IOrder[];
 }

@@ -25,9 +25,9 @@ export class ODataService<T> {
         return new GetOperation<T>(this._typeName, this.config, this._http, key);
     }
 
-    public Post(entity: T): Observable<T> {
+    public Post<TResponse>(entity: T): Observable<TResponse> {
         const body = entity ? JSON.stringify(entity) : null;
-        return this.handleResponse(this._http.post<T>(this._entitiesUri, body, this.config.postRequestOptions));
+        return this.handleResponse(this._http.post<TResponse>(this._entitiesUri, body, this.config.postRequestOptions));
     }
 
     public Patch(entity: any, key: any): Observable<HttpResponse<T>> {
@@ -35,9 +35,9 @@ export class ODataService<T> {
         return this._http.patch<T>(this.getEntityUri(key), body, this.config.postRequestOptions);
     }
 
-    public Put(entity: T, key: any): Observable<T> {
+    public Put<TResponse>(entity: T, key: any): Observable<TResponse> {
         const body = entity ? JSON.stringify(entity) : null;
-        return this.handleResponse(this._http.put<T>(this.getEntityUri(key), body, this.config.postRequestOptions));
+        return this.handleResponse(this._http.put<TResponse>(this.getEntityUri(key), body, this.config.postRequestOptions));
     }
 
     public Delete(key: any): Observable<HttpResponse<T>> {
@@ -82,9 +82,9 @@ export class ODataService<T> {
         return this.config.getEntityUri(key, this._typeName);
     }
 
-    protected handleResponse(entity: Observable<HttpResponse<T>>): Observable<T> {
+    protected handleResponse<TResponse>(entity: Observable<HttpResponse<TResponse>>): Observable<TResponse> {
         return entity.map(this.extractData)
-            .catch((err: any, caught: Observable<T>) => {
+            .catch((err: any, caught: Observable<TResponse>) => {
                 if (this.config.handleError) {
                     this.config.handleError(err, caught);
                 }
@@ -92,12 +92,12 @@ export class ODataService<T> {
             });
     }
 
-    private extractData(res: HttpResponse<T>): T {
+    private extractData<TResponse>(res: HttpResponse<TResponse>): TResponse {
         if (res.status < 200 || res.status >= 300) {
             throw new Error('Bad response status: ' + res.status);
         }
         const body: any = res.body;
-        const entity: T = body;
+        const entity: TResponse = body;
         return entity || null;
     }
 }
