@@ -411,7 +411,7 @@
                             <tr>
                                 <td class="col-md-4">
                                         <div class="io-description">
-                                            <b>Returns: </b>    <code>Observable&lt;T&gt;</code>
+                                            <b>Returns: </b>    <code>Observable&lt;TResponse&gt;</code>
             
                                         </div>
                                 </td>
@@ -465,7 +465,7 @@
                             <tr>
                                 <td class="col-md-4">
                                         <div class="io-description">
-                                            <b>Returns: </b>    <code>Observable&lt;T&gt;</code>
+                                            <b>Returns: </b>    <code>Observable&lt;TResponse&gt;</code>
             
                                         </div>
                                 </td>
@@ -674,14 +674,14 @@
                                         <span class="modifier-icon method fa fa-play lock">
                                             <span class="fa fa-lock"></span>
                                         </span>
-                                    <code>handleResponse(entity: Observable<HttpResponse<T>>)</code>
+                                    <code>handleResponse(entity: Observable<HttpResponse<TResponse>>)</code>
                                 </td>
                             </tr>
             
                             <tr>
                                 <td class="col-md-4">
                                         <div class="io-description">
-                                            <b>Returns: </b>    <code>Observable&lt;T&gt;</code>
+                                            <b>Returns: </b>    <code>Observable&lt;TResponse&gt;</code>
             
                                         </div>
                                 </td>
@@ -738,9 +738,9 @@ export class ODataService&lt;T&gt; {
         return new GetOperation&lt;T&gt;(this._typeName, this.config, this._http, key);
     }
 
-    public Post(entity: T): Observable&lt;T&gt; {
+    public Post&lt;TResponse&gt;(entity: T): Observable&lt;TResponse&gt; {
         const body &#x3D; entity ? JSON.stringify(entity) : null;
-        return this.handleResponse(this._http.post&lt;T&gt;(this._entitiesUri, body, this.config.postRequestOptions));
+        return this.handleResponse(this._http.post&lt;TResponse&gt;(this._entitiesUri, body, this.config.postRequestOptions));
     }
 
     public Patch(entity: any, key: any): Observable&lt;HttpResponse&lt;T&gt;&gt; {
@@ -748,9 +748,9 @@ export class ODataService&lt;T&gt; {
         return this._http.patch&lt;T&gt;(this.getEntityUri(key), body, this.config.postRequestOptions);
     }
 
-    public Put(entity: T, key: any): Observable&lt;T&gt; {
+    public Put&lt;TResponse&gt;(entity: T, key: any): Observable&lt;TResponse&gt; {
         const body &#x3D; entity ? JSON.stringify(entity) : null;
-        return this.handleResponse(this._http.put&lt;T&gt;(this.getEntityUri(key), body, this.config.postRequestOptions));
+        return this.handleResponse(this._http.put&lt;TResponse&gt;(this.getEntityUri(key), body, this.config.postRequestOptions));
     }
 
     public Delete(key: any): Observable&lt;HttpResponse&lt;T&gt;&gt; {
@@ -795,9 +795,9 @@ export class ODataService&lt;T&gt; {
         return this.config.getEntityUri(key, this._typeName);
     }
 
-    protected handleResponse(entity: Observable&lt;HttpResponse&lt;T&gt;&gt;): Observable&lt;T&gt; {
+    protected handleResponse&lt;TResponse&gt;(entity: Observable&lt;HttpResponse&lt;TResponse&gt;&gt;): Observable&lt;TResponse&gt; {
         return entity.map(this.extractData)
-            .catch((err: any, caught: Observable&lt;T&gt;) &#x3D;&gt; {
+            .catch((err: any, caught: Observable&lt;TResponse&gt;) &#x3D;&gt; {
                 if (this.config.handleError) {
                     this.config.handleError(err, caught);
                 }
@@ -805,12 +805,12 @@ export class ODataService&lt;T&gt; {
             });
     }
 
-    private extractData(res: HttpResponse&lt;T&gt;): T {
+    private extractData&lt;TResponse&gt;(res: HttpResponse&lt;TResponse&gt;): TResponse {
         if (res.status &lt; 200 || res.status &gt;&#x3D; 300) {
             throw new Error(&#x27;Bad response status: &#x27; + res.status);
         }
         const body: any &#x3D; res.body;
-        const entity: T &#x3D; body;
+        const entity: TResponse &#x3D; body;
         return entity || null;
     }
 }
