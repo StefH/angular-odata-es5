@@ -10,6 +10,29 @@ import { AngularODataModule } from '../src';
 import { ODataConfiguration, ODataServiceFactory } from './../src/index';
 import { IEmployee } from './helpers/employee';
 
+class HttpHeadersMatcher {
+
+    constructor(private check: { [name: string]: string }) {
+    }
+
+    public asymmetricMatch(options: any): boolean {
+        const headers: HttpHeaders = options.headers;
+
+        assert.equal(options.observe, 'response');
+
+        Object.keys(this.check)
+            .forEach((key: string) => {
+                assert.equal(headers.get(key), this.check[key], `The header '${key}' does not have the correct value`);
+            });
+
+        return true;
+    }
+
+    public jasmineToString(): string {
+        return `<HeaderMatching: ${JSON.stringify(this.check)}>`;
+    }
+}
+
 describe('ODataService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -125,6 +148,33 @@ describe('ODataService', () => {
         // Assert
         assert.isNotNull(result);
         expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees`, `{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null,"Boss":null}`, jasmine.any(Object));
+    }));
+
+    it('Post with custom headers', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
+        // Assign
+        const config = new ODataConfiguration();
+        config.postRequestOptions.headers = new HttpHeaders({ 'Session': 'abc' });
+
+        const service = factory.CreateService<IEmployee>('Employees', config);
+        const employee: IEmployee = {
+            EmployeeID: 1,
+            FirstName: 'f',
+            LastName: 'l',
+            City: 'c',
+            BirthDate: new Date(),
+            Orders: null,
+            Boss: null
+        };
+
+        spyOn(http, 'post').and.returnValue(new Observable<Response>());
+
+        // Act
+        const result = service.Post<string>(employee);
+
+        // Assert
+        assert.isNotNull(result);
+
+        expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees`, jasmine.any(String), new HttpHeadersMatcher({ 'Session': 'abc' }));
     }));
 
     it('Patch with string key', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
