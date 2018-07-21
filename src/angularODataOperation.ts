@@ -1,10 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Dictionary, IEnumerable, IQueryable, List } from 'linq-collections';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { ODataConfiguration } from './angularODataConfiguration';
 
 export abstract class ODataOperation<T> {
@@ -76,13 +74,16 @@ export abstract class ODataOperation<T> {
     }
 
     protected handleResponse(entity: Observable<HttpResponse<T>>): Observable<T> {
-        return entity.map(this.extractData)
-            .catch((err: any, caught: Observable<T>) => {
-                if (this.config.handleError) {
-                    this.config.handleError(err, caught);
-                }
-                return Observable.throw(err);
-            });
+        return entity
+            .pipe(
+                map(this.extractData),
+                catchError((err: any, caught: Observable<T>) => {
+                    if (this.config.handleError) {
+                        this.config.handleError(err, caught);
+                    }
+                    return Observable.throw(err);
+                })
+            );
     }
 
     protected getRequestOptions(): {
