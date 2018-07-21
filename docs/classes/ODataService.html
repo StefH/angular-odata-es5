@@ -711,10 +711,8 @@
             </section>
     </div>
     <div class="tab-pane fade tab-source-code" id="source">
-        <pre><code class="hljs javascript">import &#x27;rxjs/add/observable/throw&#x27;;
-import &#x27;rxjs/add/operator/catch&#x27;;
-import &#x27;rxjs/add/operator/map&#x27;;
-import { Observable } from &#x27;rxjs/Observable&#x27;;
+        <pre><code class="hljs javascript">import { Observable } from &#x27;rxjs&#x27;;
+import { catchError, map } from &#x27;rxjs/operators&#x27;;
 
 import { HttpClient, HttpResponse } from &#x27;@angular/common/http&#x27;;
 
@@ -759,12 +757,12 @@ export class ODataService&lt;T&gt; {
 
     public CustomAction(key: any, actionName: string, postdata: any): Observable&lt;any&gt; {
         const body &#x3D; postdata ? JSON.stringify(postdata) : null;
-        return this._http.post(&#x60;${this.getEntityUri(key)}/${actionName}&#x60;, body, this.config.postRequestOptions).map(resp &#x3D;&gt; resp);
+        return this._http.post(&#x60;${this.getEntityUri(key)}/${actionName}&#x60;, body, this.config.postRequestOptions).pipe(map(resp &#x3D;&gt; resp));
     }
 
     public CustomCollectionAction(actionName: string, postdata: any): Observable&lt;any&gt; {
         const body &#x3D; postdata ? JSON.stringify(postdata) : null;
-        return this._http.post(&#x60;${this._entitiesUri}/${actionName}&#x60;, body, this.config.postRequestOptions).map(resp &#x3D;&gt; resp);
+        return this._http.post(&#x60;${this._entitiesUri}/${actionName}&#x60;, body, this.config.postRequestOptions).pipe(map(resp &#x3D;&gt; resp));
     }
 
     public CustomFunction(key: any, functionName: string, parameters?: any): Observable&lt;any&gt; {
@@ -774,7 +772,7 @@ export class ODataService&lt;T&gt; {
         } else if (!functionName.endsWith(&#x27;)&#x27;) &amp;&amp; !functionName.endsWith(&#x27;()&#x27;)) {
             functionName &#x3D; &#x60;${functionName}()&#x60;;
         }
-        return this._http.get(&#x60;${this.getEntityUri(key)}/${functionName}&#x60;, this.config.defaultRequestOptions).map(resp &#x3D;&gt; resp);
+        return this._http.get(&#x60;${this.getEntityUri(key)}/${functionName}&#x60;, this.config.defaultRequestOptions).pipe(map(resp &#x3D;&gt; resp));
     }
 
     public CustomCollectionFunction(functionName: string, parameters?: any): Observable&lt;any&gt; {
@@ -784,7 +782,7 @@ export class ODataService&lt;T&gt; {
         } else if (!functionName.endsWith(&#x27;)&#x27;) &amp;&amp; !functionName.endsWith(&#x27;()&#x27;)) {
             functionName &#x3D; &#x60;${functionName}()&#x60;;
         }
-        return this._http.get(&#x60;${this._entitiesUri}/${functionName}&#x60;, this.config.defaultRequestOptions).map(resp &#x3D;&gt; resp);
+        return this._http.get(&#x60;${this._entitiesUri}/${functionName}&#x60;, this.config.defaultRequestOptions).pipe(map(resp &#x3D;&gt; resp));
     }
 
     public Query(): ODataQuery&lt;T&gt; {
@@ -796,13 +794,16 @@ export class ODataService&lt;T&gt; {
     }
 
     protected handleResponse&lt;TResponse&gt;(entity: Observable&lt;HttpResponse&lt;TResponse&gt;&gt;): Observable&lt;TResponse&gt; {
-        return entity.map(this.extractData)
-            .catch((err: any, caught: Observable&lt;TResponse&gt;) &#x3D;&gt; {
-                if (this.config.handleError) {
-                    this.config.handleError(err, caught);
-                }
-                return Observable.throw(err);
-            });
+        return entity
+            .pipe(
+                map(this.extractData),
+                catchError((err: any, caught: Observable&lt;TResponse&gt;) &#x3D;&gt; {
+                    if (this.config.handleError) {
+                        this.config.handleError(err, caught);
+                    }
+                    return Observable.throw(err);
+                })
+            );
     }
 
     private extractData&lt;TResponse&gt;(res: HttpResponse&lt;TResponse&gt;): TResponse {
