@@ -1,6 +1,5 @@
 import { assert } from 'chai';
-import 'rxjs/add/observable/of';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
@@ -19,17 +18,17 @@ export class ODataQueryMock extends ODataQuery<IEmployee> {
     public Exec(returnType?: ODataExecReturnType): Observable<IEmployee[] | ODataPagedResult<IEmployee> | number> {
         switch (returnType) {
             case ODataExecReturnType.Count:
-                return Observable.of(0);
+                return of(0);
 
             case ODataExecReturnType.PagedResult:
                 const pagedResult = new ODataPagedResult<IEmployee>();
                 pagedResult.count = 0;
                 pagedResult.data = new Array<IEmployee>();
 
-                return Observable.of(pagedResult);
+                return of(pagedResult);
 
             default:
-                return Observable.of(new Array<IEmployee>());
+                return of(new Array<IEmployee>());
         }
     }
 }

@@ -1,7 +1,5 @@
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
@@ -46,12 +44,12 @@ export class ODataService<T> {
 
     public CustomAction(key: any, actionName: string, postdata: any): Observable<any> {
         const body = postdata ? JSON.stringify(postdata) : null;
-        return this._http.post(`${this.getEntityUri(key)}/${actionName}`, body, this.config.postRequestOptions).map(resp => resp);
+        return this._http.post(`${this.getEntityUri(key)}/${actionName}`, body, this.config.postRequestOptions).pipe(map(resp => resp));
     }
 
     public CustomCollectionAction(actionName: string, postdata: any): Observable<any> {
         const body = postdata ? JSON.stringify(postdata) : null;
-        return this._http.post(`${this._entitiesUri}/${actionName}`, body, this.config.postRequestOptions).map(resp => resp);
+        return this._http.post(`${this._entitiesUri}/${actionName}`, body, this.config.postRequestOptions).pipe(map(resp => resp));
     }
 
     public CustomFunction(key: any, functionName: string, parameters?: any): Observable<any> {
@@ -61,7 +59,7 @@ export class ODataService<T> {
         } else if (!functionName.endsWith(')') && !functionName.endsWith('()')) {
             functionName = `${functionName}()`;
         }
-        return this._http.get(`${this.getEntityUri(key)}/${functionName}`, this.config.defaultRequestOptions).map(resp => resp);
+        return this._http.get(`${this.getEntityUri(key)}/${functionName}`, this.config.defaultRequestOptions).pipe(map(resp => resp));
     }
 
     public CustomCollectionFunction(functionName: string, parameters?: any): Observable<any> {
@@ -71,7 +69,7 @@ export class ODataService<T> {
         } else if (!functionName.endsWith(')') && !functionName.endsWith('()')) {
             functionName = `${functionName}()`;
         }
-        return this._http.get(`${this._entitiesUri}/${functionName}`, this.config.defaultRequestOptions).map(resp => resp);
+        return this._http.get(`${this._entitiesUri}/${functionName}`, this.config.defaultRequestOptions).pipe(map(resp => resp));
     }
 
     public Query(): ODataQuery<T> {
@@ -83,13 +81,16 @@ export class ODataService<T> {
     }
 
     protected handleResponse<TResponse>(entity: Observable<HttpResponse<TResponse>>): Observable<TResponse> {
-        return entity.map(this.extractData)
-            .catch((err: any, caught: Observable<TResponse>) => {
-                if (this.config.handleError) {
-                    this.config.handleError(err, caught);
-                }
-                return Observable.throw(err);
-            });
+        return entity
+            .pipe(
+                map(this.extractData),
+                catchError((err: any, caught: Observable<TResponse>) => {
+                    if (this.config.handleError) {
+                        this.config.handleError(err, caught);
+                    }
+                    return Observable.throw(err);
+                })
+            );
     }
 
     private extractData<TResponse>(res: HttpResponse<TResponse>): TResponse {

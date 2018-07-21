@@ -1,7 +1,5 @@
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 
@@ -76,33 +74,39 @@ export class ODataQuery<T> extends ODataOperation<T> {
             case ODataExecReturnType.Count:
                 const countUrl = `${this._entitiesUri}/${this.config.keys.count}`;
                 return this.http.get<number>(countUrl, requestOptions)
-                    .map(res => this.extractDataAsNumber(res, this.config))
-                    .catch((err: any, caught: Observable<number>) => {
-                        if (this.config.handleError) {
-                            this.config.handleError(err, caught);
-                        }
-                        return Observable.throw(err);
-                    });
+                    .pipe(
+                        map(res => this.extractDataAsNumber(res, this.config)),
+                        catchError((err: any, caught: Observable<number>) => {
+                            if (this.config.handleError) {
+                                this.config.handleError(err, caught);
+                            }
+                            return Observable.throw(err);
+                        })
+                    );
 
             case ODataExecReturnType.PagedResult:
                 return this.http.get<IODataResponseModel<T>>(this._entitiesUri, requestOptions)
-                    .map(res => this.extractArrayDataWithCount(res, this.config))
-                    .catch((err: any, caught: Observable<ODataPagedResult<T>>) => {
-                        if (this.config.handleError) {
-                            this.config.handleError(err, caught);
-                        }
-                        return Observable.throw(err);
-                    });
+                    .pipe(
+                        map(res => this.extractArrayDataWithCount(res, this.config)),
+                        catchError((err: any, caught: Observable<ODataPagedResult<T>>) => {
+                            if (this.config.handleError) {
+                                this.config.handleError(err, caught);
+                            }
+                            return Observable.throw(err);
+                        })
+                    );
 
             default:
                 return this.http.get<IODataResponseModel<T>>(this._entitiesUri, requestOptions)
-                    .map(res => this.extractArrayData(res, this.config))
-                    .catch((err: any, caught: Observable<Array<T>>) => {
-                        if (this.config.handleError) {
-                            this.config.handleError(err, caught);
-                        }
-                        return Observable.throw(err);
-                    });
+                    .pipe(
+                        map(res => this.extractArrayData(res, this.config)),
+                        catchError((err: any, caught: Observable<Array<T>>) => {
+                            if (this.config.handleError) {
+                                this.config.handleError(err, caught);
+                            }
+                            return Observable.throw(err);
+                        })
+                    );
         }
     }
 
