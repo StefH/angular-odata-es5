@@ -122,7 +122,6 @@
   },
   "dependencies": {
     "@angular/cli": "^6.0.7",
-    "linq-collections": "^1.0.249",
-    "rxjs-compat": "^6.2.0"
+    "linq-collections": "^1.0.249"
   }
 }
