@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { HttpClient, HttpResponse } from '@angular/common/http';
@@ -88,7 +88,7 @@ export class ODataService<T> {
                     if (this.config.handleError) {
                         this.config.handleError(err, caught);
                     }
-                    return Observable.throw(err);
+                    return throwError(err);
                 })
             );
     }
