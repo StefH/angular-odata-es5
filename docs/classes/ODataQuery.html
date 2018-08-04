@@ -639,7 +639,7 @@
 
     </div>
     <div class="tab-pane fade tab-source-code" id="source">
-        <pre><code class="hljs javascript">import { Observable } from &#x27;rxjs&#x27;;
+        <pre><code class="hljs javascript">import { Observable, throwError } from &#x27;rxjs&#x27;;
 import { catchError, map } from &#x27;rxjs/operators&#x27;;
 
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from &#x27;@angular/common/http&#x27;;
@@ -721,7 +721,7 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
                             if (this.config.handleError) {
                                 this.config.handleError(err, caught);
                             }
-                            return Observable.throw(err);
+                            return throwError(err);
                         })
                     );
 
@@ -733,7 +733,7 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
                             if (this.config.handleError) {
                                 this.config.handleError(err, caught);
                             }
-                            return Observable.throw(err);
+                            return throwError(err);
                         })
                     );
 
@@ -745,7 +745,7 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
                             if (this.config.handleError) {
                                 this.config.handleError(err, caught);
                             }
-                            return Observable.throw(err);
+                            return throwError(err);
                         })
                     );
         }

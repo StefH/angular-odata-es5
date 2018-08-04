@@ -588,7 +588,7 @@
         <pre><code class="hljs javascript">import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from &#x27;@angular/common/http&#x27;;
 import { Dictionary, IEnumerable, IQueryable, List } from &#x27;linq-collections&#x27;;
 
-import { Observable } from &#x27;rxjs&#x27;;
+import { Observable, throwError } from &#x27;rxjs&#x27;;
 import { catchError, map } from &#x27;rxjs/operators&#x27;;
 import { ODataConfiguration } from &#x27;./angularODataConfiguration&#x27;;
 
@@ -668,7 +668,7 @@ export abstract class ODataOperation&lt;T&gt; {
                     if (this.config.handleError) {
                         this.config.handleError(err, caught);
                     }
-                    return Observable.throw(err);
+                    return throwError(err);
                 })
             );
     }
