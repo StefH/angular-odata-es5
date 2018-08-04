@@ -1,5 +1,6 @@
-import * as webpack from 'webpack';
 import * as path from 'path';
+import * as webpack from 'webpack';
+
 const IS_PROD: boolean = process.argv.indexOf('-p') > -1;
 
 export default {
@@ -10,16 +11,18 @@ export default {
     path: IS_PROD ? path.join(__dirname, 'demo') : __dirname
   },
   module: {
-    rules: [{
-      test: /\.ts$/,
-      loader: 'tslint-loader?emitErrors=false&failOnHint=false',
-      exclude: /node_modules/,
-      enforce: 'pre'
-    }, {
-      test: /\.ts$/,
-      loader: 'awesome-typescript-loader',
-      exclude: /node_modules/
-    }]
+    rules: [
+      {
+        test: /\.ts$/,
+        loader: 'tslint-loader?emitErrors=false&failOnHint=false',
+        exclude: /node_modules/,
+        enforce: 'pre'
+      },
+      {
+        test: /\.ts$/,
+        loader: 'awesome-typescript-loader',
+        exclude: /node_modules/
+      }]
   },
   resolve: {
     extensions: ['.ts', '.js']
@@ -38,6 +41,11 @@ export default {
     }),
     new webpack.ContextReplacementPlugin(
       /angular(\\|\/)core(\\|\/)@angular/,
+      path.join(__dirname, 'src')
+    ),
+    // https://github.com/angular/angular/issues/11580
+    new webpack.ContextReplacementPlugin(
+      /\@angular(\\|\/)core(\\|\/)fesm5/,
       path.join(__dirname, 'src')
     )
   ]
