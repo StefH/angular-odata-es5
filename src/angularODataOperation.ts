@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Dictionary, IEnumerable, IQueryable, List } from 'linq-collections';
 
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ODataConfiguration } from './angularODataConfiguration';
 
@@ -81,7 +81,7 @@ export abstract class ODataOperation<T> {
                     if (this.config.handleError) {
                         this.config.handleError(err, caught);
                     }
-                    return Observable.throw(err);
+                    return throwError(err);
                 })
             );
     }

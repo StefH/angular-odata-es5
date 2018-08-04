@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/StefH/angular-odata-es5/compare/v0.4.0...v0.5.0) (2018-08-04)
+
+
+### Bug Fixes
+
+* **$demo:** Fixed rxjs__WEBPACK_IMPORTED_MODULE_0__.Observable.throw and updated demo with correct c ([9911417](https://github.com/StefH/angular-odata-es5/commit/9911417))
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.com/StefH/angular-odata-es5/compare/v0.3.3...v0.4.0) (2018-07-21)
 

@@ -1,5 +1,6 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
+
 const angularExternals = require('webpack-angular-externals');
 const rxjsExternals = require('webpack-rxjs-externals');
 const pkg = require('./package.json');
@@ -21,16 +22,18 @@ export default {
   ],
   devtool: 'source-map',
   module: {
-    rules: [{
-      test: /\.ts$/,
-      loader: 'tslint-loader?emitErrors=true&failOnHint=true',
-      exclude: /node_modules/,
-      enforce: 'pre'
-    }, {
-      test: /\.ts$/,
-      loader: 'awesome-typescript-loader',
-      exclude: /node_modules/
-    }]
+    rules: [
+      {
+        test: /\.ts$/,
+        loader: 'tslint-loader?emitErrors=true&failOnHint=true',
+        exclude: /node_modules/,
+        enforce: 'pre'
+      },
+      {
+        test: /\.ts$/,
+        loader: 'awesome-typescript-loader',
+        exclude: /node_modules/
+      }]
   },
   resolve: {
     extensions: ['.ts', '.js']
@@ -42,6 +45,11 @@ export default {
     }),
     new webpack.ContextReplacementPlugin(
       /angular(\\|\/)core(\\|\/)@angular/,
+      path.join(__dirname, 'src')
+    ),
+    // https://github.com/angular/angular/issues/11580
+    new webpack.ContextReplacementPlugin(
+      /\@angular(\\|\/)core(\\|\/)fesm5/,
       path.join(__dirname, 'src')
     ),
     new webpack.BannerPlugin({

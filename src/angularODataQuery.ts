@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
@@ -80,7 +80,7 @@ export class ODataQuery<T> extends ODataOperation<T> {
                             if (this.config.handleError) {
                                 this.config.handleError(err, caught);
                             }
-                            return Observable.throw(err);
+                            return throwError(err);
                         })
                     );
 
@@ -92,7 +92,7 @@ export class ODataQuery<T> extends ODataOperation<T> {
                             if (this.config.handleError) {
                                 this.config.handleError(err, caught);
                             }
-                            return Observable.throw(err);
+                            return throwError(err);
                         })
                     );
 
@@ -104,7 +104,7 @@ export class ODataQuery<T> extends ODataOperation<T> {
                             if (this.config.handleError) {
                                 this.config.handleError(err, caught);
                             }
-                            return Observable.throw(err);
+                            return throwError(err);
                         })
                     );
         }

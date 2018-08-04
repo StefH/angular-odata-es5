@@ -13,7 +13,11 @@ console.log('`EmployeeGridODataComponent` component loaded asynchronously');
     templateUrl: './employeeGridOData.component.html',
     selector: 'ao-employee-grid-odata',
     providers: [{ provide: ODataConfiguration, useFactory: NorthwindODataConfigurationFactory }, ODataServiceFactory],
-    styleUrls: ['./employeeGridOData.component.css']
+    styles: [
+        'node_modules/primeng/resources/themes/omega/theme.css',
+        'node_modules/primeng/resources/primeng.min.css',
+        'node_modules/primeicons/primeicons.css',
+    ]
 })
 
 export class EmployeeGridODataComponent implements OnInit {
@@ -26,9 +30,11 @@ export class EmployeeGridODataComponent implements OnInit {
 
     public filter: LazyLoadEvent;
 
-    public query: ODataQuery<IEmployee>;
+    private query: ODataQuery<IEmployee>;
 
     private odata: ODataService<IEmployee>;
+
+    public queryAsJson: string;
 
     constructor(private odataFactory: ODataServiceFactory) {
         this.odata = this.odataFactory.CreateService<IEmployee>('Employees');
@@ -137,6 +143,13 @@ export class EmployeeGridODataComponent implements OnInit {
                 this.totalRecords = 0;
                 console.log('ODataExecReturnType.PagedResult ERROR ' + error);
             });
+
+        this.queryAsJson = JSON.stringify(this.query, (key, value) => {
+            if (key == 'http') {
+                return undefined;
+            }
+            return value;
+        }, 2);
 
         this.query
             .Exec(ODataExecReturnType.Count)
