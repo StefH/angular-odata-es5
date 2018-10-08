@@ -34,6 +34,16 @@ class HttpHeadersMatcher {
 }
 
 describe('ODataService', () => {
+    const employee: IEmployee = {
+        EmployeeID: 1,
+        FirstName: 'f',
+        LastName: 'l',
+        City: 'c',
+        BirthDate: null,
+        Orders: null,
+        Boss: null
+    };
+
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
@@ -153,15 +163,6 @@ describe('ODataService', () => {
     it('Post with expand', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
         // Assign
         const service = factory.CreateService<IEmployee>('Employees');
-        const employee: IEmployee = {
-            EmployeeID: 1,
-            FirstName: 'f',
-            LastName: 'l',
-            City: 'c',
-            BirthDate: null,
-            Orders: null,
-            Boss: null
-        };
 
         spyOn(http, 'post').and.returnValue(new Observable<Response>());
 
@@ -243,15 +244,6 @@ describe('ODataService', () => {
     it('Patch with expand', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
         // Assign
         const service = factory.CreateService<IEmployee>('Employees');
-        const employee: IEmployee = {
-            EmployeeID: 1,
-            FirstName: 'f',
-            LastName: 'l',
-            City: 'c',
-            BirthDate: null,
-            Orders: null,
-            Boss: null
-        };
 
         spyOn(http, 'patch').and.returnValue(new Observable<Response>());
 
@@ -358,15 +350,6 @@ describe('ODataService', () => {
     it('Put with expand', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
         // Assign
         const service = factory.CreateService<IEmployee>('Employees');
-        const employee: IEmployee = {
-            EmployeeID: 1,
-            FirstName: 'f',
-            LastName: 'l',
-            City: 'c',
-            BirthDate: null,
-            Orders: null,
-            Boss: null
-        };
 
         spyOn(http, 'put').and.returnValue(new Observable<Response>());
 
