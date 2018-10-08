@@ -319,7 +319,7 @@ describe('ODataService', () => {
         spyOn(http, 'put').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Put(employee, 'x');
+        const result = service.Put(employee, 'x').Exec();
 
         // Assert
         assert.isNotNull(result);
@@ -333,7 +333,7 @@ describe('ODataService', () => {
         spyOn(http, 'put').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Put(null, 42);
+        const result = service.Put(null, 42).Exec();
 
         // Assert
         assert.isNotNull(result);
@@ -348,11 +348,37 @@ describe('ODataService', () => {
         spyOn(http, 'put').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Put(employee, '3dde7303-5414-4af6-b96b-591f33d25445');
+        const result = service.Put(employee, '3dde7303-5414-4af6-b96b-591f33d25445').Exec();
 
         // Assert
         assert.isNotNull(result);
         expect(http.put).toHaveBeenCalledWith(`http://localhost/odata/Employees(3dde7303-5414-4af6-b96b-591f33d25445)`, '{}', jasmine.any(Object));
+    }));
+
+    it('Put with expand', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
+        // Assign
+        const service = factory.CreateService<IEmployee>('Employees');
+        const employee: IEmployee = {
+            EmployeeID: 1,
+            FirstName: 'f',
+            LastName: 'l',
+            City: 'c',
+            BirthDate: null,
+            Orders: null,
+            Boss: null
+        };
+
+        spyOn(http, 'put').and.returnValue(new Observable<Response>());
+
+        // Act
+        const result = service.Put(employee, employee.EmployeeID).Expand('Boss').Exec();
+
+        // Assert
+        assert.isNotNull(result);
+
+        let httpParams: HttpParams = new HttpParams();
+        httpParams = httpParams.append('$expand', 'Boss');
+        expect(http.put).toHaveBeenCalledWith(`http://localhost/odata/Employees(${employee.EmployeeID})`, `{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null,"Boss":null}`, jasmine.objectContaining({ params: httpParams }));
     }));
 
     it('Query', inject([HttpClient, ODataServiceFactory, ODataConfiguration], (http: HttpClient, factory: ODataServiceFactory, config: ODataConfiguration) => {

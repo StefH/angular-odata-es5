@@ -4,7 +4,7 @@ import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { ODataConfiguration } from './angularODataConfiguration';
-import { GetOperation, PatchOperation, PostOperation } from './angularODataOperation';
+import { GetOperation, PatchOperation, PostOperation, PutOperation } from './angularODataOperation';
 import { ODataQuery } from './angularODataQuery';
 import { ODataUtils } from './angularODataUtils';
 
@@ -31,9 +31,8 @@ export class ODataService<T> {
         return new PatchOperation<T>(this._typeName, this.config, this._http, key, entity);
     }
 
-    public Put<TResponse>(entity: T, key: any): Observable<TResponse> {
-        const body = entity ? JSON.stringify(entity) : null;
-        return this.handleResponse(this._http.put<TResponse>(this.getEntityUri(key), body, this.config.postRequestOptions));
+    public Put<T>(entity: T, key: any): PutOperation<T> {
+        return new PutOperation<T>(this._typeName, this.config, this._http, key, entity);
     }
 
     public Delete(key: any): Observable<HttpResponse<T>> {

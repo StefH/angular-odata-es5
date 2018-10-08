@@ -191,9 +191,9 @@ export class PatchOperation<T> extends OperationWithKeyAndEntity<T>{
     }
 }
 
-// export class PutOperation<T> extends OperationWithKeyAndEntity<T>{
-//     public Exec(){
-//         let body = JSON.stringify(this.entity);
-//         return this.handleResponse(this.http.put(this.getEntityUri(this.key),body,this.getRequestOptions()));
-//     }
-// }
+export class PutOperation<T> extends OperationWithKeyAndEntity<T>{
+    public Exec() {
+        const body = this.entity ? JSON.stringify(this.entity) : null;
+        return super.handleResponse(this.http.put<T>(this.config.getEntityUri(this.entityKey, this.typeName), body, this.getRequestOptions()));
+    }
+}
