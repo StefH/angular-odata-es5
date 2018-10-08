@@ -177,12 +177,12 @@ export class GetOperation<T> extends OperationWithKey<T> {
     }
 }
 
-// export class PostOperation<T> extends OperationWithEntity<T>{
-//     public Exec():Observable<T>{    //ToDo: Check ODataV4
-//         let body = JSON.stringify(this.entity);
-//         return this.handleResponse(this.http.post(this.config.baseUrl + "/"+this._typeName, body, this.getRequestOptions()));
-//     }
-// }
+export class PostOperation<T> extends OperationWithEntity<T>{
+    public Exec(): Observable<T> {
+        const body = this.entity ? JSON.stringify(this.entity) : null;
+        return super.handleResponse(this.http.post<T>(this.config.getEntitiesUri(this._typeName), body, this.getRequestOptions()));
+    }
+}
 
 // export class PatchOperation<T> extends OperationWithKeyAndEntity<T>{
 //     public Exec():Observable<Response>{    //ToDo: Check ODataV4

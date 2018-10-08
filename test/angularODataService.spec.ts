@@ -143,17 +143,43 @@ describe('ODataService', () => {
         spyOn(http, 'post').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Post(employee);
+        const result = service.Post(employee).Exec();
 
         // Assert
         assert.isNotNull(result);
         expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees`, `{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null,"Boss":null}`, jasmine.any(Object));
     }));
 
+    it('Post with expand', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
+        // Assign
+        const service = factory.CreateService<IEmployee>('Employees');
+        const employee: IEmployee = {
+            EmployeeID: 1,
+            FirstName: 'f',
+            LastName: 'l',
+            City: 'c',
+            BirthDate: null,
+            Orders: null,
+            Boss: null
+        };
+
+        spyOn(http, 'post').and.returnValue(new Observable<Response>());
+
+        // Act
+        const result = service.Post(employee).Expand('Boss').Exec();
+
+        // Assert
+        assert.isNotNull(result);
+
+        let httpParams: HttpParams = new HttpParams();
+        httpParams = httpParams.append('$expand', 'Boss');
+        expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees`, `{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null,"Boss":null}`, jasmine.objectContaining({ params: httpParams }));
+    }));
+
     it('Post with custom headers', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
         // Assign
         const config = new ODataConfiguration();
-        config.postRequestOptions.headers = new HttpHeaders({ 'Session': 'abc' });
+        config.defaultRequestOptions.headers = new HttpHeaders({ 'Session': 'abc' });
 
         const service = factory.CreateService<IEmployee>('Employees', config);
         const employee: IEmployee = {
@@ -169,7 +195,7 @@ describe('ODataService', () => {
         spyOn(http, 'post').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Post<string>(employee);
+        const result = service.Post(employee).Exec();
 
         // Assert
         assert.isNotNull(result);
