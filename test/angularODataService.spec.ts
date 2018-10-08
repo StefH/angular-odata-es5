@@ -219,7 +219,7 @@ describe('ODataService', () => {
         spyOn(http, 'patch').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Patch(employee, 'x');
+        const result = service.Patch(employee, 'x').Exec();
 
         // Assert
         assert.isNotNull(result);
@@ -233,11 +233,37 @@ describe('ODataService', () => {
         spyOn(http, 'patch').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Patch(null, 42);
+        const result = service.Patch(null, 42).Exec();
 
         // Assert
         assert.isNotNull(result);
         expect(http.patch).toHaveBeenCalledWith(`http://localhost/odata/Employees(42)`, null, jasmine.any(Object));
+    }));
+
+    it('Patch with expand', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
+        // Assign
+        const service = factory.CreateService<IEmployee>('Employees');
+        const employee: IEmployee = {
+            EmployeeID: 1,
+            FirstName: 'f',
+            LastName: 'l',
+            City: 'c',
+            BirthDate: null,
+            Orders: null,
+            Boss: null
+        };
+
+        spyOn(http, 'patch').and.returnValue(new Observable<Response>());
+
+        // Act
+        const result = service.Patch(employee, employee.EmployeeID).Expand('Boss').Exec();
+
+        // Assert
+        assert.isNotNull(result);
+
+        let httpParams: HttpParams = new HttpParams();
+        httpParams = httpParams.append('$expand', 'Boss');
+        expect(http.patch).toHaveBeenCalledWith(`http://localhost/odata/Employees(${employee.EmployeeID})`, `{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null,"Boss":null}`, jasmine.objectContaining({ params: httpParams }));
     }));
 
     it('Delete with string key', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
