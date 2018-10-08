@@ -38,7 +38,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
-* Actions are http's post methods, so they needs postRequestOptions ([#52](https://github.com/StefH/angular-odata-es5/issues/52)) ([7dc15c3](https://github.com/StefH/angular-odata-es5/commit/7dc15c3))
+* Actions are http's post methods, so they needs customRequestOptions ([#52](https://github.com/StefH/angular-odata-es5/issues/52)) ([7dc15c3](https://github.com/StefH/angular-odata-es5/commit/7dc15c3))
 
 
 

@@ -32,7 +32,7 @@ export class ODataConfiguration {
         withCredentials?: boolean;
     } = { observe: 'response' };
 
-    public postRequestOptions: {
+    public customRequestOptions: {
         headers?: HttpHeaders;
         observe: 'response';
         params?: HttpParams;
