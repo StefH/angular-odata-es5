@@ -110,6 +110,15 @@
                                 <li class="link">
                                     <a href="../classes/OperationWithKeyAndEntity.html" >OperationWithKeyAndEntity</a>
                                 </li>
+                                <li class="link">
+                                    <a href="../classes/PatchOperation.html" >PatchOperation</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/PostOperation.html" >PostOperation</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/PutOperation.html" >PutOperation</a>
+                                </li>
                         </ul>
                     </li>
             
@@ -260,6 +269,15 @@
                                        </li>
                                        <li class="link">
                                            <a href="../classes/OperationWithKeyAndEntity.html" >OperationWithKeyAndEntity</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/PatchOperation.html" >PatchOperation</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/PostOperation.html" >PostOperation</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/PutOperation.html" >PutOperation</a>
                                        </li>
                                </ul>
                            </li>
@@ -764,26 +782,26 @@ export class GetOperation&lt;T&gt; extends OperationWithKey&lt;T&gt; {
     }
 }
 
-// export class PostOperation&lt;T&gt; extends OperationWithEntity&lt;T&gt;{
-//     public Exec():Observable&lt;T&gt;{    //ToDo: Check ODataV4
-//         let body &#x3D; JSON.stringify(this.entity);
-//         return this.handleResponse(this.http.post(this.config.baseUrl + &quot;/&quot;+this._typeName, body, this.getRequestOptions()));
-//     }
-// }
+export class PostOperation&lt;T&gt; extends OperationWithEntity&lt;T&gt;{
+    public Exec(): Observable&lt;T&gt; {
+        const body &#x3D; this.entity ? JSON.stringify(this.entity) : null;
+        return super.handleResponse(this.http.post&lt;T&gt;(this.config.getEntitiesUri(this._typeName), body, this.getRequestOptions()));
+    }
+}
 
-// export class PatchOperation&lt;T&gt; extends OperationWithKeyAndEntity&lt;T&gt;{
-//     public Exec():Observable&lt;Response&gt;{    //ToDo: Check ODataV4
-//         let body &#x3D; JSON.stringify(this.entity);
-//         return this.http.patch(this.getEntityUri(this.key),body,this.getRequestOptions());
-//     }
-// }
+export class PatchOperation&lt;T&gt; extends OperationWithKeyAndEntity&lt;T&gt;{
+    public Exec(): Observable&lt;T&gt; {
+        const body &#x3D; this.entity ? JSON.stringify(this.entity) : null;
+        return super.handleResponse(this.http.patch&lt;T&gt;(this.config.getEntityUri(this.entityKey, this.typeName), body, this.getRequestOptions()));
+    }
+}
 
-// export class PutOperation&lt;T&gt; extends OperationWithKeyAndEntity&lt;T&gt;{
-//     public Exec(){
-//         let body &#x3D; JSON.stringify(this.entity);
-//         return this.handleResponse(this.http.put(this.getEntityUri(this.key),body,this.getRequestOptions()));
-//     }
-// }
+export class PutOperation&lt;T&gt; extends OperationWithKeyAndEntity&lt;T&gt;{
+    public Exec() {
+        const body &#x3D; this.entity ? JSON.stringify(this.entity) : null;
+        return super.handleResponse(this.http.put&lt;T&gt;(this.config.getEntityUri(this.entityKey, this.typeName), body, this.getRequestOptions()));
+    }
+}
 </code></pre>
     </div>
 </div>
