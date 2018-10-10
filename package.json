@@ -27,7 +27,9 @@
     "release": "npm run release:git && npm run release:npm",
     "postrelease": "npm run build:clean && npm run gh-pages",
     "commitmsg": "validate-commit-msg",
-    "codecov": "cat coverage/lcov.info | codecov"
+    "codecov": "cat coverage/lcov.info | codecov",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -123,6 +125,8 @@
   },
   "dependencies": {
     "@angular/cli": "^6.0.7",
-    "linq-collections": "^1.0.249"
-  }
+    "linq-collections": "^1.0.249",
+    "snyk": "^1.103.0"
+  },
+  "snyk": true
 }

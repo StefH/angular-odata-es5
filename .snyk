@@ -1,0 +1,30 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.12.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:hoek:20180212':
+    - '@angular/cli > @schematics/update > @angular-devkit/core > chokidar > fsevents > node-pre-gyp > hawk > sntp > hoek':
+        patched: '2018-10-10T15:33:59.135Z'
+    - '@angular/cli > @angular-devkit/core > chokidar > fsevents > node-pre-gyp > hawk > hoek':
+        patched: '2018-10-10T15:33:59.135Z'
+    - '@angular/cli > @angular-devkit/core > chokidar > fsevents > node-pre-gyp > hawk > boom > hoek':
+        patched: '2018-10-10T15:33:59.135Z'
+    - '@angular/cli > @angular-devkit/core > chokidar > fsevents > node-pre-gyp > hawk > sntp > hoek':
+        patched: '2018-10-10T15:33:59.135Z'
+    - '@angular/cli > @schematics/angular > @angular-devkit/schematics > @angular-devkit/core > chokidar > fsevents > node-pre-gyp > hawk > hoek':
+        patched: '2018-10-10T15:33:59.135Z'
+    - '@angular/cli > @angular-devkit/schematics > @angular-devkit/core > chokidar > fsevents > node-pre-gyp > hawk > boom > hoek':
+        patched: '2018-10-10T15:33:59.135Z'
+    - '@angular/cli > @schematics/update > @angular-devkit/core > chokidar > fsevents > node-pre-gyp > hawk > hoek':
+        patched: '2018-10-10T15:33:59.135Z'
+    - '@angular/cli > @angular-devkit/core > chokidar > fsevents > node-pre-gyp > hawk > cryptiles > boom > hoek':
+        patched: '2018-10-10T15:33:59.135Z'
+    - '@angular/cli > @schematics/update > @angular-devkit/core > chokidar > fsevents > node-pre-gyp > hawk > cryptiles > boom > hoek':
+        patched: '2018-10-10T15:33:59.135Z'
+    - '@angular/cli > @schematics/update > @angular-devkit/schematics > @angular-devkit/core > chokidar > fsevents > node-pre-gyp > hawk > sntp > hoek':
+        patched: '2018-10-10T15:33:59.135Z'
+    - '@angular/cli > @schematics/update > @angular-devkit/schematics > @angular-devkit/core > chokidar > fsevents > node-pre-gyp > hawk > boom > hoek':
+        patched: '2018-10-10T15:33:59.135Z'
+    - '@angular/cli > @schematics/update > @angular-devkit/schematics > @angular-devkit/core > chokidar > fsevents > node-pre-gyp > hawk > cryptiles > boom > hoek':
+        patched: '2018-10-10T15:33:59.135Z'
