@@ -2,6 +2,46 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/StefH/angular-odata-es5/compare/v0.5.0...v0.6.0) (2018-10-10)
+
+
+* Allow ability to expand children on POST/PUT/PATCH calls (#63) ([b628d73](https://github.com/StefH/angular-odata-es5/commit/b628d73))
+
+
+### BREAKING CHANGES
+
+* Calls to .Post() now require .Exec() to invoke the request
+
+61
+
+* feat(angularODataOperation): Add PatchOperation
+
+Adding a PatchOperation to allow things like $expand, $select on PATCH requests
+* Calls to .Patch() now require .Exec() to invoke the request
+
+61
+
+* feat(angularODataOperation): Add PutOperation
+
+Adding a PutOperation to allow things like $expand, $select on PUT requests
+* Calls to .Put() now require .Exec() to invoke the request
+
+61
+
+* refactor(rename): Renamed postRequestOptions -> customRequestOptions
+
+Renamed postRequestOptions to customRequestOptions since it's no longer used on post/patch/put
+calls, but instead only on custom actions/functions/etc
+* Usage of postRequestOptions will need to use customRequestOptions now
+
+* refactor(angularODataService.spec): Extract common variable from tests
+
+CodeFactor was complaining about the duplicate IEmployee object. Extracted this into the describe
+scope for the tests to use instead.
+
+
+
 <a name="0.5.0"></a>
 # [0.5.0](https://github.com/StefH/angular-odata-es5/compare/v0.4.0...v0.5.0) (2018-08-04)
 
