@@ -4,7 +4,7 @@ import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { ODataConfiguration } from './angularODataConfiguration';
-import { GetOperation } from './angularODataOperation';
+import { GetOperation, PatchOperation, PostOperation, PutOperation } from './angularODataOperation';
 import { ODataQuery } from './angularODataQuery';
 import { ODataUtils } from './angularODataUtils';
 
@@ -23,19 +23,16 @@ export class ODataService<T> {
         return new GetOperation<T>(this._typeName, this.config, this._http, key);
     }
 
-    public Post<TResponse>(entity: T): Observable<TResponse> {
-        const body = entity ? JSON.stringify(entity) : null;
-        return this.handleResponse(this._http.post<TResponse>(this._entitiesUri, body, this.config.postRequestOptions));
+    public Post<T>(entity: T): PostOperation<T> {
+        return new PostOperation<T>(this._typeName, this.config, this._http, entity);
     }
 
-    public Patch(entity: any, key: any): Observable<HttpResponse<T>> {
-        const body = entity ? JSON.stringify(entity) : null;
-        return this._http.patch<T>(this.getEntityUri(key), body, this.config.postRequestOptions);
+    public Patch<T>(entity: T, key: any): PatchOperation<T> {
+        return new PatchOperation<T>(this._typeName, this.config, this._http, key, entity);
     }
 
-    public Put<TResponse>(entity: T, key: any): Observable<TResponse> {
-        const body = entity ? JSON.stringify(entity) : null;
-        return this.handleResponse(this._http.put<TResponse>(this.getEntityUri(key), body, this.config.postRequestOptions));
+    public Put<T>(entity: T, key: any): PutOperation<T> {
+        return new PutOperation<T>(this._typeName, this.config, this._http, key, entity);
     }
 
     public Delete(key: any): Observable<HttpResponse<T>> {
@@ -44,12 +41,12 @@ export class ODataService<T> {
 
     public CustomAction(key: any, actionName: string, postdata: any): Observable<any> {
         const body = postdata ? JSON.stringify(postdata) : null;
-        return this._http.post(`${this.getEntityUri(key)}/${actionName}`, body, this.config.postRequestOptions).pipe(map(resp => resp));
+        return this._http.post(`${this.getEntityUri(key)}/${actionName}`, body, this.config.customRequestOptions).pipe(map(resp => resp));
     }
 
     public CustomCollectionAction(actionName: string, postdata: any): Observable<any> {
         const body = postdata ? JSON.stringify(postdata) : null;
-        return this._http.post(`${this._entitiesUri}/${actionName}`, body, this.config.postRequestOptions).pipe(map(resp => resp));
+        return this._http.post(`${this._entitiesUri}/${actionName}`, body, this.config.customRequestOptions).pipe(map(resp => resp));
     }
 
     public CustomFunction(key: any, functionName: string, parameters?: any): Observable<any> {
