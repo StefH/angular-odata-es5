@@ -8,8 +8,8 @@ export class NorthwindODataConfigurationFactory {
         const config = new ODataConfiguration();
         config.baseUrl = 'https://odatateststef.azurewebsites.net/odata';
 
-        // Set some new `postRequestOptions` here as an example
-        config.postRequestOptions.headers = new HttpHeaders({
+        // Set some new `customRequestOptions` here as an example
+        config.customRequestOptions.headers = new HttpHeaders({
             'Content-Type': 'application/json; charset=utf-8',
             'Session': '123'
         });

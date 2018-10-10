@@ -5,7 +5,6 @@ import { FilterMetadata, LazyLoadEvent } from 'primeng/primeng';
 import { ODataConfiguration, ODataExecReturnType, ODataPagedResult, ODataQuery, ODataService, ODataServiceFactory } from '../src/index';
 import { IEmployee } from '../test/helpers/employee';
 import { NorthwindODataConfigurationFactory } from './NorthwindODataConfigurationFactory';
-import { PostEmployeeResult } from './postEmployeeResult.model';
 
 console.log('`EmployeeGridODataComponent` component loaded asynchronously');
 
@@ -49,8 +48,9 @@ export class EmployeeGridODataComponent implements OnInit {
             LastName: 'l',
             City: 'c'
         };
-        this.odata.Post<PostEmployeeResult>(employee)
-            .subscribe((result: PostEmployeeResult) => {
+        this.odata.Post<IEmployee>(employee)
+            .Exec()
+            .subscribe((result: IEmployee) => {
                 console.log(result);
             }, (error) => {
                 console.log('Post ERROR ' + error);
