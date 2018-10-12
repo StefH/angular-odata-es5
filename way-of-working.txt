@@ -8,6 +8,7 @@ Ah I see where you're going wrong. Features, fixes should be their own independe
 5/ Increase the version in package.json (but don't commit it)
 6/ npm run release:git
 7/ Optionally do npm run gh-pages
+8/ npm run release:npm to oublish to npm
 
 
 Other info:
@@ -16,4 +17,6 @@ Once you've scaffolded out your library, everything is then controlled by npm sc
     npm start to serve the demo page of your library with live-reload as you develop. Unit tests are also run in the background.
     npm test will run your unit tests once and npm run test:watch will run them continuously
     npm run commit will run the git commit wizard when you're ready to commit a change
-    npm run release will publish a new release. First make sure you've created the gh-pages branch and pushed it to github. Next change the version in package.json to the new version you would like to release, but don't commit it yet. Now run npm run release and the new version will be built and published to npm, as well as the demo and documentation generated and pushed to the gh-pages branch of your project.
+    npm run release will publish a new release. First make sure you've created the gh-pages branch and pushed it to github.
+     Next change the version in package.json to the new version you would like to release, but don't commit it yet.
+     Now run npm run release and the new version will be built and published to npm, as well as the demo and documentation generated and pushed to the gh-pages branch of your project.
