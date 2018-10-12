@@ -4,7 +4,6 @@
 [![Build Status](https://travis-ci.org/StefH/angular-odata-es5.svg?branch=master)](https://travis-ci.org/StefH/angular-odata-es5)
 [![codecov](https://codecov.io/gh/StefH/angular-odata-es5/branch/master/graph/badge.svg)](https://codecov.io/gh/StefH/angular-odata-es5)
 [![npm version](https://badge.fury.io/js/angular-odata-es5.svg)](http://badge.fury.io/js/angular-odata-es5)
-[![devDependency Status](https://david-dm.org/StefH/angular-odata-es5/dev-status.svg)](https://david-dm.org/StefH/angular-odata-es5?type=dev)
 
 ## Demo
 https://StefH.github.io/angular-odata-es5/demo/
@@ -31,7 +30,7 @@ npm install --save angular-odata-es5
 
 ## Usage
 
-```
+``` typescript
 import { ODataConfiguration, ODataServiceFactory, ODataService } from "angular-odata-es5";
 import { bootstrap } from "@angular/platform/browser";
     
@@ -41,7 +40,7 @@ class MyODataConfig extends ODataConfiguration{
 }
 
 bootstrap(app, [
-    provide(ODataConfiguration, { useClass:MyODataConfig}),
+    provide(ODataConfiguration, { useClass:MyODataConfig }),
     ODataServiceFactory,
 ]
 
@@ -62,9 +61,9 @@ interface INotification {
 @Component({
   ...
 })
-export class NotyListComponent{
+export class NotyListComponent {
     private odata: ODataService<INotification>;
-    constructor(private odataFactory: ODataServiceFactory, ...){
+    constructor(private odataFactory: ODataServiceFactory, ...) {
         this.odata = this.odataFactory.CreateService<INotification>("notification");
     }
     
@@ -100,7 +99,7 @@ export class NotyListComponent{
 You may also find it useful to view the [demo source](https://github.com/StefH/angular-odata-es5/blob/master/demo/demo.component.ts).
 
 ### Usage without a module bundler
-```
+``` javascript
 <script src="node_modules/angular-odata-es5/bundles/angular-odata-es5.umd.js"></script>
 <script>
     // everything is exported AngularODataES5 namespace
