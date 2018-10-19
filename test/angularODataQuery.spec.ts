@@ -254,6 +254,17 @@ describe('ODataQuery', () => {
         assert.equal(test['_top'], 20);
     }));
 
+    it('Top(null)', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+        // Assign
+        const test = new ODataQueryMock('Employees', config, http);
+
+        // Act
+        test.Top(null);
+
+        // Assert
+        assert.equal(test['_top'], null);
+    }));
+
     it('Apply(string)', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
         // Assign
         const test = new ODataQueryMock('Employees', config, http);

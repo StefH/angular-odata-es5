@@ -34,7 +34,9 @@ export class ODataQuery<T> extends ODataOperation<T> {
     }
 
     public Top(top: number): ODataQuery<T> {
-        this._top = top;
+        if (top) {
+            this._top = top;
+        }
         return this;
     }
 
