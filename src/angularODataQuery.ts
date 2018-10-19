@@ -41,7 +41,9 @@ export class ODataQuery<T> extends ODataOperation<T> {
     }
 
     public Skip(skip: number): ODataQuery<T> {
-        this._skip = skip;
+        if (skip) {
+            this._skip = skip;
+        }
         return this;
     }
 
