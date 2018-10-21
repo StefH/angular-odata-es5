@@ -243,6 +243,17 @@ describe('ODataQuery', () => {
         assert.equal(test['_skip'], 10);
     }));
 
+    it('Skip(null)', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+        // Assign
+        const test = new ODataQueryMock('Employees', config, http);
+
+        // Act
+        test.Skip(null);
+
+        // Assert
+        assert.equal(test['_skip'], null);
+    }));
+
     it('Top(number)', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
         // Assign
         const test = new ODataQueryMock('Employees', config, http);
@@ -252,6 +263,17 @@ describe('ODataQuery', () => {
 
         // Assert
         assert.equal(test['_top'], 20);
+    }));
+
+    it('Top(null)', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+        // Assign
+        const test = new ODataQueryMock('Employees', config, http);
+
+        // Act
+        test.Top(null);
+
+        // Assert
+        assert.equal(test['_top'], null);
     }));
 
     it('Apply(string)', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
