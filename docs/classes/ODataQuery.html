@@ -693,12 +693,16 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
     }
 
     public Top(top: number): ODataQuery&lt;T&gt; {
-        this._top &#x3D; top;
+        if (top) {
+            this._top &#x3D; top;
+        }
         return this;
     }
 
     public Skip(skip: number): ODataQuery&lt;T&gt; {
-        this._skip &#x3D; skip;
+        if (skip) {
+            this._skip &#x3D; skip;
+        }
         return this;
     }
 
