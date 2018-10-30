@@ -61,6 +61,20 @@ export class ODataQuery<T> extends ODataOperation<T> {
         return this;
     }
 
+    public GetUrl(returnType?: ODataExecReturnType): string {
+        let url: string = this._entitiesUri;
+        if (returnType === ODataExecReturnType.Count) {
+            url = `${url}/${this.config.keys.count}`;
+        }
+
+        const params: HttpParams = this.getQueryParams(returnType === ODataExecReturnType.PagedResult);
+        if (params.keys().length > 0) {
+            return `${url}?${params}`;
+        }
+
+        return url;
+    }
+
     public Exec(): Observable<T[]>;
     public Exec(returnType: ODataExecReturnType.Count): Observable<number>;
     public Exec(returnType: ODataExecReturnType.PagedResult): Observable<ODataPagedResult<T>>;
@@ -126,6 +140,13 @@ export class ODataQuery<T> extends ODataOperation<T> {
         responseType?: 'json';
         withCredentials?: boolean;
     } {
+        const options = Object.assign({}, this.config.defaultRequestOptions);
+        options.params = this.getQueryParams(odata4);
+
+        return options;
+    }
+
+    private getQueryParams(odata4: boolean): HttpParams {
         let params = super.getParams();
 
         if (this._filter) {
@@ -152,10 +173,7 @@ export class ODataQuery<T> extends ODataOperation<T> {
             params = params.append('$count', 'true'); // OData v4 only
         }
 
-        const options = Object.assign({}, this.config.defaultRequestOptions);
-        options.params = params;
-
-        return options;
+        return params;
     }
 
     private extractDataAsNumber(res: HttpResponse<number>, config: ODataConfiguration): number {

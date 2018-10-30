@@ -35,6 +35,8 @@ export class EmployeeGridODataComponent implements OnInit {
 
     public queryAsJson: string;
 
+    public url: string;
+
     constructor(private odataFactory: ODataServiceFactory) {
         this.odata = this.odataFactory.CreateService<IEmployee>('Employees');
     }
@@ -114,7 +116,7 @@ export class EmployeeGridODataComponent implements OnInit {
                             case 'contains':
                             case 'endswith':
                             case 'startswith':
-                                filterOData.push(`${operator}(${odataProperty}, '${filter.value}')`);
+                                filterOData.push(`${operator}(${odataProperty},'${filter.value}')`);
                                 break;
                             default:
                             // no action
@@ -132,6 +134,8 @@ export class EmployeeGridODataComponent implements OnInit {
             const sortOrder: string = event.sortOrder && event.sortOrder > 0 ? 'asc' : 'desc';
             this.query = this.query.OrderBy(event.sortField + ' ' + sortOrder);
         }
+
+        this.url = this.query.GetUrl();
 
         this.query
             .Exec(ODataExecReturnType.PagedResult)
