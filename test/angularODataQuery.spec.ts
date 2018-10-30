@@ -64,6 +64,57 @@ describe('ODataQuery', () => {
         expect(http.get).toHaveBeenCalledWith('http://test.org/odata/Employees', jasmine.any(Object));
     }));
 
+    it('GetUrl no params', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+        // Assign
+        const query = new ODataQuery<IEmployee>('Employees', config, http);
+
+        // Act
+        const result = query.GetUrl();
+
+        // Assert
+        assert.equal(result, 'http://localhost/odata/Employees');
+    }));
+
+    it('GetUrl', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+        // Assign
+        const query = new ODataQuery<IEmployee>('Employees', config, http);
+
+        query
+            .Filter(`x gt 1 and Boss/Filter eq 42 and EndDate lt 2018-02-07T09:58:30.897Z`)
+            .Apply(['groupby((Age))'])
+            .Expand('EXP')
+            .Top(10)
+            .Skip(20)
+            .Select(['s1', 's2', 'Boss/Select'])
+            .OrderBy(['y', 'Boss/OrderBy']);
+
+        // Act
+        const result = query.GetUrl();
+
+        // Assert
+        assert.equal(result, 'http://localhost/odata/Employees?$expand=EXP,Boss($select=Select)&$select=s1,s2&$filter=x%20gt%201%20and%20Boss/Filter%20eq%2042%20and%20EndDate%20lt%202018-02-07T09:58:30.897Z&$top=10&$skip=20&$orderby=y,Boss/OrderBy&$apply=groupby((Age))');
+    }));
+
+    it('GetUrl with Count', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+        // Assign
+        const query = new ODataQuery<IEmployee>('Employees', config, http);
+
+        query
+            .Filter(`x gt 1 and Boss/Filter eq 42 and EndDate lt 2018-02-07T09:58:30.897Z`)
+            .Apply(['groupby((Age))'])
+            .Expand('EXP')
+            .Top(10)
+            .Skip(20)
+            .Select(['s1', 's2', 'Boss/Select'])
+            .OrderBy(['y', 'Boss/OrderBy']);
+
+        // Act
+        const result = query.GetUrl(ODataExecReturnType.Count);
+
+        // Assert
+        assert.equal(result, 'http://localhost/odata/Employees/$count?$expand=EXP,Boss($select=Select)&$select=s1,s2&$filter=x%20gt%201%20and%20Boss/Filter%20eq%2042%20and%20EndDate%20lt%202018-02-07T09:58:30.897Z&$top=10&$skip=20&$orderby=y,Boss/OrderBy&$apply=groupby((Age))');
+    }));
+
     it('Exec', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
         // Assign
         const testHeaders = new HttpHeaders({ 'a': 'b' });
