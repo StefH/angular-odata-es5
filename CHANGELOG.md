@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.3"></a>
+## [0.6.3](https://github.com/StefH/angular-odata-es5/compare/v0.6.2...v0.6.3) (2018-10-30)
+
+
+### Features
+
+* **$GetUrl:** Added GetUrl() method ([2e48897](https://github.com/StefH/angular-odata-es5/commit/2e48897))
+
+
+
 <a name="0.6.2"></a>
 ## [0.6.2](https://github.com/StefH/angular-odata-es5/compare/v0.6.1...v0.6.2) (2018-10-21)
 
