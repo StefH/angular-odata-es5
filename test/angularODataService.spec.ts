@@ -73,9 +73,12 @@ describe('ODataService', () => {
         spyOn(http, 'get').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Get('abc').Exec();
+        const operation = service.Get('abc');
+        const url = operation.GetUrl();
+        const result = operation.Exec();
 
         // Assert
+        assert.equal(url, `http://localhost/odata/Employees('abc')`);
         assert.isNotNull(result);
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees('abc')`, jasmine.any(Object));
     }));
@@ -87,9 +90,12 @@ describe('ODataService', () => {
         spyOn(http, 'get').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Get(42).Exec();
+        const operation = service.Get(42);
+        const url = operation.GetUrl();
+        const result = operation.Exec();
 
         // Assert
+        assert.equal(url, `http://localhost/odata/Employees(42)`);
         assert.isNotNull(result);
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees(42)`, jasmine.any(Object));
     }));
@@ -101,9 +107,12 @@ describe('ODataService', () => {
         spyOn(http, 'get').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Get('3dde7303-5414-4af6-b96b-591f33d25445').Exec();
+        const operation = service.Get('3dde7303-5414-4af6-b96b-591f33d25445');
+        const url = operation.GetUrl();
+        const result = operation.Exec();
 
         // Assert
+        assert.equal(url, `http://localhost/odata/Employees(3dde7303-5414-4af6-b96b-591f33d25445)`);
         assert.isNotNull(result);
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees(3dde7303-5414-4af6-b96b-591f33d25445)`, jasmine.any(Object));
     }));
@@ -115,9 +124,12 @@ describe('ODataService', () => {
         spyOn(http, 'get').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Get(true).Exec();
+        const operation = service.Get(true);
+        const url = operation.GetUrl();
+        const result = operation.Exec();
 
         // Assert
+        assert.equal(url, `http://localhost/odata/Employees(true)`);
         assert.isNotNull(result);
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees(true)`, jasmine.any(Object));
     }));
@@ -130,9 +142,12 @@ describe('ODataService', () => {
 
         // Act
         const key = { S: 'Stef', N: 500, B: true, U: '3dde7303-5414-4af6-b96b-591f33d25445' };
-        const result = service.Get(key).Exec();
+        const operation = service.Get(key);
+        const url = operation.GetUrl();
+        const result = operation.Exec();
 
         // Assert
+        assert.equal(url, `http://localhost/odata/Employees(S='Stef', N=500, B=true, U=3dde7303-5414-4af6-b96b-591f33d25445)`);
         assert.isNotNull(result);
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees(S='Stef', N=500, B=true, U=3dde7303-5414-4af6-b96b-591f33d25445)`, jasmine.any(Object));
     }));
@@ -153,9 +168,12 @@ describe('ODataService', () => {
         spyOn(http, 'post').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Post(employee).Exec();
+        const operation = service.Post(employee);
+        const url = operation.GetUrl();
+        const result = operation.Exec();
 
         // Assert
+        assert.equal(url, `http://localhost/odata/Employees`);
         assert.isNotNull(result);
         expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees`, `{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null,"Boss":null}`, jasmine.any(Object));
     }));
@@ -167,9 +185,12 @@ describe('ODataService', () => {
         spyOn(http, 'post').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Post(employee).Expand('Boss').Exec();
+        const operation = service.Post(employee).Expand('Boss');
+        const url = operation.GetUrl();
+        const result = operation.Exec();
 
         // Assert
+        assert.equal(url, `http://localhost/odata/Employees?$expand=Boss`);
         assert.isNotNull(result);
 
         let httpParams: HttpParams = new HttpParams();
@@ -220,9 +241,12 @@ describe('ODataService', () => {
         spyOn(http, 'patch').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Patch(employee, 'x').Exec();
+        const operation = service.Patch(employee, 'x');
+        const url = operation.GetUrl();
+        const result = operation.Exec();
 
         // Assert
+        assert.equal(url, `http://localhost/odata/Employees('x')`);
         assert.isNotNull(result);
         expect(http.patch).toHaveBeenCalledWith(`http://localhost/odata/Employees('x')`, '{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null,"Boss":null}', jasmine.any(Object));
     }));
@@ -234,9 +258,12 @@ describe('ODataService', () => {
         spyOn(http, 'patch').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Patch(null, 42).Exec();
+        const operation = service.Patch(null, 42);
+        const url = operation.GetUrl();
+        const result = operation.Exec();
 
         // Assert
+        assert.equal(url, `http://localhost/odata/Employees(42)`);
         assert.isNotNull(result);
         expect(http.patch).toHaveBeenCalledWith(`http://localhost/odata/Employees(42)`, null, jasmine.any(Object));
     }));
@@ -248,9 +275,12 @@ describe('ODataService', () => {
         spyOn(http, 'patch').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Patch(employee, employee.EmployeeID).Expand('Boss').Exec();
+        const operation = service.Patch(employee, employee.EmployeeID).Expand('Boss');
+        const url = operation.GetUrl();
+        const result = operation.Exec();
 
         // Assert
+        assert.equal(url, `http://localhost/odata/Employees(${employee.EmployeeID})?$expand=Boss`);
         assert.isNotNull(result);
 
         let httpParams: HttpParams = new HttpParams();
@@ -265,7 +295,9 @@ describe('ODataService', () => {
         spyOn(http, 'delete').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Delete('x');
+        const operation = service.Delete('x');
+        const url = operation.GetUrl();
+        const result = operation.Exec();
 
         // Assert
         const testOptions: {
@@ -277,6 +309,7 @@ describe('ODataService', () => {
             withCredentials?: boolean;
         } = { observe: 'response' };
 
+        assert.equal(url, `http://localhost/odata/Employees('x')`);
         assert.isNotNull(result);
         expect(http.delete).toHaveBeenCalledWith(`http://localhost/odata/Employees('x')`, testOptions);
     }));
@@ -288,9 +321,12 @@ describe('ODataService', () => {
         spyOn(http, 'delete').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Delete(42);
+        const operation = service.Delete(42);
+        const url = operation.GetUrl();
+        const result = operation.Exec();
 
         // Assert
+        assert.equal(url, `http://localhost/odata/Employees(42)`);
         assert.isNotNull(result);
         expect(http.delete).toHaveBeenCalledWith(`http://localhost/odata/Employees(42)`, jasmine.any(Object));
     }));
@@ -311,9 +347,12 @@ describe('ODataService', () => {
         spyOn(http, 'put').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Put(employee, 'x').Exec();
+        const operation = service.Put(employee, 'x');
+        const url = operation.GetUrl();
+        const result = operation.Exec();
 
         // Assert
+        assert.equal(url, `http://localhost/odata/Employees('x')`);
         assert.isNotNull(result);
         expect(http.put).toHaveBeenCalledWith(`http://localhost/odata/Employees('x')`, '{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null,"Boss":null}', jasmine.any(Object));
     }));
@@ -325,9 +364,12 @@ describe('ODataService', () => {
         spyOn(http, 'put').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Put(null, 42).Exec();
+        const operation = service.Put(null, 42);
+        const url = operation.GetUrl();
+        const result = operation.Exec();
 
         // Assert
+        assert.equal(url, `http://localhost/odata/Employees(42)`);
         assert.isNotNull(result);
         expect(http.put).toHaveBeenCalledWith(`http://localhost/odata/Employees(42)`, null, jasmine.any(Object));
     }));
@@ -340,9 +382,12 @@ describe('ODataService', () => {
         spyOn(http, 'put').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Put(employee, '3dde7303-5414-4af6-b96b-591f33d25445').Exec();
+        const operation = service.Put(employee, '3dde7303-5414-4af6-b96b-591f33d25445');
+        const url = operation.GetUrl();
+        const result = operation.Exec();
 
         // Assert
+        assert.equal(url, `http://localhost/odata/Employees(3dde7303-5414-4af6-b96b-591f33d25445)`);
         assert.isNotNull(result);
         expect(http.put).toHaveBeenCalledWith(`http://localhost/odata/Employees(3dde7303-5414-4af6-b96b-591f33d25445)`, '{}', jasmine.any(Object));
     }));
@@ -354,9 +399,12 @@ describe('ODataService', () => {
         spyOn(http, 'put').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Put(employee, employee.EmployeeID).Expand('Boss').Exec();
+        const operation = service.Put(employee, employee.EmployeeID).Expand('Boss');
+        const url = operation.GetUrl();
+        const result = operation.Exec();
 
         // Assert
+        assert.equal(url, `http://localhost/odata/Employees(${employee.EmployeeID})?$expand=Boss`);
         assert.isNotNull(result);
 
         let httpParams: HttpParams = new HttpParams();
@@ -371,7 +419,9 @@ describe('ODataService', () => {
         spyOn(http, 'get').and.returnValue(new Observable<Response>());
 
         // Act
-        const result = service.Query().Top(100).Exec();
+        const operation = service.Query().Top(100);
+        const url = operation.GetUrl();
+        const result = operation.Exec();
 
         // Assert
         const params = new HttpParams().append(config.keys.top, '100');
@@ -384,6 +434,7 @@ describe('ODataService', () => {
             withCredentials?: boolean;
         } = { params: params, observe: 'response' };
 
+        assert.equal(url, `http://localhost/odata/Employees?$top=100`);
         assert.isNotNull(result);
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees`, testOptions);
     }));
@@ -397,7 +448,7 @@ describe('ODataService', () => {
 
         // Act
         const result1 = service.Query().Top(100).Exec();
-        const result2 = service.Delete('x');
+        const result2 = service.Delete('x').Exec();
 
         // Assert GET
         const getOptions: {

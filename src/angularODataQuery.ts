@@ -11,8 +11,6 @@ import { IODataResponseModel } from './angularODataResponseModel';
 
 export class ODataQuery<T> extends ODataOperation<T> {
 
-    // private _count: boolean;
-    // private _paged: boolean;
     private _filter: string;
     private _top: number;
     private _skip: number;
