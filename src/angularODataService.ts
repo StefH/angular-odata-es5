@@ -4,7 +4,7 @@ import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { ODataConfiguration } from './angularODataConfiguration';
-import { GetOperation, PatchOperation, PostOperation, PutOperation } from './angularODataOperation';
+import { DeleteOperation, GetOperation, PatchOperation, PostOperation, PutOperation } from './angularODataOperation';
 import { ODataQuery } from './angularODataQuery';
 import { ODataUtils } from './angularODataUtils';
 
@@ -35,17 +35,17 @@ export class ODataService<T> {
         return new PutOperation<T>(this._typeName, this.config, this._http, key, entity);
     }
 
-    public Delete(key: any): Observable<HttpResponse<T>> {
-        return this._http.delete<T>(this.getEntityUri(key), this.config.defaultRequestOptions);
+    public Delete(key: any): DeleteOperation<T> {
+        return new DeleteOperation<T>(this._typeName, this.config, this._http, key);
     }
 
     public CustomAction(key: any, actionName: string, postdata: any): Observable<any> {
-        const body = postdata ? JSON.stringify(postdata) : null;
+        const body: string = postdata ? JSON.stringify(postdata) : null;
         return this._http.post(`${this.getEntityUri(key)}/${actionName}`, body, this.config.customRequestOptions).pipe(map(resp => resp));
     }
 
     public CustomCollectionAction(actionName: string, postdata: any): Observable<any> {
-        const body = postdata ? JSON.stringify(postdata) : null;
+        const body: string = postdata ? JSON.stringify(postdata) : null;
         return this._http.post(`${this._entitiesUri}/${actionName}`, body, this.config.customRequestOptions).pipe(map(resp => resp));
     }
 

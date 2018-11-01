@@ -13,6 +13,10 @@ export class ODataOperationTest extends ODataOperation<IEmployee> {
     public Exec(): Observable<Array<IEmployee>> {
         return of(new Array<IEmployee>());
     }
+
+    public GetUrl(): string {
+        return 'http://test';
+    }
 }
 
 describe('ODataOperation', () => {

@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/StefH/angular-odata-es5/compare/v0.6.3...v0.7.0) (2018-11-01)
+
+
+### Features
+
+* **$GetUrl:** GetUrl() is now supported on more operations ([c2cb179](https://github.com/StefH/angular-odata-es5/commit/c2cb179))
+
+
+### BREAKING CHANGES
+
+* **$GetUrl:** .Delete(..) also requires .Exec() to really execute the delete operation.
+
+#71
+
+
+
 <a name="0.6.3"></a>
 ## [0.6.3](https://github.com/StefH/angular-odata-es5/compare/v0.6.2...v0.6.3) (2018-10-30)
 
