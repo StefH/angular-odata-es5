@@ -81,7 +81,7 @@
                                 id="xs-classes-links"
                             >
                                 <li class="link">
-                                    <a href="../classes/DeleteOperation.html" >DeleteOperation</a>
+                                    <a href="../classes/DeleteOperation.html"  class="active" >DeleteOperation</a>
                                 </li>
                                 <li class="link">
                                     <a href="../classes/GetOperation.html" >GetOperation</a>
@@ -102,7 +102,7 @@
                                     <a href="../classes/ODataService.html" >ODataService</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../classes/ODataUtils.html"  class="active" >ODataUtils</a>
+                                    <a href="../classes/ODataUtils.html" >ODataUtils</a>
                                 </li>
                                 <li class="link">
                                     <a href="../classes/OperationWithEntity.html" >OperationWithEntity</a>
@@ -244,7 +244,7 @@
                                        id="classes-links"
                    >
                                        <li class="link">
-                                           <a href="../classes/DeleteOperation.html" >DeleteOperation</a>
+                                           <a href="../classes/DeleteOperation.html"  class="active" >DeleteOperation</a>
                                        </li>
                                        <li class="link">
                                            <a href="../classes/GetOperation.html" >GetOperation</a>
@@ -265,7 +265,7 @@
                                            <a href="../classes/ODataService.html" >ODataService</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../classes/ODataUtils.html"  class="active" >ODataUtils</a>
+                                           <a href="../classes/ODataUtils.html" >ODataUtils</a>
                                        </li>
                                        <li class="link">
                                            <a href="../classes/OperationWithEntity.html" >OperationWithEntity</a>
@@ -350,7 +350,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>ODataUtils</li>
+  <li>DeleteOperation</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -368,10 +368,23 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/angularODataUtils.ts</code>
+            <code>src/angularODataOperation.ts</code>
         </p>
 
 
+            <section>
+                <h3 id="constructor">Constructor</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <code>constructor(typeName: string, config: <a href="../injectables/ODataConfiguration.html" >ODataConfiguration</a>, http: HttpClient)</code>
+                                </td>
+                            </tr>
+            
+                        </tbody>
+                    </table>
+            </section>
 
             <section>
                 <h3 id="methods">Methods</h3>
@@ -379,7 +392,7 @@
                         <tbody>
                             <tr>
                                 <td class="col-md-4">
-                                    <b><span class="modifier">Public</span> convertObjectToString</b>
+                                    <b><span class="modifier">Public</span> Expand</b>
                                 </td>
                             </tr>
             
@@ -388,7 +401,169 @@
                                         <span class="modifier-icon method fa fa-play circle">
                                             <span class="fa fa-circle"></span>
                                         </span>
-                                    <code>convertObjectToString(obj: any)</code>
+                                    <code>Expand(expand: string | string[])</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b><span class="modifier">Public</span> Select</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play circle">
+                                            <span class="fa fa-circle"></span>
+                                        </span>
+                                    <code>Select(select: string | string[])</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b><span class="modifier">Protected</span> getParams</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play lock">
+                                            <span class="fa fa-lock"></span>
+                                        </span>
+                                    <code>getParams()</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>HttpParams</code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b><span class="modifier">Protected</span> handleResponse</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play lock">
+                                            <span class="fa fa-lock"></span>
+                                        </span>
+                                    <code>handleResponse(entity: Observable<HttpResponse<T>>)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>Observable&lt;T&gt;</code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b><span class="modifier">Protected</span> getRequestOptions</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play lock">
+                                            <span class="fa fa-lock"></span>
+                                        </span>
+                                    <code>getRequestOptions()</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>{ headers?: HttpHeaders; observe: &quot;response&quot;; params?: HttpParams; reportProgress?: boolean; resp...</code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b><span class="modifier">Protected</span> Exec</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play lock">
+                                            <span class="fa fa-lock"></span>
+                                        </span>
+                                    <code>Exec()</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>Observable&lt;any&gt;</code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b><span class="modifier">Protected</span> GetUrl</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play lock">
+                                            <span class="fa fa-lock"></span>
+                                        </span>
+                                    <code>GetUrl()</code>
                                 </td>
                             </tr>
             
@@ -406,16 +581,70 @@
                         <tbody>
                             <tr>
                                 <td class="col-md-4">
-                                    <b><span class="modifier">Public</span> quoteValue</b>
+                                    <b><span class="modifier">Protected</span> GenerateUrl</b>
                                 </td>
                             </tr>
             
                             <tr>
                                 <td class="col-md-4">
-                                        <span class="modifier-icon method fa fa-play circle">
-                                            <span class="fa fa-circle"></span>
+                                        <span class="modifier-icon method fa fa-play lock">
+                                            <span class="fa fa-lock"></span>
                                         </span>
-                                    <code>quoteValue(value: any)</code>
+                                    <code>GenerateUrl(entitiesUri: string)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>string</code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b><span class="modifier">Protected</span> toStringArray</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play lock">
+                                            <span class="fa fa-lock"></span>
+                                        </span>
+                                    <code>toStringArray(input: string | string[] | IEnumerable<string> | IQueryable<string>)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>string[]</code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b><span class="modifier">Protected</span> toCommaString</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play lock">
+                                            <span class="fa fa-lock"></span>
+                                        </span>
+                                    <code>toCommaString(input: string | string[] | IEnumerable<string> | IQueryable<string>)</code>
                                 </td>
                             </tr>
             
@@ -434,44 +663,237 @@
 
     </div>
     <div class="tab-pane fade tab-source-code" id="source">
-        <pre><code class="hljs javascript">export class ODataUtils {
-    public static convertObjectToString(obj: any): string {
-        const properties: string[] &#x3D; [];
+        <pre><code class="hljs javascript">import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from &#x27;@angular/common/http&#x27;;
+import { Dictionary, IEnumerable, IQueryable, List } from &#x27;linq-collections&#x27;;
 
-        for (const prop in obj) {
-            if (obj.hasOwnProperty(prop) &amp;&amp; obj[prop] !&#x3D;&#x3D; undefined) {
-                const value: any &#x3D; ODataUtils.quoteValue(obj[prop]);
+import { Observable, throwError } from &#x27;rxjs&#x27;;
+import { catchError, map } from &#x27;rxjs/operators&#x27;;
+import { ODataConfiguration } from &#x27;./angularODataConfiguration&#x27;;
 
-                properties.push(&#x60;${prop}&#x3D;${value}&#x60;);
-            }
-        }
-        return properties.join(&#x27;, &#x27;);
+export abstract class ODataOperation&lt;T&gt; {
+    private _expand: string[] &#x3D; [];
+    private _select: string[] &#x3D; [];
+
+    constructor(protected typeName: string, protected config: ODataConfiguration, protected http: HttpClient) {
     }
 
-    public static quoteValue(value: number | string | boolean | any): string {
-        // check if GUID (UUID) type
-        if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value)) {
-            return value;
+    public Expand(expand: string | string[]) {
+        if (expand) {
+            this._expand &#x3D; this.toStringArray(expand);
         }
+        return this;
+    }
 
-        // check if string
-        if (typeof value &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
-            const escaped &#x3D; value.replace(/&#x27;/g, &#x27;\&#x27;\&#x27;&#x27;);
-            return &#x60;&#x27;${escaped}&#x27;&#x60;;
+    public Select(select: string | string[]) {
+        if (select) {
+            this._select &#x3D; this.toStringArray(select);
         }
+        return this;
+    }
 
-        // check if boolean or number
-        if (typeof value &#x3D;&#x3D;&#x3D; &#x27;boolean&#x27; || typeof value &#x3D;&#x3D;&#x3D; &#x27;number&#x27;) {
-            return &#x60;${value}&#x60;;
-        }
+    protected getParams(): HttpParams {
+        const expandData &#x3D; new Dictionary&lt;string, List&lt;string&gt;&gt;();
+        const normalSelects &#x3D; new List&lt;string&gt;();
 
-        const parts: string[] &#x3D; [];
-        Object.getOwnPropertyNames(value).forEach((propertyName: string) &#x3D;&gt; {
-            const propertyValue: any &#x3D; value[propertyName];
-            parts.push(&#x60;${propertyName}&#x3D;${ODataUtils.quoteValue(propertyValue)}&#x60;);
+        this._expand.forEach((name) &#x3D;&gt; expandData.set(name, new List&lt;string&gt;()));
+
+        this._select.forEach((select: string) &#x3D;&gt; {
+            const items: string[] &#x3D; select.split(&#x27;/&#x27;);
+
+            // Expand contains string like: &#x60;Boss/Name&#x60;
+            if (items.length &gt; 1) {
+                const expandName &#x3D; items[0];
+                const propertyName &#x3D; items[1];
+
+                if (!expandData.containsKey(expandName)) {
+                    expandData.set(expandName, new List&lt;string&gt;());
+                }
+
+                expandData.get(expandName).push(propertyName);
+            }
+            else {
+                // Expand is just a simple string like: &#x60;Boss&#x60;
+                normalSelects.push(select);
+            }
         });
 
-        return parts.length &gt; 0 ? parts.join(&#x27;, &#x27;) : &#x60;${value}&#x60;;
+        let params &#x3D; new HttpParams();
+
+        const expands &#x3D; expandData.distinct().select((element) &#x3D;&gt; {
+            if (element.value.any()) {
+                return &#x60;${element.key}(${this.config.keys.select}&#x3D;${this.toCommaString(element.value)})&#x60;;
+            }
+
+            return element.key;
+        });
+
+        if (expands.any()) {
+            params &#x3D; params.append(this.config.keys.expand, this.toCommaString(expands));
+        }
+
+        if (normalSelects.any()) {
+            params &#x3D; params.append(this.config.keys.select, this.toCommaString(normalSelects));
+        }
+
+        return params;
+    }
+
+    protected handleResponse(entity: Observable&lt;HttpResponse&lt;T&gt;&gt;): Observable&lt;T&gt; {
+        return entity
+            .pipe(
+                map(this.extractData),
+                catchError((err: any, caught: Observable&lt;T&gt;) &#x3D;&gt; {
+                    if (this.config.handleError) {
+                        this.config.handleError(err, caught);
+                    }
+                    return throwError(err);
+                })
+            );
+    }
+
+    protected getRequestOptions(): {
+        headers?: HttpHeaders;
+        observe: &#x27;response&#x27;;
+        params?: HttpParams;
+        reportProgress?: boolean;
+        responseType?: &#x27;json&#x27;;
+        withCredentials?: boolean;
+    } {
+        const options &#x3D; Object.assign({}, this.config.defaultRequestOptions);
+        options.params &#x3D; this.getParams();
+        return options;
+    }
+
+    protected abstract Exec(): Observable&lt;any&gt;;
+
+    protected abstract GetUrl(): string;
+
+    protected GenerateUrl(entitiesUri: string): string {
+        const params: HttpParams &#x3D; this.getParams();
+        if (params.keys().length &gt; 0) {
+            return &#x60;${entitiesUri}?${params}&#x60;;
+        }
+
+        return entitiesUri;
+    }
+
+    protected toStringArray(input: string | string[] | IEnumerable&lt;string&gt; | IQueryable&lt;string&gt;): string[] {
+        if (!input) {
+            return [];
+        }
+
+        if (input instanceof String || typeof input &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
+            return input.split(&#x27;,&#x27;).map(s &#x3D;&gt; s.trim());
+        }
+
+        if (input instanceof Array) {
+            return input;
+        }
+
+        return input.toArray();
+    }
+
+    protected toCommaString(input: string | string[] | IEnumerable&lt;string&gt; | IQueryable&lt;string&gt;): string {
+        if (input instanceof String || typeof input &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
+            return input as string;
+        }
+
+        if (input instanceof Array) {
+            return input.join();
+        }
+
+        return input.toArray().join();
+    }
+
+    private extractData(res: HttpResponse&lt;T&gt;): T {
+        if (res.status &lt; 200 || res.status &gt;&#x3D; 300) {
+            throw new Error(&#x27;Bad response status: &#x27; + res.status);
+        }
+
+        const body: any &#x3D; res.body;
+        const entity: T &#x3D; body;
+        return entity || null;
+    }
+}
+
+export abstract class OperationWithKey&lt;T&gt; extends ODataOperation&lt;T&gt; {
+    constructor(protected _typeName: string,
+        protected config: ODataConfiguration,
+        protected http: HttpClient,
+        protected entityKey: any) {
+        super(_typeName, config, http);
+    }
+
+    protected getEntityUri(): string {
+        return this.config.getEntityUri(this.entityKey, this.typeName);
+    }
+
+    public GetUrl(): string {
+        return this.GenerateUrl(this.getEntityUri());
+    }
+}
+
+export abstract class OperationWithEntity&lt;T&gt; extends ODataOperation&lt;T&gt; {
+    constructor(protected _typeName: string,
+        protected config: ODataConfiguration,
+        protected http: HttpClient,
+        protected entity: T) {
+        super(_typeName, config, http);
+    }
+
+    protected getEntitiesUri(): string {
+        return this.config.getEntitiesUri(this._typeName);
+    }
+
+    public GetUrl(): string {
+        return this.GenerateUrl(this.getEntitiesUri());
+    }
+}
+
+export abstract class OperationWithKeyAndEntity&lt;T&gt; extends OperationWithKey&lt;T&gt; {
+    constructor(protected _typeName: string,
+        protected config: ODataConfiguration,
+        protected http: HttpClient,
+        protected entityKey: string,
+        protected entity: T) {
+        super(_typeName, config, http, entityKey);
+    }
+
+    protected getEntityUri(): string {
+        return this.config.getEntityUri(this.entityKey, this._typeName);
+    }
+}
+
+export class GetOperation&lt;T&gt; extends OperationWithKey&lt;T&gt; {
+    public Exec(): Observable&lt;T&gt; {
+        return super.handleResponse(this.http.get&lt;T&gt;(this.getEntityUri(), this.getRequestOptions()));
+    }
+}
+
+export class PostOperation&lt;T&gt; extends OperationWithEntity&lt;T&gt; {
+    public Exec(): Observable&lt;T&gt; {
+        const body: string &#x3D; this.entity ? JSON.stringify(this.entity) : null;
+        return super.handleResponse(this.http.post&lt;T&gt;(this.getEntitiesUri(), body, this.getRequestOptions()));
+    }
+}
+
+export class PatchOperation&lt;T&gt; extends OperationWithKeyAndEntity&lt;T&gt; {
+    public Exec(): Observable&lt;T&gt; {
+        const body: string &#x3D; this.entity ? JSON.stringify(this.entity) : null;
+        return super.handleResponse(this.http.patch&lt;T&gt;(this.getEntityUri(), body, this.getRequestOptions()));
+    }
+}
+
+export class PutOperation&lt;T&gt; extends OperationWithKeyAndEntity&lt;T&gt; {
+    public Exec(): Observable&lt;T&gt; {
+        const body: string &#x3D; this.entity ? JSON.stringify(this.entity) : null;
+        return super.handleResponse(this.http.put&lt;T&gt;(this.getEntityUri(), body, this.getRequestOptions()));
+    }
+}
+
+export class DeleteOperation&lt;T&gt; extends OperationWithKey&lt;T&gt;{
+    public Exec(): Observable&lt;T&gt; {
+        return super.handleResponse(this.http.delete&lt;T&gt;(this.getEntityUri(), this.config.defaultRequestOptions));
     }
 }
 </code></pre>

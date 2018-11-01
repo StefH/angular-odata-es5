@@ -81,6 +81,9 @@
                                 id="xs-classes-links"
                             >
                                 <li class="link">
+                                    <a href="../classes/DeleteOperation.html" >DeleteOperation</a>
+                                </li>
+                                <li class="link">
                                     <a href="../classes/GetOperation.html" >GetOperation</a>
                                 </li>
                                 <li class="link">
@@ -240,6 +243,9 @@
                                <ul class="links collapse in"
                                        id="classes-links"
                    >
+                                       <li class="link">
+                                           <a href="../classes/DeleteOperation.html" >DeleteOperation</a>
+                                       </li>
                                        <li class="link">
                                            <a href="../classes/GetOperation.html" >GetOperation</a>
                                        </li>
@@ -510,7 +516,7 @@
                             <tr>
                                 <td class="col-md-4">
                                         <div class="io-description">
-                                            <b>Returns: </b>    <code>Observable&lt;HttpResponse&lt;T&gt;&gt;</code>
+                                            <b>Returns: </b>    <code><a href="../classes/DeleteOperation.html" target="_self" >DeleteOperation&lt;T&gt;</a></code>
             
                                         </div>
                                 </td>
@@ -735,7 +741,7 @@ import { catchError, map } from &#x27;rxjs/operators&#x27;;
 import { HttpClient, HttpResponse } from &#x27;@angular/common/http&#x27;;
 
 import { ODataConfiguration } from &#x27;./angularODataConfiguration&#x27;;
-import { GetOperation, PatchOperation, PostOperation, PutOperation } from &#x27;./angularODataOperation&#x27;;
+import { DeleteOperation, GetOperation, PatchOperation, PostOperation, PutOperation } from &#x27;./angularODataOperation&#x27;;
 import { ODataQuery } from &#x27;./angularODataQuery&#x27;;
 import { ODataUtils } from &#x27;./angularODataUtils&#x27;;
 
@@ -766,17 +772,17 @@ export class ODataService&lt;T&gt; {
         return new PutOperation&lt;T&gt;(this._typeName, this.config, this._http, key, entity);
     }
 
-    public Delete(key: any): Observable&lt;HttpResponse&lt;T&gt;&gt; {
-        return this._http.delete&lt;T&gt;(this.getEntityUri(key), this.config.defaultRequestOptions);
+    public Delete(key: any): DeleteOperation&lt;T&gt; {
+        return new DeleteOperation&lt;T&gt;(this._typeName, this.config, this._http, key);
     }
 
     public CustomAction(key: any, actionName: string, postdata: any): Observable&lt;any&gt; {
-        const body &#x3D; postdata ? JSON.stringify(postdata) : null;
+        const body: string &#x3D; postdata ? JSON.stringify(postdata) : null;
         return this._http.post(&#x60;${this.getEntityUri(key)}/${actionName}&#x60;, body, this.config.customRequestOptions).pipe(map(resp &#x3D;&gt; resp));
     }
 
     public CustomCollectionAction(actionName: string, postdata: any): Observable&lt;any&gt; {
-        const body &#x3D; postdata ? JSON.stringify(postdata) : null;
+        const body: string &#x3D; postdata ? JSON.stringify(postdata) : null;
         return this._http.post(&#x60;${this._entitiesUri}/${actionName}&#x60;, body, this.config.customRequestOptions).pipe(map(resp &#x3D;&gt; resp));
     }
 

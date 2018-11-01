@@ -81,6 +81,9 @@
                                 id="xs-classes-links"
                             >
                                 <li class="link">
+                                    <a href="../classes/DeleteOperation.html" >DeleteOperation</a>
+                                </li>
+                                <li class="link">
                                     <a href="../classes/GetOperation.html"  class="active" >GetOperation</a>
                                 </li>
                                 <li class="link">
@@ -240,6 +243,9 @@
                                <ul class="links collapse in"
                                        id="classes-links"
                    >
+                                       <li class="link">
+                                           <a href="../classes/DeleteOperation.html" >DeleteOperation</a>
+                                       </li>
                                        <li class="link">
                                            <a href="../classes/GetOperation.html"  class="active" >GetOperation</a>
                                        </li>
@@ -530,7 +536,7 @@
                                         <span class="modifier-icon method fa fa-play lock">
                                             <span class="fa fa-lock"></span>
                                         </span>
-                                    <code>Exec(args: any[])</code>
+                                    <code>Exec()</code>
                                 </td>
                             </tr>
             
@@ -538,6 +544,60 @@
                                 <td class="col-md-4">
                                         <div class="io-description">
                                             <b>Returns: </b>    <code>Observable&lt;any&gt;</code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b><span class="modifier">Protected</span> GetUrl</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play lock">
+                                            <span class="fa fa-lock"></span>
+                                        </span>
+                                    <code>GetUrl()</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>string</code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b><span class="modifier">Protected</span> GenerateUrl</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play lock">
+                                            <span class="fa fa-lock"></span>
+                                        </span>
+                                    <code>GenerateUrl(entitiesUri: string)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>string</code>
             
                                         </div>
                                 </td>
@@ -704,7 +764,18 @@ export abstract class ODataOperation&lt;T&gt; {
         return options;
     }
 
-    protected abstract Exec(...args: any[]): Observable&lt;any&gt;;
+    protected abstract Exec(): Observable&lt;any&gt;;
+
+    protected abstract GetUrl(): string;
+
+    protected GenerateUrl(entitiesUri: string): string {
+        const params: HttpParams &#x3D; this.getParams();
+        if (params.keys().length &gt; 0) {
+            return &#x60;${entitiesUri}?${params}&#x60;;
+        }
+
+        return entitiesUri;
+    }
 
     protected toStringArray(input: string | string[] | IEnumerable&lt;string&gt; | IQueryable&lt;string&gt;): string[] {
         if (!input) {
@@ -752,7 +823,14 @@ export abstract class OperationWithKey&lt;T&gt; extends ODataOperation&lt;T&gt; 
         protected entityKey: any) {
         super(_typeName, config, http);
     }
-    protected abstract Exec(...args: any[]): Observable&lt;any&gt;;
+
+    protected getEntityUri(): string {
+        return this.config.getEntityUri(this.entityKey, this.typeName);
+    }
+
+    public GetUrl(): string {
+        return this.GenerateUrl(this.getEntityUri());
+    }
 }
 
 export abstract class OperationWithEntity&lt;T&gt; extends ODataOperation&lt;T&gt; {
@@ -762,44 +840,60 @@ export abstract class OperationWithEntity&lt;T&gt; extends ODataOperation&lt;T&g
         protected entity: T) {
         super(_typeName, config, http);
     }
-    protected abstract Exec(...args: any[]): Observable&lt;any&gt;;
+
+    protected getEntitiesUri(): string {
+        return this.config.getEntitiesUri(this._typeName);
+    }
+
+    public GetUrl(): string {
+        return this.GenerateUrl(this.getEntitiesUri());
+    }
 }
 
-export abstract class OperationWithKeyAndEntity&lt;T&gt; extends ODataOperation&lt;T&gt; {
+export abstract class OperationWithKeyAndEntity&lt;T&gt; extends OperationWithKey&lt;T&gt; {
     constructor(protected _typeName: string,
         protected config: ODataConfiguration,
         protected http: HttpClient,
         protected entityKey: string,
         protected entity: T) {
-        super(_typeName, config, http);
+        super(_typeName, config, http, entityKey);
     }
-    protected abstract Exec(...args: any[]): Observable&lt;any&gt;;
+
+    protected getEntityUri(): string {
+        return this.config.getEntityUri(this.entityKey, this._typeName);
+    }
 }
 
 export class GetOperation&lt;T&gt; extends OperationWithKey&lt;T&gt; {
     public Exec(): Observable&lt;T&gt; {
-        return super.handleResponse(this.http.get&lt;T&gt;(this.config.getEntityUri(this.entityKey, this.typeName), this.getRequestOptions()));
+        return super.handleResponse(this.http.get&lt;T&gt;(this.getEntityUri(), this.getRequestOptions()));
     }
 }
 
-export class PostOperation&lt;T&gt; extends OperationWithEntity&lt;T&gt;{
+export class PostOperation&lt;T&gt; extends OperationWithEntity&lt;T&gt; {
     public Exec(): Observable&lt;T&gt; {
-        const body &#x3D; this.entity ? JSON.stringify(this.entity) : null;
-        return super.handleResponse(this.http.post&lt;T&gt;(this.config.getEntitiesUri(this._typeName), body, this.getRequestOptions()));
+        const body: string &#x3D; this.entity ? JSON.stringify(this.entity) : null;
+        return super.handleResponse(this.http.post&lt;T&gt;(this.getEntitiesUri(), body, this.getRequestOptions()));
     }
 }
 
-export class PatchOperation&lt;T&gt; extends OperationWithKeyAndEntity&lt;T&gt;{
+export class PatchOperation&lt;T&gt; extends OperationWithKeyAndEntity&lt;T&gt; {
     public Exec(): Observable&lt;T&gt; {
-        const body &#x3D; this.entity ? JSON.stringify(this.entity) : null;
-        return super.handleResponse(this.http.patch&lt;T&gt;(this.config.getEntityUri(this.entityKey, this.typeName), body, this.getRequestOptions()));
+        const body: string &#x3D; this.entity ? JSON.stringify(this.entity) : null;
+        return super.handleResponse(this.http.patch&lt;T&gt;(this.getEntityUri(), body, this.getRequestOptions()));
     }
 }
 
-export class PutOperation&lt;T&gt; extends OperationWithKeyAndEntity&lt;T&gt;{
-    public Exec() {
-        const body &#x3D; this.entity ? JSON.stringify(this.entity) : null;
-        return super.handleResponse(this.http.put&lt;T&gt;(this.config.getEntityUri(this.entityKey, this.typeName), body, this.getRequestOptions()));
+export class PutOperation&lt;T&gt; extends OperationWithKeyAndEntity&lt;T&gt; {
+    public Exec(): Observable&lt;T&gt; {
+        const body: string &#x3D; this.entity ? JSON.stringify(this.entity) : null;
+        return super.handleResponse(this.http.put&lt;T&gt;(this.getEntityUri(), body, this.getRequestOptions()));
+    }
+}
+
+export class DeleteOperation&lt;T&gt; extends OperationWithKey&lt;T&gt;{
+    public Exec(): Observable&lt;T&gt; {
+        return super.handleResponse(this.http.delete&lt;T&gt;(this.getEntityUri(), this.config.defaultRequestOptions));
     }
 }
 </code></pre>
