@@ -36,7 +36,6 @@
     ],
     "eofline": true,
     "import-destructuring-spacing": true,
-    "invoke-injectable": true,
     "no-access-missing-member": false,
     "no-attribute-parameter-decorator": true,
     "no-forward-ref": true,
@@ -56,7 +55,6 @@
       true,
       "always"
     ],
-    "templates-use-public": true,
     "use-host-property-decorator": true,
     "use-input-property-decorator": true,
     "use-life-cycle-interface": true,
