@@ -14,6 +14,7 @@ export class KeyConfigs {
     public expand = '$expand';
     public apply = '$apply';
     public count = '$count';
+    public maxPerPage = 'odata.maxpagesize';
 }
 
 @Injectable()
@@ -95,6 +96,10 @@ export class ODataConfiguration {
         } catch (error) {
             console.warn('Cannot determine OData entities count. Falling back to collection length.');
             pagedResult.count = entities.length;
+        }
+
+        if (res.body['@odata.nextLink']) {
+            pagedResult.nextLink = res.body['@odata.nextLink'];
         }
 
         return pagedResult;

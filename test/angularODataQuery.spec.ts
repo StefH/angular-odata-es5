@@ -337,4 +337,46 @@ describe('ODataQuery', () => {
         // Assert
         assert.deepEqual(test['_apply'], ['groupby((LastName))']);
     }));
+
+    it('Exec PagedResult MaxPageSize', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+        // Assign
+        const testHeaders = new HttpHeaders({ 'a': 'b' });
+        config.defaultRequestOptions = { headers: testHeaders, observe: 'response' };
+        const query = new ODataQuery<IEmployee>('Employees', config, http);
+
+        spyOn(http, 'get').and.returnValue(new Observable<Response>());
+
+        // Act
+        query
+            .Filter('x')
+            .OrderBy('y')
+            .MaxPerPage(3);
+
+        const result = query.Exec(ODataExecReturnType.PagedResult);
+
+        const params = new HttpParams()
+            .append(config.keys.filter, 'x')
+            .append(config.keys.orderBy, 'y')
+            .append('$count', 'true');
+
+        // Assert
+        const outputHeaders = new HttpHeaders({ 
+            'a': 'b',
+            'Prefer': 'odata.maxpagesize=3'
+        });
+        const testOptions: {
+            headers?: HttpHeaders;
+            observe: 'response';
+            params?: HttpParams;
+            reportProgress?: boolean;
+            responseType?: 'json';
+            withCredentials?: boolean;
+        } = { headers: outputHeaders, params: params, observe: 'response' };
+        
+        // Hack to force the values to apply so test compare works.
+        testOptions.headers.keys();
+
+        assert.isNotNull(result);
+        expect(http.get).toHaveBeenCalledWith('http://localhost/odata/Employees', testOptions);
+    }));
 });

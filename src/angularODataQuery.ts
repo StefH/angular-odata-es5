@@ -17,6 +17,7 @@ export class ODataQuery<T> extends ODataOperation<T> {
     private _orderBy: string[] = [];
     private _apply: string[] = [];
     private _entitiesUri: string;
+    private _maxPerPage: number;
 
     constructor(typeName: string, config: ODataConfiguration, http: HttpClient) {
         super(typeName, config, http);
@@ -49,6 +50,11 @@ export class ODataQuery<T> extends ODataOperation<T> {
         if (orderBy) {
             this._orderBy = this.toStringArray(orderBy);
         }
+        return this;
+    }
+
+    public MaxPerPage(maxPerPage: number): ODataQuery<T> {
+        this._maxPerPage = maxPerPage;
         return this;
     }
 
@@ -130,6 +136,28 @@ export class ODataQuery<T> extends ODataOperation<T> {
         return this.Exec(ODataExecReturnType.PagedResult);
     }
 
+    public NextPage(pagedResult: ODataPagedResult<T>): Observable<ODataPagedResult<T>> {
+        const requestOptions: {
+            headers?: HttpHeaders;
+            observe: 'response';
+            params?: HttpParams;
+            reportProgress?: boolean;
+            responseType?: 'json';
+            withCredentials?: boolean;
+        } = this.getQueryRequestOptions(false);
+
+        return this.http.get<IODataResponseModel<T>>(pagedResult.nextLink, requestOptions)
+            .pipe(
+                map(res => this.extractArrayDataWithCount(res, this.config)),
+                catchError((err: any, caught: Observable<ODataPagedResult<T>>) => {
+                    if (this.config.handleError) {
+                        this.config.handleError(err, caught);
+                    }
+                    return throwError(err);
+                })
+            );
+    }
+
     private getQueryRequestOptions(odata4: boolean): {
         headers?: HttpHeaders;
         observe: 'response';
@@ -140,6 +168,14 @@ export class ODataQuery<T> extends ODataOperation<T> {
     } {
         const options = Object.assign({}, this.config.defaultRequestOptions);
         options.params = this.getQueryParams(odata4);
+
+        if (this._maxPerPage > 0) {
+            if (!options.headers) options.headers = new HttpHeaders();
+            options.headers = options.headers.set('Prefer', this.config.keys.maxPerPage + '=' + this._maxPerPage);
+
+            // Hack to force the values to apply so test compare works.
+            options.headers.keys();
+        }
 
         return options;
     }
