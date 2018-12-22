@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.7.4"></a>
+## [0.7.4](https://github.com/StefH/angular-odata-es5/compare/v0.7.3...v0.7.4) (2018-12-22)
+
+
+### Bug Fixes
+
+* **package.json:** Fixed dependencies ([ea53b53](https://github.com/StefH/angular-odata-es5/commit/ea53b53))
+
+
+
 <a name="0.7.3"></a>
 ## [0.7.3](https://github.com/StefH/angular-odata-es5/compare/v0.7.1...v0.7.3) (2018-12-22)
 
