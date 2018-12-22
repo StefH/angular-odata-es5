@@ -500,7 +500,7 @@
                         <tbody>
                             <tr>
                                 <td class="col-md-4">
-                                    <b><span class="modifier">Protected</span> getRequestOptions</b>
+                                    <b><span class="modifier">Protected</span> getDefaultRequestOptions</b>
                                 </td>
                             </tr>
             
@@ -509,7 +509,34 @@
                                         <span class="modifier-icon method fa fa-play lock">
                                             <span class="fa fa-lock"></span>
                                         </span>
-                                    <code>getRequestOptions()</code>
+                                    <code>getDefaultRequestOptions()</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>{ headers?: HttpHeaders; observe: &quot;response&quot;; params?: HttpParams; reportProgress?: boolean; resp...</code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b><span class="modifier">Protected</span> getPostRequestOptions</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play lock">
+                                            <span class="fa fa-lock"></span>
+                                        </span>
+                                    <code>getPostRequestOptions()</code>
                                 </td>
                             </tr>
             
@@ -751,7 +778,7 @@ export abstract class ODataOperation&lt;T&gt; {
             );
     }
 
-    protected getRequestOptions(): {
+    protected getDefaultRequestOptions(): {
         headers?: HttpHeaders;
         observe: &#x27;response&#x27;;
         params?: HttpParams;
@@ -761,6 +788,21 @@ export abstract class ODataOperation&lt;T&gt; {
     } {
         const options &#x3D; Object.assign({}, this.config.defaultRequestOptions);
         options.params &#x3D; this.getParams();
+
+        return options;
+    }
+
+    protected getPostRequestOptions(): {
+        headers?: HttpHeaders;
+        observe: &#x27;response&#x27;;
+        params?: HttpParams;
+        reportProgress?: boolean;
+        responseType?: &#x27;json&#x27;;
+        withCredentials?: boolean;
+    } {
+        const options &#x3D; Object.assign({}, this.config.postRequestOptions);
+        options.params &#x3D; this.getParams();
+
         return options;
     }
 
@@ -866,28 +908,31 @@ export abstract class OperationWithKeyAndEntity&lt;T&gt; extends OperationWithKe
 
 export class GetOperation&lt;T&gt; extends OperationWithKey&lt;T&gt; {
     public Exec(): Observable&lt;T&gt; {
-        return super.handleResponse(this.http.get&lt;T&gt;(this.getEntityUri(), this.getRequestOptions()));
+        return super.handleResponse(this.http.get&lt;T&gt;(this.getEntityUri(), this.getDefaultRequestOptions()));
     }
 }
 
 export class PostOperation&lt;T&gt; extends OperationWithEntity&lt;T&gt; {
     public Exec(): Observable&lt;T&gt; {
         const body: string &#x3D; this.entity ? JSON.stringify(this.entity) : null;
-        return super.handleResponse(this.http.post&lt;T&gt;(this.getEntitiesUri(), body, this.getRequestOptions()));
+
+        return super.handleResponse(this.http.post&lt;T&gt;(this.getEntitiesUri(), body, this.getPostRequestOptions()));
     }
 }
 
 export class PatchOperation&lt;T&gt; extends OperationWithKeyAndEntity&lt;T&gt; {
     public Exec(): Observable&lt;T&gt; {
         const body: string &#x3D; this.entity ? JSON.stringify(this.entity) : null;
-        return super.handleResponse(this.http.patch&lt;T&gt;(this.getEntityUri(), body, this.getRequestOptions()));
+
+        return super.handleResponse(this.http.patch&lt;T&gt;(this.getEntityUri(), body, this.getPostRequestOptions()));
     }
 }
 
 export class PutOperation&lt;T&gt; extends OperationWithKeyAndEntity&lt;T&gt; {
     public Exec(): Observable&lt;T&gt; {
         const body: string &#x3D; this.entity ? JSON.stringify(this.entity) : null;
-        return super.handleResponse(this.http.put&lt;T&gt;(this.getEntityUri(), body, this.getRequestOptions()));
+
+        return super.handleResponse(this.http.put&lt;T&gt;(this.getEntityUri(), body, this.getPostRequestOptions()));
     }
 }
 
