@@ -49,16 +49,16 @@
   },
   "homepage": "https://github.com/StefH/angular-odata-es5#readme",
   "devDependencies": {
-    "@angular/animations": "^7.0.0",
-    "@angular/common": "^7.0.0",
-    "@angular/compiler": "^6.0.3",
-    "@angular/compiler-cli": "^7.0.0",
-    "@angular/core": "^7.0.0",
-    "@angular/forms": "^7.0.0",
-    "@angular/platform-browser": "^7.0.0",
-    "@angular/platform-browser-dynamic": "^7.0.0",
-    "@angular/platform-server": "^7.0.0",
-    "@angular/router": "^7.0.0",
+    "@angular/animations": "^7.1.4",
+    "@angular/common": "^7.1.4",
+    "@angular/compiler": "^7.1.4",
+    "@angular/compiler-cli": "^7.1.4",
+    "@angular/core": "^7.1.4",
+    "@angular/forms": "^7.1.4",
+    "@angular/platform-browser": "^7.1.4",
+    "@angular/platform-browser-dynamic": "^7.1.4",
+    "@angular/platform-server": "^7.1.4",
+    "@angular/router": "^7.1.4",
     "@types/chai": "^3.4.30",
     "@types/core-js": "^0.9.36",
     "@types/jasmine": "2.8.8",
@@ -92,13 +92,13 @@
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.3",
-    "phantomjs-prebuilt": "^2.1.14",
+    "phantomjs-prebuilt": "^2.1.16",
     "primeicons": "^1.0.0-beta.10",
     "primeng": "^6.0.2",
     "rxjs": "^6.3.0",
     "sinon": "^2.1.0",
     "sinon-chai": "^2.8.0",
-    "standard-version": "^4.0.0",
+    "standard-version": "^4.4.0",
     "ts-node": "^3.0.2",
     "tslint": "^5.11.0",
     "tslint-consistent-codestyle": "^1.14.1",
@@ -114,7 +114,7 @@
   "peerDependencies": {
     "@angular/common": ">=7.0.0 <8.0.0",
     "@angular/core": ">=7.0.0 <8.0.0",
-    "rxjs": "^6.3.0"
+    "rxjs": "^6.3.3"
   },
   "config": {
     "commitizen": {
@@ -122,7 +122,7 @@
     }
   },
   "dependencies": {
-    "@angular/cli": "^7.0.0",
+    "@angular/cli": "^7.1.4",
     "linq-collections": "^1.0.249"
   }
 }

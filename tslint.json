@@ -46,9 +46,8 @@
       "ignore-comments"
     ],
     "prefer-const": true,
-    "pipe-naming": [
+    "pipe-prefix": [
       true,
-      "camelCase",
       "ao"
     ],
     "semicolon": [
