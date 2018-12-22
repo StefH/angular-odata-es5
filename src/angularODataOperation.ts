@@ -86,7 +86,7 @@ export abstract class ODataOperation<T> {
             );
     }
 
-    protected getRequestOptions(): {
+    protected getDefaultRequestOptions(): {
         headers?: HttpHeaders;
         observe: 'response';
         params?: HttpParams;
@@ -96,6 +96,21 @@ export abstract class ODataOperation<T> {
     } {
         const options = Object.assign({}, this.config.defaultRequestOptions);
         options.params = this.getParams();
+
+        return options;
+    }
+
+    protected getPostRequestOptions(): {
+        headers?: HttpHeaders;
+        observe: 'response';
+        params?: HttpParams;
+        reportProgress?: boolean;
+        responseType?: 'json';
+        withCredentials?: boolean;
+    } {
+        const options = Object.assign({}, this.config.postRequestOptions);
+        options.params = this.getParams();
+
         return options;
     }
 
@@ -201,28 +216,31 @@ export abstract class OperationWithKeyAndEntity<T> extends OperationWithKey<T> {
 
 export class GetOperation<T> extends OperationWithKey<T> {
     public Exec(): Observable<T> {
-        return super.handleResponse(this.http.get<T>(this.getEntityUri(), this.getRequestOptions()));
+        return super.handleResponse(this.http.get<T>(this.getEntityUri(), this.getDefaultRequestOptions()));
     }
 }
 
 export class PostOperation<T> extends OperationWithEntity<T> {
     public Exec(): Observable<T> {
         const body: string = this.entity ? JSON.stringify(this.entity) : null;
-        return super.handleResponse(this.http.post<T>(this.getEntitiesUri(), body, this.getRequestOptions()));
+
+        return super.handleResponse(this.http.post<T>(this.getEntitiesUri(), body, this.getPostRequestOptions()));
     }
 }
 
 export class PatchOperation<T> extends OperationWithKeyAndEntity<T> {
     public Exec(): Observable<T> {
         const body: string = this.entity ? JSON.stringify(this.entity) : null;
-        return super.handleResponse(this.http.patch<T>(this.getEntityUri(), body, this.getRequestOptions()));
+
+        return super.handleResponse(this.http.patch<T>(this.getEntityUri(), body, this.getPostRequestOptions()));
     }
 }
 
 export class PutOperation<T> extends OperationWithKeyAndEntity<T> {
     public Exec(): Observable<T> {
         const body: string = this.entity ? JSON.stringify(this.entity) : null;
-        return super.handleResponse(this.http.put<T>(this.getEntityUri(), body, this.getRequestOptions()));
+
+        return super.handleResponse(this.http.put<T>(this.getEntityUri(), body, this.getPostRequestOptions()));
     }
 }
 

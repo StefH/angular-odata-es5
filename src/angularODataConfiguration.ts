@@ -20,10 +20,10 @@ export class KeyConfigs {
 @Injectable()
 export class ODataConfiguration {
     private readonly _postHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
-
     private _baseUrl = 'http://localhost/odata';
 
     public keys: KeyConfigs = new KeyConfigs();
+
     public defaultRequestOptions: {
         headers?: HttpHeaders;
         observe: 'response';
@@ -33,7 +33,7 @@ export class ODataConfiguration {
         withCredentials?: boolean;
     } = { observe: 'response' };
 
-    public customRequestOptions: {
+    public postRequestOptions: {
         headers?: HttpHeaders;
         observe: 'response';
         params?: HttpParams;
@@ -41,6 +41,15 @@ export class ODataConfiguration {
         responseType?: 'json';
         withCredentials?: boolean;
     } = { headers: this._postHeaders, observe: 'response' };
+
+    public customRequestOptions: {
+        headers?: HttpHeaders;
+        observe: 'response';
+        params?: HttpParams;
+        reportProgress?: boolean;
+        responseType?: 'json';
+        withCredentials?: boolean;
+    } = { observe: 'response' };
 
     set baseUrl(baseUrl: string) {
         this._baseUrl = baseUrl.replace(/\/+$/, '');

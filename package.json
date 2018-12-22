@@ -1,6 +1,6 @@
 {
   "name": "angular-odata-es5",
-  "version": "0.7.1",
+  "version": "0.7.4",
   "description": "OData service for Angular (es5 version)",
   "main": "./bundles/angular-odata-es5.umd.js",
   "module": "./index.js",
@@ -37,7 +37,6 @@
     "odata",
     "@angular",
     "angular",
-    "angular2",
     "rest",
     "api",
     "service"
@@ -49,19 +48,20 @@
   },
   "homepage": "https://github.com/StefH/angular-odata-es5#readme",
   "devDependencies": {
-    "@angular/animations": "^7.0.0",
-    "@angular/common": "^7.0.0",
-    "@angular/compiler": "^6.0.3",
-    "@angular/compiler-cli": "^7.0.0",
-    "@angular/core": "^7.0.0",
-    "@angular/forms": "^7.0.0",
-    "@angular/platform-browser": "^7.0.0",
-    "@angular/platform-browser-dynamic": "^7.0.0",
-    "@angular/platform-server": "^7.0.0",
-    "@angular/router": "^7.0.0",
+    "@angular/animations": "^7.1.4",
+    "@angular/common": "^7.1.4",
+    "@angular/compiler": "^7.1.4",
+    "@angular/compiler-cli": "^7.1.4",
+    "@angular/core": "^7.1.4",
+    "@angular/forms": "^7.1.4",
+    "@angular/http": "^7.1.4",
+    "@angular/platform-browser": "^7.1.4",
+    "@angular/platform-browser-dynamic": "^7.1.4",
+    "@angular/platform-server": "^7.1.4",
+    "@angular/router": "^7.1.4",
     "@types/chai": "^3.4.30",
     "@types/core-js": "^0.9.36",
-    "@types/jasmine": "2.8.8",
+    "@types/jasmine": "^2.8.8",
     "@types/node": "7.0.14",
     "@types/sinon": "^2.3.7",
     "@types/sinon-chai": "^2.7.35",
@@ -88,12 +88,12 @@
     "jasmine": "^3.1.0",
     "jasmine-core": "^3.1.0",
     "karma": "^2.0.4",
+    "karma-chrome-launcher": "^2.2.0",
     "karma-coverage-istanbul-reporter": "^1.2.0",
     "karma-jasmine": "^2.0.0",
-    "karma-phantomjs-launcher": "^1.0.4",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.3",
-    "phantomjs-prebuilt": "^2.1.14",
+    "phantomjs-prebuilt": "^2.1.16",
     "primeicons": "^1.0.0-beta.10",
     "primeng": "^6.0.2",
     "rxjs": "^6.3.0",
@@ -115,7 +115,7 @@
   "peerDependencies": {
     "@angular/common": ">=7.0.0 <8.0.0",
     "@angular/core": ">=7.0.0 <8.0.0",
-    "rxjs": "^6.3.0"
+    "rxjs": "^6.3.3"
   },
   "config": {
     "commitizen": {
@@ -123,7 +123,6 @@
     }
   },
   "dependencies": {
-    "@angular/cli": "^7.0.0",
-    "linq-collections": "^1.0.249"
+    "linq-collections": "^1.0.254"
   }
 }
