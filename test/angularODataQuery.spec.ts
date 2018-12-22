@@ -339,7 +339,7 @@ describe('ODataQuery', () => {
     }));
 
     it('Exec PagedResult MaxPageSize', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
-        // Assign
+        // Arrange
         const testHeaders = new HttpHeaders({ 'a': 'b' });
         config.defaultRequestOptions = { headers: testHeaders, observe: 'response' };
         const query = new ODataQuery<IEmployee>('Employees', config, http);
@@ -360,7 +360,7 @@ describe('ODataQuery', () => {
             .append('$count', 'true');
 
         // Assert
-        const outputHeaders = new HttpHeaders({ 
+        const outputHeaders = new HttpHeaders({
             'a': 'b',
             'Prefer': 'odata.maxpagesize=3'
         });
@@ -372,7 +372,7 @@ describe('ODataQuery', () => {
             responseType?: 'json';
             withCredentials?: boolean;
         } = { headers: outputHeaders, params: params, observe: 'response' };
-        
+
         // Hack to force the values to apply so test compare works.
         testOptions.headers.keys();
 

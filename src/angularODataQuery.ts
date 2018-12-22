@@ -33,14 +33,14 @@ export class ODataQuery<T> extends ODataOperation<T> {
     }
 
     public Top(top: number): ODataQuery<T> {
-        if (top) {
+        if (top > 0) {
             this._top = top;
         }
         return this;
     }
 
     public Skip(skip: number): ODataQuery<T> {
-        if (skip) {
+        if (skip > 0) {
             this._skip = skip;
         }
         return this;
@@ -54,7 +54,9 @@ export class ODataQuery<T> extends ODataOperation<T> {
     }
 
     public MaxPerPage(maxPerPage: number): ODataQuery<T> {
-        this._maxPerPage = maxPerPage;
+        if (maxPerPage > 0) {
+            this._maxPerPage = maxPerPage;
+        }
         return this;
     }
 
@@ -170,8 +172,10 @@ export class ODataQuery<T> extends ODataOperation<T> {
         options.params = this.getQueryParams(odata4);
 
         if (this._maxPerPage > 0) {
-            if (!options.headers) options.headers = new HttpHeaders();
-            options.headers = options.headers.set('Prefer', this.config.keys.maxPerPage + '=' + this._maxPerPage);
+            if (!options.headers) {
+                options.headers = new HttpHeaders();
+            }
+            options.headers = options.headers.set('Prefer', `${this.config.keys.maxPerPage}=${this._maxPerPage}`);
 
             // Hack to force the values to apply so test compare works.
             options.headers.keys();
