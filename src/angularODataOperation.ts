@@ -100,13 +100,18 @@ export abstract class ODataOperation<T> {
         return options;
     }
 
-    protected addContentTypeHeader(headers?: HttpHeaders): HttpHeaders {
-        if (headers == undefined || headers == null) {
-            headers = new HttpHeaders();
-        }
+    protected getPostRequestOptions(): {
+        headers?: HttpHeaders;
+        observe: 'response';
+        params?: HttpParams;
+        reportProgress?: boolean;
+        responseType?: 'json';
+        withCredentials?: boolean;
+    } {
+        const options = Object.assign({}, this.config.postRequestOptions);
+        options.params = this.getParams();
 
-        // HttpHeaders.append returns a clone of the headers with the value appended.
-        return headers.append('Content-Type', 'application/json; charset=utf-8');
+        return options;
     }
 
     protected abstract Exec(): Observable<any>;
@@ -219,10 +224,7 @@ export class PostOperation<T> extends OperationWithEntity<T> {
     public Exec(): Observable<T> {
         const body: string = this.entity ? JSON.stringify(this.entity) : null;
 
-        const options = this.getDefaultRequestOptions();
-        options.headers = this.addContentTypeHeader(options.headers);
-
-        return super.handleResponse(this.http.post<T>(this.getEntitiesUri(), body, options));
+        return super.handleResponse(this.http.post<T>(this.getEntitiesUri(), body, this.getPostRequestOptions()));
     }
 }
 
@@ -230,10 +232,7 @@ export class PatchOperation<T> extends OperationWithKeyAndEntity<T> {
     public Exec(): Observable<T> {
         const body: string = this.entity ? JSON.stringify(this.entity) : null;
 
-        const options = this.getDefaultRequestOptions();
-        options.headers = this.addContentTypeHeader(options.headers);
-
-        return super.handleResponse(this.http.patch<T>(this.getEntityUri(), body, options));
+        return super.handleResponse(this.http.patch<T>(this.getEntityUri(), body, this.getPostRequestOptions()));
     }
 }
 
@@ -241,10 +240,7 @@ export class PutOperation<T> extends OperationWithKeyAndEntity<T> {
     public Exec(): Observable<T> {
         const body: string = this.entity ? JSON.stringify(this.entity) : null;
 
-        const options = this.getDefaultRequestOptions();
-        options.headers = this.addContentTypeHeader(options.headers);
-
-        return super.handleResponse(this.http.put<T>(this.getEntityUri(), body, options));
+        return super.handleResponse(this.http.put<T>(this.getEntityUri(), body, this.getPostRequestOptions()));
     }
 }
 
