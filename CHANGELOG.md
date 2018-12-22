@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.7.2"></a>
+## [0.7.2](https://github.com/StefH/angular-odata-es5/compare/v0.7.1...v0.7.2) (2018-12-22)
+
+
+### Bug Fixes
+
+* **post:** POST headers were missing content-type + npm audit fixes ([06d2aeb](https://github.com/StefH/angular-odata-es5/commit/06d2aeb))
+
+
+
 <a name="0.7.1"></a>
 ## [0.7.1](https://github.com/StefH/angular-odata-es5/compare/v0.7.0...v0.7.1) (2018-11-28)
 
