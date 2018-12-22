@@ -1,7 +1,7 @@
-import * as webpack from 'webpack';
 import * as path from 'path';
+import * as webpack from 'webpack';
 
-export default config => {
+export default (config: any) => {
 
   config.set({
 
@@ -25,26 +25,27 @@ export default config => {
 
     webpack: {
       resolve: {
-        extensions: [ '.ts', '.js', '.json' ],
-        alias: {
-          sinon: 'sinon/pkg/sinon'
-        }
+        extensions: ['.ts', '.js']
       },
       module: {
         rules: [{
           test: /\.ts$/,
           loader: 'tslint-loader',
           exclude: /node_modules/,
-          enforce: 'pre'
+          enforce: 'pre',
+          options: {
+            emitErrors: config.singleRun,
+            failOnHint: config.singleRun
+          }
         }, {
           test: /\.ts$/,
           loader: 'awesome-typescript-loader',
-          exclude: /node_modules/
+          exclude: /node_modules/,
+          options: {
+            transpileOnly: !config.singleRun
+          }
         }, {
-          test: /sinon.js$/,
-          loader: 'imports-loader?define=>false,require=>false'
-        }, {
-          test: /src\/.+\.ts$/,
+          test: /src(\\|\/).+\.ts$/,
           exclude: /(node_modules|\.spec\.ts$)/,
           loader: 'istanbul-instrumenter-loader',
           enforce: 'post'
@@ -53,27 +54,28 @@ export default config => {
       plugins: [
         new webpack.SourceMapDevToolPlugin({
           filename: null,
+          columns: false,
           test: /\.(ts|js)($|\?)/i
         }),
-        new webpack.LoaderOptionsPlugin({
-          options: {
-            tslint: {
-              emitErrors: config.singleRun,
-              failOnHint: false
-            }
-          }
-        }),
         new webpack.ContextReplacementPlugin(
-          /angular(\\|\/)core(\\|\/)@angular/,
+          /angular(\\|\/)core(\\|\/)esm5/,
           path.join(__dirname, 'src')
-        ),
-        ...(config.singleRun ? [new webpack.NoEmitOnErrorsPlugin()] : [])
+        )
       ]
+    },
+
+    mochaReporter: {
+      showDiff: true,
+      output: 'autowatch'
     },
 
     coverageIstanbulReporter: {
       reports: ['text-summary', 'html', 'lcovonly'],
       fixWebpackSourcePaths: true
+    },
+
+    mime: {
+      'text/x-typescript': ['ts']
     },
 
     // test results reporter to use
@@ -87,12 +89,7 @@ export default config => {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
-
-    phantomjsLauncher: {
-      // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
-      exitOnResourceError: true
-    }
+    browsers: ['ChromeHeadless'],
 
   });
 
