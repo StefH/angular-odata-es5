@@ -199,7 +199,7 @@ describe('ODataService', () => {
     }));
 
     it('Post with custom headers', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
-        // Arrange
+        // Assign
         const config = new ODataConfiguration();
         config.postRequestOptions.headers = config.postRequestOptions.headers.append('Session', 'abc');
 

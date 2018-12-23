@@ -99,10 +99,10 @@ export class ODataConfiguration {
 
         pagedResult.data = entities;
 
-        try {
-            const count: number = parseInt(body['@odata.count'], 10) || entities.length;
-            pagedResult.count = count;
-        } catch (error) {
+        const parseResult = ODataUtils.tryParseInt(body['@odata.count']);
+        if (parseResult.valid) {
+            pagedResult.count = parseResult.value;
+        } else {
             console.warn('Cannot determine OData entities count. Falling back to collection length.');
             pagedResult.count = entities.length;
         }

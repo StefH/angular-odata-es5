@@ -96,41 +96,13 @@ export class ODataQuery<T> extends ODataOperation<T> {
 
         switch (returnType) {
             case ODataExecReturnType.Count:
-                const countUrl = `${this._entitiesUri}/${this.config.keys.count}`;
-                return this.http.get<number>(countUrl, requestOptions)
-                    .pipe(
-                        map(res => this.extractDataAsNumber(res, this.config)),
-                        catchError((err: any, caught: Observable<number>) => {
-                            if (this.config.handleError) {
-                                this.config.handleError(err, caught);
-                            }
-                            return throwError(err);
-                        })
-                    );
+                return this.execGetCount(requestOptions);
 
             case ODataExecReturnType.PagedResult:
-                return this.http.get<IODataResponseModel<T>>(this._entitiesUri, requestOptions)
-                    .pipe(
-                        map(res => this.extractArrayDataWithCount(res, this.config)),
-                        catchError((err: any, caught: Observable<ODataPagedResult<T>>) => {
-                            if (this.config.handleError) {
-                                this.config.handleError(err, caught);
-                            }
-                            return throwError(err);
-                        })
-                    );
+                return this.execGetArrayDataWithCount(this._entitiesUri, requestOptions);
 
             default:
-                return this.http.get<IODataResponseModel<T>>(this._entitiesUri, requestOptions)
-                    .pipe(
-                        map(res => this.extractArrayData(res, this.config)),
-                        catchError((err: any, caught: Observable<Array<T>>) => {
-                            if (this.config.handleError) {
-                                this.config.handleError(err, caught);
-                            }
-                            return throwError(err);
-                        })
-                    );
+                return this.execGetArrayData(requestOptions);
         }
     }
 
@@ -148,10 +120,62 @@ export class ODataQuery<T> extends ODataOperation<T> {
             withCredentials?: boolean;
         } = this.getQueryRequestOptions(false);
 
-        return this.http.get<IODataResponseModel<T>>(pagedResult.nextLink, requestOptions)
+        return this.execGetArrayDataWithCount(pagedResult.nextLink, requestOptions);
+    }
+
+    private execGetCount(requestOptions: {
+        headers?: HttpHeaders;
+        observe: 'response';
+        params?: HttpParams;
+        reportProgress?: boolean;
+        responseType?: 'json';
+        withCredentials?: boolean;
+    }): Observable<number> {
+        const countUrl = `${this._entitiesUri}/${this.config.keys.count}`;
+        return this.http.get<number>(countUrl, requestOptions)
+            .pipe(
+                map(res => this.extractDataAsNumber(res, this.config)),
+                catchError((err: any, caught: Observable<number>) => {
+                    if (this.config.handleError) {
+                        this.config.handleError(err, caught);
+                    }
+                    return throwError(err);
+                })
+            );
+    }
+
+    private execGetArrayDataWithCount(url: string, requestOptions: {
+        headers?: HttpHeaders;
+        observe: 'response';
+        params?: HttpParams;
+        reportProgress?: boolean;
+        responseType?: 'json';
+        withCredentials?: boolean;
+    }): Observable<ODataPagedResult<T>> {
+        return this.http.get<IODataResponseModel<T>>(url, requestOptions)
             .pipe(
                 map(res => this.extractArrayDataWithCount(res, this.config)),
                 catchError((err: any, caught: Observable<ODataPagedResult<T>>) => {
+                    if (this.config.handleError) {
+                        this.config.handleError(err, caught);
+                    }
+                    return throwError(err);
+                })
+            );
+    }
+
+    private execGetArrayData(requestOptions: {
+        headers?: HttpHeaders;
+        observe: 'response';
+        params?: HttpParams;
+        reportProgress?: boolean;
+        responseType?: 'json';
+        withCredentials?: boolean;
+    }): Observable<T[]> {
+        return this.http.get<IODataResponseModel<T>>(this._entitiesUri, requestOptions)
+            .pipe(
+                map(res => this.extractArrayData(res, this.config)),
+                catchError((err: any, caught: Observable<Array<T>>) => {
                     if (this.config.handleError) {
                         this.config.handleError(err, caught);
                     }

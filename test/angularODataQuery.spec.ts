@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { Observable, of } from 'rxjs';
 
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
@@ -9,6 +9,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { AngularODataModule, ODataExecReturnType } from '../src';
 import { ODataConfiguration, ODataPagedResult, ODataQuery, ODataServiceFactory } from './../src/index';
 import { IEmployee } from './helpers/employee';
+import { HttpResponseIEmployeeBuilder } from './helpers/HttpResponseIEmployeeBuilder';
 
 export class ODataQueryMock extends ODataQuery<IEmployee> {
 
@@ -164,7 +165,12 @@ describe('ODataQuery', () => {
         config.defaultRequestOptions = { headers: testHeaders, observe: 'response' };
         const query = new ODataQuery<IEmployee>('Employees', config, http);
 
-        spyOn(http, 'get').and.returnValue(new Observable<Response>());
+        const response = new HttpResponse<number>({
+            body: 5,
+            status: 200
+        });
+
+        spyOn(http, 'get').and.returnValue(Observable.create(response));
 
         // Act
         query
@@ -207,7 +213,9 @@ describe('ODataQuery', () => {
         config.defaultRequestOptions = { headers: testHeaders, observe: 'response' };
         const query = new ODataQuery<IEmployee>('Employees', config, http);
 
-        spyOn(http, 'get').and.returnValue(new Observable<Response>());
+        const response = new HttpResponseIEmployeeBuilder()
+            .build();
+        spyOn(http, 'get').and.returnValue(Observable.create(response));
 
         // Act
         query
@@ -339,12 +347,15 @@ describe('ODataQuery', () => {
     }));
 
     it('Exec PagedResult MaxPageSize', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
-        // Arrange
+        // Assign
         const testHeaders = new HttpHeaders({ 'a': 'b' });
         config.defaultRequestOptions = { headers: testHeaders, observe: 'response' };
         const query = new ODataQuery<IEmployee>('Employees', config, http);
 
-        spyOn(http, 'get').and.returnValue(new Observable<Response>());
+        const response = new HttpResponseIEmployeeBuilder()
+            .withODataNextLink('http://localhost/odata/Employees?$skip=3"')
+            .build();
+        spyOn(http, 'get').and.returnValue(Observable.create(response));
 
         // Act
         query
