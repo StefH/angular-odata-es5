@@ -11,6 +11,6 @@ export class ODataServiceFactory {
     }
 
     public CreateService<T>(typeName: string, config?: ODataConfiguration): ODataService<T> {
-        return new ODataService<T>(typeName, this.http, config != null ? config : this.config);
+        return new ODataService<T>(typeName, this.http, config ? config : this.config);
     }
 }

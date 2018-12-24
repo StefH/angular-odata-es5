@@ -14,6 +14,7 @@ export class KeyConfigs {
     public expand = '$expand';
     public apply = '$apply';
     public count = '$count';
+    public maxPerPage = 'odata.maxpagesize';
 }
 
 @Injectable()
@@ -24,16 +25,16 @@ export class ODataConfiguration {
     public keys: KeyConfigs = new KeyConfigs();
 
     public defaultRequestOptions: {
-        headers?: HttpHeaders;
+        headers: HttpHeaders;
         observe: 'response';
         params?: HttpParams;
         reportProgress?: boolean;
         responseType?: 'json';
         withCredentials?: boolean;
-    } = { observe: 'response' };
+    } = { headers: new HttpHeaders(), observe: 'response' };
 
     public postRequestOptions: {
-        headers?: HttpHeaders;
+        headers: HttpHeaders;
         observe: 'response';
         params?: HttpParams;
         reportProgress?: boolean;
@@ -42,13 +43,13 @@ export class ODataConfiguration {
     } = { headers: this._postHeaders, observe: 'response' };
 
     public customRequestOptions: {
-        headers?: HttpHeaders;
+        headers: HttpHeaders;
         observe: 'response';
         params?: HttpParams;
         reportProgress?: boolean;
         responseType?: 'json';
         withCredentials?: boolean;
-    } = { observe: 'response' };
+    } = { headers: new HttpHeaders(), observe: 'response' };
 
     set baseUrl(baseUrl: string) {
         this._baseUrl = baseUrl.replace(/\/+$/, '');
@@ -98,12 +99,16 @@ export class ODataConfiguration {
 
         pagedResult.data = entities;
 
-        try {
-            const count: number = parseInt(body['@odata.count'], 10) || entities.length;
-            pagedResult.count = count;
-        } catch (error) {
+        const parseResult = ODataUtils.tryParseInt(body['@odata.count']);
+        if (parseResult.valid) {
+            pagedResult.count = parseResult.value;
+        } else {
             console.warn('Cannot determine OData entities count. Falling back to collection length.');
             pagedResult.count = entities.length;
+        }
+
+        if (body['@odata.nextLink']) {
+            pagedResult.nextLink = body['@odata.nextLink'];
         }
 
         return pagedResult;

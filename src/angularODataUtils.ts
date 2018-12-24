@@ -37,4 +37,19 @@ export class ODataUtils {
 
         return parts.length > 0 ? parts.join(', ') : `${value}`;
     }
+
+    public static tryParseInt(input?: any): { valid: boolean, value: number } {
+        if (input !== null && !isNaN(input)) {
+            const parsed: number = parseInt(input, 10);
+            return {
+                valid: !isNaN(parsed),
+                value: parsed
+            };
+        }
+
+        return {
+            valid: false,
+            value: NaN
+        };
+    }
 }

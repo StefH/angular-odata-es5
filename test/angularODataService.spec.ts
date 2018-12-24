@@ -9,41 +9,10 @@ import { inject, TestBed } from '@angular/core/testing';
 import { AngularODataModule } from '../src';
 import { ODataConfiguration, ODataServiceFactory } from './../src/index';
 import { IEmployee } from './helpers/employee';
-
-class HttpHeadersMatcher {
-
-    constructor(private check: { [name: string]: string }) {
-    }
-
-    public asymmetricMatch(options: any): boolean {
-        const headers: HttpHeaders = options.headers;
-
-        assert.equal(options.observe, 'response');
-
-        Object.keys(this.check)
-            .forEach((key: string) => {
-                assert.equal(headers.get(key), this.check[key], `The header '${key}' does not have the correct value`);
-            });
-
-        return true;
-    }
-
-    public jasmineToString(): string {
-        return `<HeaderMatching: ${JSON.stringify(this.check)}>`;
-    }
-}
+import { IEmployeeBuilder } from './helpers/employeeBuilder';
+import { HttpHeadersMatcher } from './helpers/httpHeadersMatcher';
 
 describe('ODataService', () => {
-    const employee: IEmployee = {
-        EmployeeID: 1,
-        FirstName: 'f',
-        LastName: 'l',
-        City: 'c',
-        BirthDate: null,
-        Orders: null,
-        Boss: null
-    };
-
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
@@ -155,15 +124,8 @@ describe('ODataService', () => {
     it('Post', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
         // Assign
         const service = factory.CreateService<IEmployee>('Employees');
-        const employee: IEmployee = {
-            EmployeeID: 1,
-            FirstName: 'f',
-            LastName: 'l',
-            City: 'c',
-            BirthDate: null,
-            Orders: null,
-            Boss: null
-        };
+        const employee = new IEmployeeBuilder()
+            .build();
 
         spyOn(http, 'post').and.returnValue(new Observable<Response>());
 
@@ -175,12 +137,14 @@ describe('ODataService', () => {
         // Assert
         assert.equal(url, `http://localhost/odata/Employees`);
         assert.isNotNull(result);
-        expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees`, `{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null,"Boss":null}`, jasmine.any(Object));
+        expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees`, `{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c"}`, jasmine.any(Object));
     }));
 
     it('Post with expand', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
         // Assign
         const service = factory.CreateService<IEmployee>('Employees');
+        const employee = new IEmployeeBuilder()
+            .build();
 
         spyOn(http, 'post').and.returnValue(new Observable<Response>());
 
@@ -195,24 +159,17 @@ describe('ODataService', () => {
 
         let httpParams: HttpParams = new HttpParams();
         httpParams = httpParams.append('$expand', 'Boss');
-        expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees`, `{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null,"Boss":null}`, jasmine.objectContaining({ params: httpParams }));
+        expect(http.post).toHaveBeenCalledWith(`http://localhost/odata/Employees`, `{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c"}`, jasmine.objectContaining({ params: httpParams }));
     }));
 
     it('Post with custom headers', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
-        // Arrange
+        // Assign
         const config = new ODataConfiguration();
         config.postRequestOptions.headers = config.postRequestOptions.headers.append('Session', 'abc');
 
         const service = factory.CreateService<IEmployee>('Employees', config);
-        const employee: IEmployee = {
-            EmployeeID: 1,
-            FirstName: 'f',
-            LastName: 'l',
-            City: 'c',
-            BirthDate: new Date(),
-            Orders: null,
-            Boss: null
-        };
+        const employee = new IEmployeeBuilder()
+            .build();
 
         spyOn(http, 'post').and.returnValue(new Observable<Response>());
 
@@ -228,15 +185,8 @@ describe('ODataService', () => {
     it('Patch with string key', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
         // Assign
         const service = factory.CreateService<IEmployee>('Employees');
-        const employee: IEmployee = {
-            EmployeeID: 1,
-            FirstName: 'f',
-            LastName: 'l',
-            City: 'c',
-            BirthDate: null,
-            Orders: null,
-            Boss: null
-        };
+        const employee = new IEmployeeBuilder()
+            .build();
 
         spyOn(http, 'patch').and.returnValue(new Observable<Response>());
 
@@ -248,7 +198,7 @@ describe('ODataService', () => {
         // Assert
         assert.equal(url, `http://localhost/odata/Employees('x')`);
         assert.isNotNull(result);
-        expect(http.patch).toHaveBeenCalledWith(`http://localhost/odata/Employees('x')`, '{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null,"Boss":null}', jasmine.any(Object));
+        expect(http.patch).toHaveBeenCalledWith(`http://localhost/odata/Employees('x')`, '{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c"}', jasmine.any(Object));
     }));
 
     it('Patch with number key', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
@@ -271,6 +221,8 @@ describe('ODataService', () => {
     it('Patch with expand', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
         // Assign
         const service = factory.CreateService<IEmployee>('Employees');
+        const employee = new IEmployeeBuilder()
+            .build();
 
         spyOn(http, 'patch').and.returnValue(new Observable<Response>());
 
@@ -285,7 +237,7 @@ describe('ODataService', () => {
 
         let httpParams: HttpParams = new HttpParams();
         httpParams = httpParams.append('$expand', 'Boss');
-        expect(http.patch).toHaveBeenCalledWith(`http://localhost/odata/Employees(${employee.EmployeeID})`, `{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null,"Boss":null}`, jasmine.objectContaining({ params: httpParams }));
+        expect(http.patch).toHaveBeenCalledWith(`http://localhost/odata/Employees(${employee.EmployeeID})`, `{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c"}`, jasmine.objectContaining({ params: httpParams }));
     }));
 
     it('Delete with string key', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
@@ -307,7 +259,7 @@ describe('ODataService', () => {
             reportProgress?: boolean;
             responseType?: 'json';
             withCredentials?: boolean;
-        } = { observe: 'response' };
+        } = { headers: new HttpHeaders(), observe: 'response' };
 
         assert.equal(url, `http://localhost/odata/Employees('x')`);
         assert.isNotNull(result);
@@ -334,15 +286,8 @@ describe('ODataService', () => {
     it('Put with string key', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
         // Assign
         const service = factory.CreateService<IEmployee>('Employees');
-        const employee: IEmployee = {
-            EmployeeID: 1,
-            FirstName: 'f',
-            LastName: 'l',
-            City: 'c',
-            BirthDate: null,
-            Orders: null,
-            Boss: null
-        };
+        const employee = new IEmployeeBuilder()
+            .build();
 
         spyOn(http, 'put').and.returnValue(new Observable<Response>());
 
@@ -354,7 +299,7 @@ describe('ODataService', () => {
         // Assert
         assert.equal(url, `http://localhost/odata/Employees('x')`);
         assert.isNotNull(result);
-        expect(http.put).toHaveBeenCalledWith(`http://localhost/odata/Employees('x')`, '{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null,"Boss":null}', jasmine.any(Object));
+        expect(http.put).toHaveBeenCalledWith(`http://localhost/odata/Employees('x')`, '{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c"}', jasmine.any(Object));
     }));
 
     it('Put with number key', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
@@ -395,6 +340,8 @@ describe('ODataService', () => {
     it('Put with expand', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
         // Assign
         const service = factory.CreateService<IEmployee>('Employees');
+        const employee = new IEmployeeBuilder()
+            .build();
 
         spyOn(http, 'put').and.returnValue(new Observable<Response>());
 
@@ -409,7 +356,7 @@ describe('ODataService', () => {
 
         let httpParams: HttpParams = new HttpParams();
         httpParams = httpParams.append('$expand', 'Boss');
-        expect(http.put).toHaveBeenCalledWith(`http://localhost/odata/Employees(${employee.EmployeeID})`, `{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c","BirthDate":null,"Orders":null,"Boss":null}`, jasmine.objectContaining({ params: httpParams }));
+        expect(http.put).toHaveBeenCalledWith(`http://localhost/odata/Employees(${employee.EmployeeID})`, `{"EmployeeID":1,"FirstName":"f","LastName":"l","City":"c"}`, jasmine.objectContaining({ params: httpParams }));
     }));
 
     it('Query', inject([HttpClient, ODataServiceFactory, ODataConfiguration], (http: HttpClient, factory: ODataServiceFactory, config: ODataConfiguration) => {
@@ -426,13 +373,13 @@ describe('ODataService', () => {
         // Assert
         const params = new HttpParams().append(config.keys.top, '100');
         const testOptions: {
-            headers?: HttpHeaders;
+            headers: HttpHeaders;
             observe: 'response';
             params?: HttpParams;
             reportProgress?: boolean;
             responseType?: 'json';
             withCredentials?: boolean;
-        } = { params: params, observe: 'response' };
+        } = { headers: new HttpHeaders(), params: params, observe: 'response' };
 
         assert.equal(url, `http://localhost/odata/Employees?$top=100`);
         assert.isNotNull(result);
@@ -452,26 +399,26 @@ describe('ODataService', () => {
 
         // Assert GET
         const getOptions: {
-            headers?: HttpHeaders;
+            headers: HttpHeaders;
             observe: 'response';
             params?: HttpParams;
             reportProgress?: boolean;
             responseType?: 'json';
             withCredentials?: boolean;
-        } = { params: new HttpParams().append(config.keys.top, '100'), observe: 'response' };
+        } = { headers: new HttpHeaders(), params: new HttpParams().append(config.keys.top, '100'), observe: 'response' };
 
         assert.isNotNull(result1);
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees`, getOptions);
 
         // Assert DELETE
         const deleteOptions: {
-            headers?: HttpHeaders;
+            headers: HttpHeaders;
             observe: 'response';
             params?: HttpParams;
             reportProgress?: boolean;
             responseType?: 'json';
             withCredentials?: boolean;
-        } = { observe: 'response' };
+        } = { headers: new HttpHeaders(), observe: 'response' };
 
         assert.isNotNull(result2);
         expect(http.delete).toHaveBeenCalledWith(`http://localhost/odata/Employees('x')`, deleteOptions);
