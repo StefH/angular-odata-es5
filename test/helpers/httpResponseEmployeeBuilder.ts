@@ -2,7 +2,7 @@ import { HttpResponse } from '@angular/common/http';
 import { IODataResponseModel } from '../../src/index';
 import { IEmployee } from './employee';
 
-export class HttpResponseIEmployeeBuilder {
+export class HttpResponseEmployeeBuilder {
     private readonly body: IODataResponseModel<IEmployee>;
     private httpStatus: number;
 
@@ -18,7 +18,7 @@ export class HttpResponseIEmployeeBuilder {
                     BirthDate: new Date('1948-12-08T00:00:00Z'),
                     City: 'Seattle',
                     Orders: [],
-                    Boss: null
+                    Boss: undefined
                 },
                 {
                     EmployeeID: 2,
@@ -27,7 +27,7 @@ export class HttpResponseIEmployeeBuilder {
                     BirthDate: new Date('1978-12-08T00:00:00Z'),
                     City: 'Paris',
                     Orders: [],
-                    Boss: null
+                    Boss: undefined
                 }
             ]
         };
@@ -35,22 +35,22 @@ export class HttpResponseIEmployeeBuilder {
         this.httpStatus = 200;
     }
 
-    public withODataCount(count: number | any): HttpResponseIEmployeeBuilder {
+    public withODataCount(count: number | any): HttpResponseEmployeeBuilder {
         this.body['@odata.count'] = count;
         return this;
     }
 
-    public removeODataCount(): HttpResponseIEmployeeBuilder {
+    public removeODataCount(): HttpResponseEmployeeBuilder {
         delete this.body['@odata.count'];
         return this;
     }
 
-    public withODataNextLink(link: string): HttpResponseIEmployeeBuilder {
+    public withODataNextLink(link: string): HttpResponseEmployeeBuilder {
         this.body['@odata.nextLink'] = link;
         return this;
     }
 
-    public withHttpStatuscode(status: number): HttpResponseIEmployeeBuilder {
+    public withHttpStatuscode(status: number): HttpResponseEmployeeBuilder {
         this.httpStatus = status;
         return this;
     }

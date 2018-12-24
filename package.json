@@ -6,7 +6,7 @@
   "module": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
-    "tslint": "tslint --project tsconfig.json -c ./tslint.json './src/*.ts'",
+    "tslint": "tslint --project tsconfig.json -c ./tslint.json",
     "start": "concurrently --raw \"webpack-dev-server --open\" \"npm run test:watch\"",
     "build:demo": "webpack -p",
     "build:umd": "webpack --config webpack.config.umd.ts",

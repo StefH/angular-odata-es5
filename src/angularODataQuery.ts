@@ -202,7 +202,7 @@ export class ODataQuery<T> extends ODataOperation<T> {
             options.headers = options.headers.set('Prefer', `${this.config.keys.maxPerPage}=${this._maxPerPage}`);
 
             // Hack to force the values to apply so test compare works.
-            options.headers.keys();
+            // options.headers.keys();
         }
 
         return options;

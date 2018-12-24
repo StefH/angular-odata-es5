@@ -25,16 +25,16 @@ export class ODataConfiguration {
     public keys: KeyConfigs = new KeyConfigs();
 
     public defaultRequestOptions: {
-        headers?: HttpHeaders;
+        headers: HttpHeaders;
         observe: 'response';
         params?: HttpParams;
         reportProgress?: boolean;
         responseType?: 'json';
         withCredentials?: boolean;
-    } = { observe: 'response' };
+    } = { headers: new HttpHeaders(), observe: 'response' };
 
     public postRequestOptions: {
-        headers?: HttpHeaders;
+        headers: HttpHeaders;
         observe: 'response';
         params?: HttpParams;
         reportProgress?: boolean;
@@ -43,13 +43,13 @@ export class ODataConfiguration {
     } = { headers: this._postHeaders, observe: 'response' };
 
     public customRequestOptions: {
-        headers?: HttpHeaders;
+        headers: HttpHeaders;
         observe: 'response';
         params?: HttpParams;
         reportProgress?: boolean;
         responseType?: 'json';
         withCredentials?: boolean;
-    } = { observe: 'response' };
+    } = { headers: new HttpHeaders(), observe: 'response' };
 
     set baseUrl(baseUrl: string) {
         this._baseUrl = baseUrl.replace(/\/+$/, '');
@@ -107,8 +107,8 @@ export class ODataConfiguration {
             pagedResult.count = entities.length;
         }
 
-        if (res.body['@odata.nextLink']) {
-            pagedResult.nextLink = res.body['@odata.nextLink'];
+        if (body['@odata.nextLink']) {
+            pagedResult.nextLink = body['@odata.nextLink'];
         }
 
         return pagedResult;

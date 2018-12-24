@@ -8,7 +8,7 @@ import { ODataConfiguration, ODataServiceFactory } from './../src/index';
 import { IEmployee } from './helpers/employee';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { HttpResponseIEmployeeBuilder } from './helpers/HttpResponseIEmployeeBuilder';
+import { HttpResponseEmployeeBuilder } from './helpers/httpResponseEmployeeBuilder';
 
 describe('ODataConfiguration', () => {
     beforeEach(() => {
@@ -140,7 +140,7 @@ describe('ODataConfiguration', () => {
 
     it('extractQueryResultData', () => {
         // Assign
-        const httpResponse = new HttpResponseIEmployeeBuilder()
+        const httpResponse = new HttpResponseEmployeeBuilder()
             .withODataCount(3)
             .build();
 
@@ -154,7 +154,7 @@ describe('ODataConfiguration', () => {
 
     it('extractQueryResultDataWithCount', () => {
         // Assign
-        const httpResponse = new HttpResponseIEmployeeBuilder()
+        const httpResponse = new HttpResponseEmployeeBuilder()
             .withODataCount(3)
             .build();
 
@@ -169,7 +169,7 @@ describe('ODataConfiguration', () => {
 
     it('extractQueryResultDataWithCount (@odata.count is missing)', () => {
         // Assign
-        const httpResponse = new HttpResponseIEmployeeBuilder()
+        const httpResponse = new HttpResponseEmployeeBuilder()
             .removeODataCount()
             .build();
 
@@ -184,7 +184,7 @@ describe('ODataConfiguration', () => {
 
     it('extractQueryResultDataWithCount (@odata.count is invalid)', () => {
         // Assign
-        const httpResponse = new HttpResponseIEmployeeBuilder()
+        const httpResponse = new HttpResponseEmployeeBuilder()
             .withODataCount('xyz')
             .build();
 
@@ -199,7 +199,7 @@ describe('ODataConfiguration', () => {
 
     it('extractQueryResultDataWithCount with @odata.nextLink', () => {
         // Assign
-        const httpResponse = new HttpResponseIEmployeeBuilder()
+        const httpResponse = new HttpResponseEmployeeBuilder()
             .withODataNextLink('xyz')
             .build();
 
