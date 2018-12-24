@@ -3,5 +3,7 @@ export interface IODataResponseModel<T> {
 
     '@odata.count'?: number;
 
+    '@odata.nextLink'?: string;
+
     value: T[];
 }

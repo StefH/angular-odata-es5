@@ -54,6 +54,7 @@
       true,
       "always"
     ],
+    "triple-equals": true,
     "use-host-property-decorator": true,
     "use-input-property-decorator": true,
     "use-life-cycle-interface": true,

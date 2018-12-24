@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.8.0"></a>
+# [0.8.0](https://github.com/StefH/angular-odata-es5/compare/v0.7.4...v0.8.0) (2018-12-24)
+
+
+### Features
+
+* **Paging:** Added support for [@odata](https://github.com/odata).maxpagesize and [@odata](https://github.com/odata).nextLink ([#73](https://github.com/StefH/angular-odata-es5/issues/73)) ([41f2752](https://github.com/StefH/angular-odata-es5/commit/41f2752))
+
+
+### BREAKING CHANGES
+
+* **Paging:** All request options in the ODataConfiguration have a non-null headers object.
+
+* style(style): remove comment
+
+remove comment
+
+
+
 <a name="0.7.4"></a>
 ## [0.7.4](https://github.com/StefH/angular-odata-es5/compare/v0.7.3...v0.7.4) (2018-12-22)
 

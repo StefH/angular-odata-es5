@@ -17,6 +17,7 @@ export class ODataQuery<T> extends ODataOperation<T> {
     private _orderBy: string[] = [];
     private _apply: string[] = [];
     private _entitiesUri: string;
+    private _maxPerPage: number;
 
     constructor(typeName: string, config: ODataConfiguration, http: HttpClient) {
         super(typeName, config, http);
@@ -32,14 +33,14 @@ export class ODataQuery<T> extends ODataOperation<T> {
     }
 
     public Top(top: number): ODataQuery<T> {
-        if (top) {
+        if (top > 0) {
             this._top = top;
         }
         return this;
     }
 
     public Skip(skip: number): ODataQuery<T> {
-        if (skip) {
+        if (skip > 0) {
             this._skip = skip;
         }
         return this;
@@ -48,6 +49,13 @@ export class ODataQuery<T> extends ODataOperation<T> {
     public OrderBy(orderBy: string | string[]): ODataQuery<T> {
         if (orderBy) {
             this._orderBy = this.toStringArray(orderBy);
+        }
+        return this;
+    }
+
+    public MaxPerPage(maxPerPage: number): ODataQuery<T> {
+        if (maxPerPage > 0) {
+            this._maxPerPage = maxPerPage;
         }
         return this;
     }
@@ -88,46 +96,92 @@ export class ODataQuery<T> extends ODataOperation<T> {
 
         switch (returnType) {
             case ODataExecReturnType.Count:
-                const countUrl = `${this._entitiesUri}/${this.config.keys.count}`;
-                return this.http.get<number>(countUrl, requestOptions)
-                    .pipe(
-                        map(res => this.extractDataAsNumber(res, this.config)),
-                        catchError((err: any, caught: Observable<number>) => {
-                            if (this.config.handleError) {
-                                this.config.handleError(err, caught);
-                            }
-                            return throwError(err);
-                        })
-                    );
+                return this.execGetCount(requestOptions);
 
             case ODataExecReturnType.PagedResult:
-                return this.http.get<IODataResponseModel<T>>(this._entitiesUri, requestOptions)
-                    .pipe(
-                        map(res => this.extractArrayDataWithCount(res, this.config)),
-                        catchError((err: any, caught: Observable<ODataPagedResult<T>>) => {
-                            if (this.config.handleError) {
-                                this.config.handleError(err, caught);
-                            }
-                            return throwError(err);
-                        })
-                    );
+                return this.execGetArrayDataWithCount(this._entitiesUri, requestOptions);
 
             default:
-                return this.http.get<IODataResponseModel<T>>(this._entitiesUri, requestOptions)
-                    .pipe(
-                        map(res => this.extractArrayData(res, this.config)),
-                        catchError((err: any, caught: Observable<Array<T>>) => {
-                            if (this.config.handleError) {
-                                this.config.handleError(err, caught);
-                            }
-                            return throwError(err);
-                        })
-                    );
+                return this.execGetArrayData(requestOptions);
         }
     }
 
     public ExecWithCount(): Observable<ODataPagedResult<T>> {
         return this.Exec(ODataExecReturnType.PagedResult);
+    }
+
+    public NextPage(pagedResult: ODataPagedResult<T>): Observable<ODataPagedResult<T>> {
+        const requestOptions: {
+            headers?: HttpHeaders;
+            observe: 'response';
+            params?: HttpParams;
+            reportProgress?: boolean;
+            responseType?: 'json';
+            withCredentials?: boolean;
+        } = this.getQueryRequestOptions(false);
+
+        return this.execGetArrayDataWithCount(pagedResult.nextLink, requestOptions);
+    }
+
+    private execGetCount(requestOptions: {
+        headers?: HttpHeaders;
+        observe: 'response';
+        params?: HttpParams;
+        reportProgress?: boolean;
+        responseType?: 'json';
+        withCredentials?: boolean;
+    }): Observable<number> {
+        const countUrl = `${this._entitiesUri}/${this.config.keys.count}`;
+        return this.http.get<number>(countUrl, requestOptions)
+            .pipe(
+                map(res => this.extractDataAsNumber(res, this.config)),
+                catchError((err: any, caught: Observable<number>) => {
+                    if (this.config.handleError) {
+                        this.config.handleError(err, caught);
+                    }
+                    return throwError(err);
+                })
+            );
+    }
+
+    private execGetArrayDataWithCount(url: string, requestOptions: {
+        headers?: HttpHeaders;
+        observe: 'response';
+        params?: HttpParams;
+        reportProgress?: boolean;
+        responseType?: 'json';
+        withCredentials?: boolean;
+    }): Observable<ODataPagedResult<T>> {
+        return this.http.get<IODataResponseModel<T>>(url, requestOptions)
+            .pipe(
+                map(res => this.extractArrayDataWithCount(res, this.config)),
+                catchError((err: any, caught: Observable<ODataPagedResult<T>>) => {
+                    if (this.config.handleError) {
+                        this.config.handleError(err, caught);
+                    }
+                    return throwError(err);
+                })
+            );
+    }
+
+    private execGetArrayData(requestOptions: {
+        headers?: HttpHeaders;
+        observe: 'response';
+        params?: HttpParams;
+        reportProgress?: boolean;
+        responseType?: 'json';
+        withCredentials?: boolean;
+    }): Observable<T[]> {
+        return this.http.get<IODataResponseModel<T>>(this._entitiesUri, requestOptions)
+            .pipe(
+                map(res => this.extractArrayData(res, this.config)),
+                catchError((err: any, caught: Observable<Array<T>>) => {
+                    if (this.config.handleError) {
+                        this.config.handleError(err, caught);
+                    }
+                    return throwError(err);
+                })
+            );
     }
 
     private getQueryRequestOptions(odata4: boolean): {
@@ -140,6 +194,13 @@ export class ODataQuery<T> extends ODataOperation<T> {
     } {
         const options = Object.assign({}, this.config.defaultRequestOptions);
         options.params = this.getQueryParams(odata4);
+
+        if (this._maxPerPage > 0) {
+            if (!options.headers) {
+                options.headers = new HttpHeaders();
+            }
+            options.headers = options.headers.set('Prefer', `${this.config.keys.maxPerPage}=${this._maxPerPage}`);
+        }
 
         return options;
     }

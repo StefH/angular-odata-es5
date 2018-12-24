@@ -40,12 +40,12 @@ export class ODataService<T> {
     }
 
     public CustomAction(key: any, actionName: string, postdata: any): Observable<any> {
-        const body: string = postdata ? JSON.stringify(postdata) : null;
+        const body = postdata ? JSON.stringify(postdata) : null;
         return this._http.post(`${this.getEntityUri(key)}/${actionName}`, body, this.config.customRequestOptions).pipe(map(resp => resp));
     }
 
     public CustomCollectionAction(actionName: string, postdata: any): Observable<any> {
-        const body: string = postdata ? JSON.stringify(postdata) : null;
+        const body = postdata ? JSON.stringify(postdata) : null;
         return this._http.post(`${this._entitiesUri}/${actionName}`, body, this.config.customRequestOptions).pipe(map(resp => resp));
     }
 
@@ -95,7 +95,6 @@ export class ODataService<T> {
             throw new Error('Bad response status: ' + res.status);
         }
         const body: any = res.body;
-        const entity: TResponse = body;
-        return entity || null;
+        return body || {};
     }
 }

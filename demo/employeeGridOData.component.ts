@@ -149,7 +149,7 @@ export class EmployeeGridODataComponent implements OnInit {
             });
 
         this.queryAsJson = JSON.stringify(this.query, (key, value) => {
-            if (key == 'http') {
+            if (key === 'http') {
                 return undefined;
             }
             return value;
