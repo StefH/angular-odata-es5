@@ -500,6 +500,33 @@
                         <tbody>
                             <tr>
                                 <td class="col-md-4">
+                                    <b><span class="modifier">Public</span> MaxPerPage</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play circle">
+                                            <span class="fa fa-circle"></span>
+                                        </span>
+                                    <code>MaxPerPage(maxPerPage: number)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code><a href="../classes/ODataQuery.html" target="_self" >ODataQuery&lt;T&gt;</a></code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
                                     <b><span class="modifier">Public</span> Apply</b>
                                 </td>
                             </tr>
@@ -685,6 +712,33 @@
                             </tr>
                         </tbody>
                     </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b><span class="modifier">Public</span> NextPage</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play circle">
+                                            <span class="fa fa-circle"></span>
+                                        </span>
+                                    <code>NextPage(pagedResult: <a href="../classes/ODataPagedResult.html" >ODataPagedResult<T></a>)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code><a href="../classes/ODataPagedResult.html" target="_self" >Observable&lt;ODataPagedResult&lt;T&gt;&gt;</a></code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
             </section>
 
 
@@ -709,6 +763,7 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
     private _orderBy: string[] &#x3D; [];
     private _apply: string[] &#x3D; [];
     private _entitiesUri: string;
+    private _maxPerPage: number;
 
     constructor(typeName: string, config: ODataConfiguration, http: HttpClient) {
         super(typeName, config, http);
@@ -724,14 +779,14 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
     }
 
     public Top(top: number): ODataQuery&lt;T&gt; {
-        if (top) {
+        if (top &gt; 0) {
             this._top &#x3D; top;
         }
         return this;
     }
 
     public Skip(skip: number): ODataQuery&lt;T&gt; {
-        if (skip) {
+        if (skip &gt; 0) {
             this._skip &#x3D; skip;
         }
         return this;
@@ -740,6 +795,13 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
     public OrderBy(orderBy: string | string[]): ODataQuery&lt;T&gt; {
         if (orderBy) {
             this._orderBy &#x3D; this.toStringArray(orderBy);
+        }
+        return this;
+    }
+
+    public MaxPerPage(maxPerPage: number): ODataQuery&lt;T&gt; {
+        if (maxPerPage &gt; 0) {
+            this._maxPerPage &#x3D; maxPerPage;
         }
         return this;
     }
@@ -780,46 +842,92 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
 
         switch (returnType) {
             case ODataExecReturnType.Count:
-                const countUrl &#x3D; &#x60;${this._entitiesUri}/${this.config.keys.count}&#x60;;
-                return this.http.get&lt;number&gt;(countUrl, requestOptions)
-                    .pipe(
-                        map(res &#x3D;&gt; this.extractDataAsNumber(res, this.config)),
-                        catchError((err: any, caught: Observable&lt;number&gt;) &#x3D;&gt; {
-                            if (this.config.handleError) {
-                                this.config.handleError(err, caught);
-                            }
-                            return throwError(err);
-                        })
-                    );
+                return this.execGetCount(requestOptions);
 
             case ODataExecReturnType.PagedResult:
-                return this.http.get&lt;IODataResponseModel&lt;T&gt;&gt;(this._entitiesUri, requestOptions)
-                    .pipe(
-                        map(res &#x3D;&gt; this.extractArrayDataWithCount(res, this.config)),
-                        catchError((err: any, caught: Observable&lt;ODataPagedResult&lt;T&gt;&gt;) &#x3D;&gt; {
-                            if (this.config.handleError) {
-                                this.config.handleError(err, caught);
-                            }
-                            return throwError(err);
-                        })
-                    );
+                return this.execGetArrayDataWithCount(this._entitiesUri, requestOptions);
 
             default:
-                return this.http.get&lt;IODataResponseModel&lt;T&gt;&gt;(this._entitiesUri, requestOptions)
-                    .pipe(
-                        map(res &#x3D;&gt; this.extractArrayData(res, this.config)),
-                        catchError((err: any, caught: Observable&lt;Array&lt;T&gt;&gt;) &#x3D;&gt; {
-                            if (this.config.handleError) {
-                                this.config.handleError(err, caught);
-                            }
-                            return throwError(err);
-                        })
-                    );
+                return this.execGetArrayData(requestOptions);
         }
     }
 
     public ExecWithCount(): Observable&lt;ODataPagedResult&lt;T&gt;&gt; {
         return this.Exec(ODataExecReturnType.PagedResult);
+    }
+
+    public NextPage(pagedResult: ODataPagedResult&lt;T&gt;): Observable&lt;ODataPagedResult&lt;T&gt;&gt; {
+        const requestOptions: {
+            headers?: HttpHeaders;
+            observe: &#x27;response&#x27;;
+            params?: HttpParams;
+            reportProgress?: boolean;
+            responseType?: &#x27;json&#x27;;
+            withCredentials?: boolean;
+        } &#x3D; this.getQueryRequestOptions(false);
+
+        return this.execGetArrayDataWithCount(pagedResult.nextLink, requestOptions);
+    }
+
+    private execGetCount(requestOptions: {
+        headers?: HttpHeaders;
+        observe: &#x27;response&#x27;;
+        params?: HttpParams;
+        reportProgress?: boolean;
+        responseType?: &#x27;json&#x27;;
+        withCredentials?: boolean;
+    }): Observable&lt;number&gt; {
+        const countUrl &#x3D; &#x60;${this._entitiesUri}/${this.config.keys.count}&#x60;;
+        return this.http.get&lt;number&gt;(countUrl, requestOptions)
+            .pipe(
+                map(res &#x3D;&gt; this.extractDataAsNumber(res, this.config)),
+                catchError((err: any, caught: Observable&lt;number&gt;) &#x3D;&gt; {
+                    if (this.config.handleError) {
+                        this.config.handleError(err, caught);
+                    }
+                    return throwError(err);
+                })
+            );
+    }
+
+    private execGetArrayDataWithCount(url: string, requestOptions: {
+        headers?: HttpHeaders;
+        observe: &#x27;response&#x27;;
+        params?: HttpParams;
+        reportProgress?: boolean;
+        responseType?: &#x27;json&#x27;;
+        withCredentials?: boolean;
+    }): Observable&lt;ODataPagedResult&lt;T&gt;&gt; {
+        return this.http.get&lt;IODataResponseModel&lt;T&gt;&gt;(url, requestOptions)
+            .pipe(
+                map(res &#x3D;&gt; this.extractArrayDataWithCount(res, this.config)),
+                catchError((err: any, caught: Observable&lt;ODataPagedResult&lt;T&gt;&gt;) &#x3D;&gt; {
+                    if (this.config.handleError) {
+                        this.config.handleError(err, caught);
+                    }
+                    return throwError(err);
+                })
+            );
+    }
+
+    private execGetArrayData(requestOptions: {
+        headers?: HttpHeaders;
+        observe: &#x27;response&#x27;;
+        params?: HttpParams;
+        reportProgress?: boolean;
+        responseType?: &#x27;json&#x27;;
+        withCredentials?: boolean;
+    }): Observable&lt;T[]&gt; {
+        return this.http.get&lt;IODataResponseModel&lt;T&gt;&gt;(this._entitiesUri, requestOptions)
+            .pipe(
+                map(res &#x3D;&gt; this.extractArrayData(res, this.config)),
+                catchError((err: any, caught: Observable&lt;Array&lt;T&gt;&gt;) &#x3D;&gt; {
+                    if (this.config.handleError) {
+                        this.config.handleError(err, caught);
+                    }
+                    return throwError(err);
+                })
+            );
     }
 
     private getQueryRequestOptions(odata4: boolean): {
@@ -832,6 +940,13 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
     } {
         const options &#x3D; Object.assign({}, this.config.defaultRequestOptions);
         options.params &#x3D; this.getQueryParams(odata4);
+
+        if (this._maxPerPage &gt; 0) {
+            if (!options.headers) {
+                options.headers &#x3D; new HttpHeaders();
+            }
+            options.headers &#x3D; options.headers.set(&#x27;Prefer&#x27;, &#x60;${this.config.keys.maxPerPage}&#x3D;${this._maxPerPage}&#x60;);
+        }
 
         return options;
     }

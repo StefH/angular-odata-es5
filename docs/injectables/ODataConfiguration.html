@@ -458,6 +458,26 @@
                         <tbody>
                             <tr>
                                 <td class="col-md-4">
+                                    <b><span class="modifier">Public</span> maxPerPage</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <span class="modifier-icon fa fa-circle"></span><code>maxPerPage:     <code>string</code>
+            </bcode>
+                                </td>
+                            </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <i>Default value: </i><code>odata.maxpagesize</code>
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
                                     <b><span class="modifier">Public</span> orderBy</b>
                                 </td>
                             </tr>
@@ -553,6 +573,7 @@ export class KeyConfigs {
     public expand &#x3D; &#x27;$expand&#x27;;
     public apply &#x3D; &#x27;$apply&#x27;;
     public count &#x3D; &#x27;$count&#x27;;
+    public maxPerPage &#x3D; &#x27;odata.maxpagesize&#x27;;
 }
 
 @Injectable()
@@ -563,16 +584,16 @@ export class ODataConfiguration {
     public keys: KeyConfigs &#x3D; new KeyConfigs();
 
     public defaultRequestOptions: {
-        headers?: HttpHeaders;
+        headers: HttpHeaders;
         observe: &#x27;response&#x27;;
         params?: HttpParams;
         reportProgress?: boolean;
         responseType?: &#x27;json&#x27;;
         withCredentials?: boolean;
-    } &#x3D; { observe: &#x27;response&#x27; };
+    } &#x3D; { headers: new HttpHeaders(), observe: &#x27;response&#x27; };
 
     public postRequestOptions: {
-        headers?: HttpHeaders;
+        headers: HttpHeaders;
         observe: &#x27;response&#x27;;
         params?: HttpParams;
         reportProgress?: boolean;
@@ -581,13 +602,13 @@ export class ODataConfiguration {
     } &#x3D; { headers: this._postHeaders, observe: &#x27;response&#x27; };
 
     public customRequestOptions: {
-        headers?: HttpHeaders;
+        headers: HttpHeaders;
         observe: &#x27;response&#x27;;
         params?: HttpParams;
         reportProgress?: boolean;
         responseType?: &#x27;json&#x27;;
         withCredentials?: boolean;
-    } &#x3D; { observe: &#x27;response&#x27; };
+    } &#x3D; { headers: new HttpHeaders(), observe: &#x27;response&#x27; };
 
     set baseUrl(baseUrl: string) {
         this._baseUrl &#x3D; baseUrl.replace(/\/+$/, &#x27;&#x27;);
@@ -637,12 +658,16 @@ export class ODataConfiguration {
 
         pagedResult.data &#x3D; entities;
 
-        try {
-            const count: number &#x3D; parseInt(body[&#x27;@odata.count&#x27;], 10) || entities.length;
-            pagedResult.count &#x3D; count;
-        } catch (error) {
+        const parseResult &#x3D; ODataUtils.tryParseInt(body[&#x27;@odata.count&#x27;]);
+        if (parseResult.valid) {
+            pagedResult.count &#x3D; parseResult.value;
+        } else {
             console.warn(&#x27;Cannot determine OData entities count. Falling back to collection length.&#x27;);
             pagedResult.count &#x3D; entities.length;
+        }
+
+        if (body[&#x27;@odata.nextLink&#x27;]) {
+            pagedResult.nextLink &#x3D; body[&#x27;@odata.nextLink&#x27;];
         }
 
         return pagedResult;

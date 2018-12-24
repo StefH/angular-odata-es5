@@ -777,12 +777,12 @@ export class ODataService&lt;T&gt; {
     }
 
     public CustomAction(key: any, actionName: string, postdata: any): Observable&lt;any&gt; {
-        const body: string &#x3D; postdata ? JSON.stringify(postdata) : null;
+        const body &#x3D; postdata ? JSON.stringify(postdata) : null;
         return this._http.post(&#x60;${this.getEntityUri(key)}/${actionName}&#x60;, body, this.config.customRequestOptions).pipe(map(resp &#x3D;&gt; resp));
     }
 
     public CustomCollectionAction(actionName: string, postdata: any): Observable&lt;any&gt; {
-        const body: string &#x3D; postdata ? JSON.stringify(postdata) : null;
+        const body &#x3D; postdata ? JSON.stringify(postdata) : null;
         return this._http.post(&#x60;${this._entitiesUri}/${actionName}&#x60;, body, this.config.customRequestOptions).pipe(map(resp &#x3D;&gt; resp));
     }
 
@@ -832,8 +832,7 @@ export class ODataService&lt;T&gt; {
             throw new Error(&#x27;Bad response status: &#x27; + res.status);
         }
         const body: any &#x3D; res.body;
-        const entity: TResponse &#x3D; body;
-        return entity || null;
+        return body || {};
     }
 }
 </code></pre>

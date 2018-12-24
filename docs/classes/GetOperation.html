@@ -853,8 +853,7 @@ export abstract class ODataOperation&lt;T&gt; {
         }
 
         const body: any &#x3D; res.body;
-        const entity: T &#x3D; body;
-        return entity || null;
+        return body || {};
     }
 }
 
@@ -914,7 +913,7 @@ export class GetOperation&lt;T&gt; extends OperationWithKey&lt;T&gt; {
 
 export class PostOperation&lt;T&gt; extends OperationWithEntity&lt;T&gt; {
     public Exec(): Observable&lt;T&gt; {
-        const body: string &#x3D; this.entity ? JSON.stringify(this.entity) : null;
+        const body &#x3D; this.entity ? JSON.stringify(this.entity) : null;
 
         return super.handleResponse(this.http.post&lt;T&gt;(this.getEntitiesUri(), body, this.getPostRequestOptions()));
     }
@@ -922,7 +921,7 @@ export class PostOperation&lt;T&gt; extends OperationWithEntity&lt;T&gt; {
 
 export class PatchOperation&lt;T&gt; extends OperationWithKeyAndEntity&lt;T&gt; {
     public Exec(): Observable&lt;T&gt; {
-        const body: string &#x3D; this.entity ? JSON.stringify(this.entity) : null;
+        const body &#x3D; this.entity ? JSON.stringify(this.entity) : null;
 
         return super.handleResponse(this.http.patch&lt;T&gt;(this.getEntityUri(), body, this.getPostRequestOptions()));
     }
@@ -930,7 +929,7 @@ export class PatchOperation&lt;T&gt; extends OperationWithKeyAndEntity&lt;T&gt; 
 
 export class PutOperation&lt;T&gt; extends OperationWithKeyAndEntity&lt;T&gt; {
     public Exec(): Observable&lt;T&gt; {
-        const body: string &#x3D; this.entity ? JSON.stringify(this.entity) : null;
+        const body &#x3D; this.entity ? JSON.stringify(this.entity) : null;
 
         return super.handleResponse(this.http.put&lt;T&gt;(this.getEntityUri(), body, this.getPostRequestOptions()));
     }
