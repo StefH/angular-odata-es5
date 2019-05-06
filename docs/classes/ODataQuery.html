@@ -419,6 +419,33 @@
                         <tbody>
                             <tr>
                                 <td class="col-md-4">
+                                    <b><span class="modifier">Public</span> Search</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play circle">
+                                            <span class="fa fa-circle"></span>
+                                        </span>
+                                    <code>Search(search: string)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code><a href="../classes/ODataQuery.html" target="_self" >ODataQuery&lt;T&gt;</a></code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
                                     <b><span class="modifier">Public</span> Top</b>
                                 </td>
                             </tr>
@@ -760,6 +787,7 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
     private _filter: string;
     private _top: number;
     private _skip: number;
+    private _search: string;
     private _orderBy: string[] &#x3D; [];
     private _apply: string[] &#x3D; [];
     private _entitiesUri: string;
@@ -774,6 +802,13 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
     public Filter(filter: string): ODataQuery&lt;T&gt; {
         if (filter) {
             this._filter &#x3D; filter;
+        }
+        return this;
+    }
+
+    public Search(search: string): ODataQuery&lt;T&gt; {
+        if (search) {
+            this._search &#x3D; search;
         }
         return this;
     }
@@ -956,6 +991,10 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
 
         if (this._filter) {
             params &#x3D; params.append(this.config.keys.filter, this._filter);
+        }
+
+        if (this._search) {
+            params &#x3D; params.append(this.config.keys.search, this._search);
         }
 
         if (this._top &gt; 0) {
