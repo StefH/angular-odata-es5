@@ -11,6 +11,7 @@ export class KeyConfigs {
     public skip = '$skip';
     public orderBy = '$orderby';
     public select = '$select';
+    public search = '$search';
     public expand = '$expand';
     public apply = '$apply';
     public count = '$count';

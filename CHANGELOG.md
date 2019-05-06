@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.8.1"></a>
+## [0.8.1](https://github.com/StefH/angular-odata-es5/compare/v0.8.0...v0.8.1) (2019-05-06)
+
+
+### Features
+
+* **$search:** Added support for $search ([#80](https://github.com/StefH/angular-odata-es5/issues/80)) ([19f9aa1](https://github.com/StefH/angular-odata-es5/commit/19f9aa1))
+
+
+
 <a name="0.8.0"></a>
 # [0.8.0](https://github.com/StefH/angular-odata-es5/compare/v0.7.4...v0.8.0) (2018-12-24)
 
