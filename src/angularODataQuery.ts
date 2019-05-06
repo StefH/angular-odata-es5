@@ -14,6 +14,7 @@ export class ODataQuery<T> extends ODataOperation<T> {
     private _filter: string;
     private _top: number;
     private _skip: number;
+    private _search: string;
     private _orderBy: string[] = [];
     private _apply: string[] = [];
     private _entitiesUri: string;
@@ -28,6 +29,13 @@ export class ODataQuery<T> extends ODataOperation<T> {
     public Filter(filter: string): ODataQuery<T> {
         if (filter) {
             this._filter = filter;
+        }
+        return this;
+    }
+
+    public Search(search: string): ODataQuery<T> {
+        if (search) {
+            this._search = search;
         }
         return this;
     }
@@ -210,6 +218,10 @@ export class ODataQuery<T> extends ODataOperation<T> {
 
         if (this._filter) {
             params = params.append(this.config.keys.filter, this._filter);
+        }
+
+        if (this._search) {
+            params = params.append(this.config.keys.search, this._search);
         }
 
         if (this._top > 0) {

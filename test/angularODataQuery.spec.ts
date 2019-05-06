@@ -129,6 +129,7 @@ describe('ODataQuery', () => {
         // Act
         query
             .Filter(`x gt 1 and Boss/Filter eq 42 and EndDate lt 2018-02-07T09:58:30.897Z`)
+            .Search('f')
             .Apply(['groupby((Age))'])
             .Expand('EXP')
             .Top(10)
@@ -142,6 +143,7 @@ describe('ODataQuery', () => {
             .append(config.keys.expand, `EXP,Boss(${config.keys.select}=Select)`)
             .append(config.keys.select, 's1,s2')
             .append(config.keys.filter, 'x gt 1 and Boss/Filter eq 42 and EndDate lt 2018-02-07T09:58:30.897Z')
+            .append(config.keys.search, 'f')
             .append(config.keys.top, '10')
             .append(config.keys.skip, '20')
             .append(config.keys.orderBy, 'y,Boss/OrderBy')
@@ -294,6 +296,17 @@ describe('ODataQuery', () => {
 
         // Assert
         assert.equal(test['_filter'], 'f');
+    }));
+
+    it('Search(string)', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+        // Assign
+        const test = new ODataQueryMock('Employees', config, http);
+
+        // Act
+        test.Search('f');
+
+        // Assert
+        assert.equal(test['_search'], 'f');
     }));
 
     // it('Filter(string[])', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
