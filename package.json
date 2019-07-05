@@ -68,7 +68,7 @@
     "@types/string": "0.0.28",
     "@types/tapable": "^1.0.4",
     "@types/webpack": "^4.4.32",
-    "awesome-typescript-loader": "^5.2.1",
+    "awesome-typescript-loader": "^3.5.0",
     "bootstrap": "^3.4.0",
     "chai": "^3.5.0",
     "codecov-lite": "^0.1.3",
@@ -106,12 +106,11 @@
     "tslint-loader": "^3.5.4",
     "typescript": "~3.4.5",
     "validate-commit-msg": "^2.8.0",
-    "webpack": "^4.33.0",
-    "webpack-angular-externals": "^1.0.2",
-    "webpack-cli": "^3.3.2",
-    "webpack-dev-server": "^3.6.0",
-    "webpack-rxjs-externals": "^2.0.0",
-    "zone.js": "^0.9.1"
+    "webpack": "^2.4.1",
+    "webpack-angular-externals": "^1.0.0",
+    "webpack-dev-server": "^2.2.0",
+    "webpack-rxjs-externals": "^1.0.0",
+    "zone.js": "^0.8.26"
   },
   "peerDependencies": {
     "@angular/common": ">=7.0.0 <9.0.0",
