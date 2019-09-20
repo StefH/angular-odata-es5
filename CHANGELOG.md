@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.8.2"></a>
+## [0.8.2](https://github.com/StefH/angular-odata-es5/compare/v0.8.1...v0.8.2) (2019-09-20)
+
+
+### Bug Fixes
+
+* **angular:** Upgrade to Angular 8 ([#82](https://github.com/StefH/angular-odata-es5/issues/82)) ([#83](https://github.com/StefH/angular-odata-es5/issues/83)) ([ca4b78d](https://github.com/StefH/angular-odata-es5/commit/ca4b78d))
+
+
+
 <a name="0.8.1"></a>
 ## [0.8.1](https://github.com/StefH/angular-odata-es5/compare/v0.8.0...v0.8.1) (2019-05-06)
 
