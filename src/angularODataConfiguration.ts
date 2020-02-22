@@ -61,7 +61,10 @@ export class ODataConfiguration {
     }
 
     public getEntitiesUri(typeName: string): string {
-        return `${this.baseUrl}/${this.sanitizeTypeName(typeName)}`;
+        if (typeName) {
+            return `${this.baseUrl}/${this.sanitizeTypeName(typeName)}`;
+        }
+        return this.baseUrl;
     }
 
     public getEntityUri(key: any, typeName: string): string {

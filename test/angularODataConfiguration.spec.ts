@@ -87,6 +87,18 @@ describe('ODataConfiguration', () => {
         assert.equal(result, 'http://test.org/odata/Employees');
     });
 
+    it('getEntitiesUri_emptyTypeName', () => {
+        // Assign
+        const config = new ODataConfiguration();
+        config.baseUrl = 'http://test.org/odata';
+
+        // Act
+        const result = config.getEntitiesUri('');
+
+        // Assert
+        assert.equal(result, 'http://test.org/odata');
+    });
+
     it('getEntityUri_number', () => {
         // Assign
         const config = new ODataConfiguration();

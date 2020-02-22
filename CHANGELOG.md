@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.8.3"></a>
+## [0.8.3](https://github.com/StefH/angular-odata-es5/compare/v0.8.2...v0.8.3) (2020-02-22)
+
+
+### Bug Fixes
+
+* return correct url if entity name is empty ([#86](https://github.com/StefH/angular-odata-es5/issues/86)) ([0d74352](https://github.com/StefH/angular-odata-es5/commit/0d74352))
+
+
+
 <a name="0.8.2"></a>
 ## [0.8.2](https://github.com/StefH/angular-odata-es5/compare/v0.8.1...v0.8.2) (2019-09-20)
 
