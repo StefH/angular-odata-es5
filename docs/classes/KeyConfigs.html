@@ -643,7 +643,10 @@ export class ODataConfiguration {
     }
 
     public getEntitiesUri(typeName: string): string {
-        return &#x60;${this.baseUrl}/${this.sanitizeTypeName(typeName)}&#x60;;
+        if (typeName) {
+            return &#x60;${this.baseUrl}/${this.sanitizeTypeName(typeName)}&#x60;;
+        }
+        return this.baseUrl;
     }
 
     public getEntityUri(key: any, typeName: string): string {
