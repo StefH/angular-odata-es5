@@ -374,4 +374,26 @@ describe('ODataQuery', () => {
         // Assert
         assert.deepEqual(test['_apply'], ['groupby((LastName))']);
     }));
+
+    it('CustomParams(IKeyValue)', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+        // Assign
+        const test = new ODataQueryMock('Employees', config, http);
+
+        // Act
+        test.CustomParams({ key: 'firstName', value: 'Alex' });
+
+        // Assert
+        assert.deepEqual(test['_customParams'], [{ key: 'firstName', value: 'Alex' }]);
+    }));
+
+    it('CustomParams(IKeyValue[])', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+        // Assign
+        const test = new ODataQueryMock('Employees', config, http);
+
+        // Act
+        test.CustomParams([{ key: 'firstName', value: 'Alex' }, { key: 'lastName', value: 'Gates' }]);
+
+        // Assert
+        assert.deepEqual(test['_customParams'], [{ key: 'firstName', value: 'Alex' }, { key: 'lastName', value: 'Gates' }]);
+    }));
 });

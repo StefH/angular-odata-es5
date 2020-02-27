@@ -2,6 +2,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { IKeyValue } from 'linq-collections';
 
 import { ODataConfiguration } from './angularODataConfiguration';
 import { ODataExecReturnType } from './angularODataEnums';
@@ -19,6 +20,7 @@ export class ODataQuery<T> extends ODataOperation<T> {
     private _apply: string[] = [];
     private _entitiesUri: string;
     private _maxPerPage: number;
+    private _customParams: IKeyValue<string, any>[] = [];
 
     constructor(typeName: string, config: ODataConfiguration, http: HttpClient) {
         super(typeName, config, http);
@@ -71,6 +73,13 @@ export class ODataQuery<T> extends ODataOperation<T> {
     public Apply(apply: string | string[]): ODataQuery<T> {
         if (apply) {
             this._apply = this.toStringArray(apply);
+        }
+        return this;
+    }
+
+    public CustomParams(params: IKeyValue<string, any> | IKeyValue<string, any>[]): ODataQuery<T> {
+        if (params) {
+            this._customParams = Array.isArray(params) ? params : [params];
         }
         return this;
     }
@@ -238,6 +247,10 @@ export class ODataQuery<T> extends ODataOperation<T> {
 
         if (this._apply.length > 0) {
             params = params.append(this.config.keys.apply, this.toCommaString(this._apply));
+        }
+
+        if (this._customParams.length > 0) {
+            this._customParams.forEach(customParam => (params = params.append(customParam.key, customParam.value)));
         }
 
         if (odata4) {
