@@ -396,4 +396,18 @@ describe('ODataQuery', () => {
         // Assert
         assert.deepEqual(test['_customParams'], [{ key: 'firstName', value: 'Alex' }, { key: 'lastName', value: 'Gates' }]);
     }));
+
+
+    it('GetUrl with CustomParams', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+        // Assign
+        const query = new ODataQuery<IEmployee>('Employees', config, http);
+
+        query.CustomParams([{ key: 'firstName', value: 'Alex' }, { key: 'lastName', value: 'Gates' }]);
+
+        // Act
+        const result = query.GetUrl();
+
+        // Assert
+        assert.equal(result, 'http://localhost/odata/Employees?firstName=Alex&lastName=Gates');
+    }));
 });
