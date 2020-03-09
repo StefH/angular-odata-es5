@@ -375,39 +375,58 @@ describe('ODataQuery', () => {
         assert.deepEqual(test['_apply'], ['groupby((LastName))']);
     }));
 
-    it('CustomParams(IKeyValue)', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+    it('CustomQueryOptions(IKeyValue)', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
         // Assign
         const test = new ODataQueryMock('Employees', config, http);
 
         // Act
-        test.CustomParams({ key: 'firstName', value: 'Alex' });
+        test.CustomQueryOptions({ key: 'firstName', value: 'Alex' });
 
         // Assert
-        assert.deepEqual(test['_customParams'], [{ key: 'firstName', value: 'Alex' }]);
+        assert.deepEqual(test['_customQueryOptions'], [{ key: 'firstName', value: 'Alex' }]);
     }));
 
-    it('CustomParams(IKeyValue[])', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+    it('CustomQueryOptions(IKeyValue[])', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
         // Assign
         const test = new ODataQueryMock('Employees', config, http);
 
         // Act
-        test.CustomParams([{ key: 'firstName', value: 'Alex' }, { key: 'lastName', value: 'Gates' }]);
+        test.CustomQueryOptions([{ key: 'firstName', value: 'Alex' }, { key: 'lastName', value: 'Gates' }]);
 
         // Assert
-        assert.deepEqual(test['_customParams'], [{ key: 'firstName', value: 'Alex' }, { key: 'lastName', value: 'Gates' }]);
+        assert.deepEqual(test['_customQueryOptions'], [{ key: 'firstName', value: 'Alex' }, { key: 'lastName', value: 'Gates' }]);
     }));
 
-
-    it('GetUrl with CustomParams', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+    it('GetUrl with CustomQueryOptions', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
         // Assign
         const query = new ODataQuery<IEmployee>('Employees', config, http);
 
-        query.CustomParams([{ key: 'firstName', value: 'Alex' }, { key: 'lastName', value: 'Gates' }]);
+        query.CustomQueryOptions([{ key: 'firstName', value: 'Alex' }, { key: 'lastName', value: 'Gates' }]);
 
         // Act
         const result = query.GetUrl();
 
         // Assert
         assert.equal(result, 'http://localhost/odata/Employees?firstName=Alex&lastName=Gates');
+    }));
+
+    it('CustomQueryOptions with $ reserved character in key', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+        // Assign
+        const query = new ODataQuery<IEmployee>('Employees', config, http);
+
+        query.CustomQueryOptions({ key: '$reserved', value: 'Secret' });
+
+        // Act & Assert
+        expect(query.GetUrl.bind(query)).toThrowError('Custom query options MUST NOT begin with a $ or @ character.');
+    }));
+
+    it('CustomQueryOptions with @ reserved character in key', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+        // Assign
+        const query = new ODataQuery<IEmployee>('Employees', config, http);
+
+        query.CustomQueryOptions({ key: '@reserved', value: 'Secret' });
+
+        // Act & Assert
+        expect(query.GetUrl.bind(query)).toThrowError('Custom query options MUST NOT begin with a $ or @ character.');
     }));
 });

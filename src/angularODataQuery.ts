@@ -20,7 +20,7 @@ export class ODataQuery<T> extends ODataOperation<T> {
     private _apply: string[] = [];
     private _entitiesUri: string;
     private _maxPerPage: number;
-    private _customParams: IKeyValue<string, any>[] = [];
+    private _customQueryOptions: IKeyValue<string, any>[] = [];
 
     constructor(typeName: string, config: ODataConfiguration, http: HttpClient) {
         super(typeName, config, http);
@@ -77,9 +77,9 @@ export class ODataQuery<T> extends ODataOperation<T> {
         return this;
     }
 
-    public CustomParams(params: IKeyValue<string, any> | IKeyValue<string, any>[]): ODataQuery<T> {
-        if (params) {
-            this._customParams = Array.isArray(params) ? params : [params];
+    public CustomQueryOptions(customOptions: IKeyValue<string, any> | IKeyValue<string, any>[]): ODataQuery<T> {
+        if (customOptions) {
+            this._customQueryOptions = Array.isArray(customOptions) ? customOptions : [customOptions];
         }
         return this;
     }
@@ -249,8 +249,10 @@ export class ODataQuery<T> extends ODataOperation<T> {
             params = params.append(this.config.keys.apply, this.toCommaString(this._apply));
         }
 
-        if (this._customParams.length > 0) {
-            this._customParams.forEach(customParam => (params = params.append(customParam.key, customParam.value)));
+        if (this._customQueryOptions.length > 0) {
+            this._customQueryOptions.forEach(customQueryOption => (params = params.append(
+                this.checkReservedCustomQueryOptionKey(customQueryOption.key), customQueryOption.value)
+            ));
         }
 
         if (odata4) {
@@ -270,5 +272,12 @@ export class ODataQuery<T> extends ODataOperation<T> {
 
     private extractArrayDataWithCount(res: HttpResponse<IODataResponseModel<T>>, config: ODataConfiguration): ODataPagedResult<T> {
         return config.extractQueryResultDataWithCount(res);
+    }
+
+    private checkReservedCustomQueryOptionKey(key: string): string {
+        if (key.indexOf('$') === 0 || key.indexOf('@') === 0) {
+            throw new Error('Custom query options MUST NOT begin with a $ or @ character.');
+        }
+        return key;
     }
 }
