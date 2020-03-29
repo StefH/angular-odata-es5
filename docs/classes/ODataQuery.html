@@ -581,6 +581,33 @@
                         <tbody>
                             <tr>
                                 <td class="col-md-4">
+                                    <b><span class="modifier">Public</span> CustomQueryOptions</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play circle">
+                                            <span class="fa fa-circle"></span>
+                                        </span>
+                                    <code>CustomQueryOptions(customOptions: IKeyValue<string, any> | IKeyValue<string, any>[])</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code><a href="../classes/ODataQuery.html" target="_self" >ODataQuery&lt;T&gt;</a></code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
                                     <b><span class="modifier">Public</span> GetUrl</b>
                                 </td>
                             </tr>
@@ -775,6 +802,7 @@
 import { catchError, map } from &#x27;rxjs/operators&#x27;;
 
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from &#x27;@angular/common/http&#x27;;
+import { IKeyValue } from &#x27;linq-collections&#x27;;
 
 import { ODataConfiguration } from &#x27;./angularODataConfiguration&#x27;;
 import { ODataExecReturnType } from &#x27;./angularODataEnums&#x27;;
@@ -792,6 +820,7 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
     private _apply: string[] &#x3D; [];
     private _entitiesUri: string;
     private _maxPerPage: number;
+    private _customQueryOptions: IKeyValue&lt;string, any&gt;[] &#x3D; [];
 
     constructor(typeName: string, config: ODataConfiguration, http: HttpClient) {
         super(typeName, config, http);
@@ -844,6 +873,13 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
     public Apply(apply: string | string[]): ODataQuery&lt;T&gt; {
         if (apply) {
             this._apply &#x3D; this.toStringArray(apply);
+        }
+        return this;
+    }
+
+    public CustomQueryOptions(customOptions: IKeyValue&lt;string, any&gt; | IKeyValue&lt;string, any&gt;[]): ODataQuery&lt;T&gt; {
+        if (customOptions) {
+            this._customQueryOptions &#x3D; Array.isArray(customOptions) ? customOptions : [customOptions];
         }
         return this;
     }
@@ -1013,6 +1049,12 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
             params &#x3D; params.append(this.config.keys.apply, this.toCommaString(this._apply));
         }
 
+        if (this._customQueryOptions.length &gt; 0) {
+            this._customQueryOptions.forEach(customQueryOption &#x3D;&gt; (params &#x3D; params.append(
+                this.checkReservedCustomQueryOptionKey(customQueryOption.key), customQueryOption.value)
+            ));
+        }
+
         if (odata4) {
             params &#x3D; params.append(&#x27;$count&#x27;, &#x27;true&#x27;); // OData v4 only
         }
@@ -1030,6 +1072,16 @@ export class ODataQuery&lt;T&gt; extends ODataOperation&lt;T&gt; {
 
     private extractArrayDataWithCount(res: HttpResponse&lt;IODataResponseModel&lt;T&gt;&gt;, config: ODataConfiguration): ODataPagedResult&lt;T&gt; {
         return config.extractQueryResultDataWithCount(res);
+    }
+
+    private checkReservedCustomQueryOptionKey(key: string): string {
+        if (key &#x3D;&#x3D;&#x3D; null || key &#x3D;&#x3D;&#x3D; undefined){
+            throw new Error(&#x27;Custom query options MUST NOT be null or undefined.&#x27;);
+        }
+        if (key.indexOf(&#x27;$&#x27;) &#x3D;&#x3D;&#x3D; 0 || key.indexOf(&#x27;@&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+            throw new Error(&#x27;Custom query options MUST NOT begin with a $ or @ character.&#x27;);
+        }
+        return key;
     }
 }
 </code></pre>
