@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.8.4"></a>
+## [0.8.4](https://github.com/StefH/angular-odata-es5/compare/v0.8.3...v0.8.4) (2020-03-29)
+
+
+### Features
+
+* **CustomParams:** Added support for custom query parameters ([#92](https://github.com/StefH/angular-odata-es5/issues/92)) ([b6b301f](https://github.com/StefH/angular-odata-es5/commit/b6b301f))
+
+
+
 <a name="0.8.3"></a>
 ## [0.8.3](https://github.com/StefH/angular-odata-es5/compare/v0.8.2...v0.8.3) (2020-02-22)
 
