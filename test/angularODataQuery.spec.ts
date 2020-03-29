@@ -429,4 +429,14 @@ describe('ODataQuery', () => {
         // Act & Assert
         expect(query.GetUrl.bind(query)).toThrowError('Custom query options MUST NOT begin with a $ or @ character.');
     }));
+
+    it('CustomQueryOptions with null key', inject([HttpClient, ODataConfiguration], (http: HttpClient, config: ODataConfiguration) => {
+      // Assign
+      const query = new ODataQuery<IEmployee>('Employees', config, http);
+
+      query.CustomQueryOptions({ key: null!, value: 'Secret' });
+
+      // Act & Assert
+      expect(query.GetUrl.bind(query)).toThrowError('Custom query options MUST NOT be null or undefined.');
+    }));
 });

@@ -275,6 +275,9 @@ export class ODataQuery<T> extends ODataOperation<T> {
     }
 
     private checkReservedCustomQueryOptionKey(key: string): string {
+        if (key === null || key === undefined){
+            throw new Error('Custom query options MUST NOT be null or undefined.');
+        }
         if (key.indexOf('$') === 0 || key.indexOf('@') === 0) {
             throw new Error('Custom query options MUST NOT begin with a $ or @ character.');
         }
