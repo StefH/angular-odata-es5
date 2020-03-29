@@ -1,6 +1,6 @@
 {
   "name": "angular-odata-es5",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "OData service for Angular (es5 version)",
   "main": "./bundles/angular-odata-es5.umd.js",
   "module": "./index.js",
