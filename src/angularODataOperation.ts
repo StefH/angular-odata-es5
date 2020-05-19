@@ -221,7 +221,7 @@ export class GetOperation<T> extends OperationWithKey<T> {
 
 export class PostOperation<T> extends OperationWithEntity<T> {
     public Exec(): Observable<T> {
-        const body = this.entity ? JSON.stringify(this.entity) : null;
+        const body = this.entity ? this.config.extractRequestDataFormat(this.entity) : null;
 
         return super.handleResponse(this.http.post<T>(this.getEntitiesUri(), body, this.getPostRequestOptions()));
     }
@@ -229,7 +229,7 @@ export class PostOperation<T> extends OperationWithEntity<T> {
 
 export class PatchOperation<T> extends OperationWithKeyAndEntity<T> {
     public Exec(): Observable<T> {
-        const body = this.entity ? JSON.stringify(this.entity) : null;
+        const body = this.entity ? this.config.extractRequestDataFormat(this.entity) : null;
 
         return super.handleResponse(this.http.patch<T>(this.getEntityUri(), body, this.getPostRequestOptions()));
     }
@@ -237,7 +237,7 @@ export class PatchOperation<T> extends OperationWithKeyAndEntity<T> {
 
 export class PutOperation<T> extends OperationWithKeyAndEntity<T> {
     public Exec(): Observable<T> {
-        const body = this.entity ? JSON.stringify(this.entity) : null;
+        const body = this.entity ? this.config.extractRequestDataFormat(this.entity) : null;
 
         return super.handleResponse(this.http.put<T>(this.getEntityUri(), body, this.getPostRequestOptions()));
     }
