@@ -8,7 +8,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 })
 export class AngularODataModule {
 
-  public static forRoot(): ModuleWithProviders {
+  public static forRoot(): ModuleWithProviders<AngularODataModule> {
     return {
       ngModule: AngularODataModule
     };

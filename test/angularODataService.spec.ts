@@ -549,4 +549,21 @@ describe('ODataService', () => {
         assert.isNotNull(result);
         expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees/getSalesTaxRate(area='abc', postalCode=10)`, jasmine.any(Object));
     }));
+
+    it('Item Property', inject([HttpClient, ODataServiceFactory], (http: HttpClient, factory: ODataServiceFactory) => {
+        // Assign
+        const service = factory.CreateService<IEmployee>('Employees');
+
+        spyOn(http, 'get').and.returnValue(new Observable<Response>());
+
+        const employId = 'e3527e00-6166-46bb-831f-600fe84cab79';
+
+        // Act
+        const result = service.ItemProperty<IEmployee>(employId, 'Name');
+
+        // Assert
+        assert.isNotNull(result);
+        expect(http.get).toHaveBeenCalledWith(`http://localhost/odata/Employees(e3527e00-6166-46bb-831f-600fe84cab79)/Name`, jasmine.any(Object));
+
+    }));
 });

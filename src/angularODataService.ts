@@ -69,6 +69,11 @@ export class ODataService<T> {
         return this._http.get(`${this._entitiesUri}/${functionName}`, this.config.defaultRequestOptions).pipe(map(resp => resp));
     }
 
+    public ItemProperty<T = any>(key: string, propertyName: string): Observable<T | null> {
+        return this._http.get<T>(`${this.getEntityUri(key)}/${propertyName}`, this.config.defaultRequestOptions)
+            .pipe(map(r => r.body));
+    }
+
     public Query(): ODataQuery<T> {
         return new ODataQuery<T>(this.TypeName, this.config, this._http);
     }

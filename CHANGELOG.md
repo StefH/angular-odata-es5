@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.10.0"></a>
+# [0.10.0](https://github.com/StefH/angular-odata-es5/compare/v0.9.0...v0.10.0) (2020-11-04)
+
+
+
+<a name="0.9.0"></a>
+# [0.9.0](https://github.com/StefH/angular-odata-es5/compare/v0.8.4...v0.9.0) (2020-07-18)
+
+
+### Features
+
+* **package.json:** Update dependency for Angular to version 8, 9 and 10 ([f19ef2a](https://github.com/StefH/angular-odata-es5/commit/f19ef2a)), closes [#88](https://github.com/StefH/angular-odata-es5/issues/88)
+
+
+### BREAKING CHANGES
+
+* **package.json:** Update dependency for Angular to version 8, 9 and 10
+
+
+
 <a name="0.8.4"></a>
 ## [0.8.4](https://github.com/StefH/angular-odata-es5/compare/v0.8.3...v0.8.4) (2020-03-29)
 
@@ -423,7 +443,3 @@ scope for the tests to use instead.
 ### Bug Fixes
 
 * **changelog:** make changelog empty ([c3d2b94](https://github.com/StefH/angular-odata-es5/commit/c3d2b94)), closes [#2](https://github.com/StefH/angular-odata-es5/issues/2)
-
-
-
-
