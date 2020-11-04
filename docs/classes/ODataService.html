@@ -635,6 +635,33 @@
                         <tbody>
                             <tr>
                                 <td class="col-md-4">
+                                    <b><span class="modifier">Public</span> ItemProperty</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play circle">
+                                            <span class="fa fa-circle"></span>
+                                        </span>
+                                    <code>ItemProperty(key: string, propertyName: string)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>Observable&lt;T&gt;</code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
                                     <b><span class="modifier">Public</span> Query</b>
                                 </td>
                             </tr>
@@ -804,6 +831,11 @@ export class ODataService&lt;T&gt; {
             functionName &#x3D; &#x60;${functionName}()&#x60;;
         }
         return this._http.get(&#x60;${this._entitiesUri}/${functionName}&#x60;, this.config.defaultRequestOptions).pipe(map(resp &#x3D;&gt; resp));
+    }
+
+    public ItemProperty&lt;T &#x3D; any&gt;(key: string, propertyName: string): Observable&lt;T | null&gt; {
+        return this._http.get&lt;T&gt;(&#x60;${this.getEntityUri(key)}/${propertyName}&#x60;, this.config.defaultRequestOptions)
+            .pipe(map(r &#x3D;&gt; r.body));
     }
 
     public Query(): ODataQuery&lt;T&gt; {
