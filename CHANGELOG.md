@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.11.0"></a>
+# [0.11.0](https://github.com/StefH/angular-odata-es5/compare/v0.10.0...v0.11.0) (2021-08-22)
+
+
+### Features
+
+* **project:** Update peerDependencies to Angular 11 ([d8813bd](https://github.com/StefH/angular-odata-es5/commit/d8813bd))
+
+
+
 <a name="0.10.0"></a>
 # [0.10.0](https://github.com/StefH/angular-odata-es5/compare/v0.9.0...v0.10.0) (2020-11-04)
 
