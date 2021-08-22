@@ -1,6 +1,18 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [0.11.1](https://github.com/StefH/angular-odata-es5/compare/v0.11.0...v0.11.1) (2021-08-22)
+
+
+### Features
+
+* **project:** npm publish ([ac98a70](https://github.com/StefH/angular-odata-es5/commit/ac98a705a3a5b818b4448bcc47ff6db373b9d590)), closes [#118](https://github.com/StefH/angular-odata-es5/issues/118)
+
+
+### Bug Fixes
+
+* **package.json:** fix name ([8891988](https://github.com/StefH/angular-odata-es5/commit/889198801aa50643856faa3d22e2dc6c0da37314)), closes [#118](https://github.com/StefH/angular-odata-es5/issues/118)
 
 <a name="0.11.0"></a>
 # [0.11.0](https://github.com/StefH/angular-odata-es5/compare/v0.10.0...v0.11.0) (2021-08-22)

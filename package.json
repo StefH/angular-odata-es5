@@ -1,6 +1,6 @@
 {
   "name": "@stef.heyenrath/angular-odata-es5",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "OData service for Angular (es5 version)",
   "main": "./bundles/angular-odata-es5.umd.js",
   "module": "./index.js",
