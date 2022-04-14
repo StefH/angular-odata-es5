@@ -118,6 +118,10 @@ export class ODataConfiguration {
         return pagedResult;
     }
 
+    public extractRequestDataFormat(data: {[key: string]: any}): any {
+      return JSON.stringify(data);
+    }
+
     private sanitizeTypeName(typeName: string): string {
         return typeName.replace(/\/+$/, '').replace(/^\/+/, '');
     }
