@@ -1,0 +1,39 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "angular-odata-es5": {
+      "projectType": "library",
+      "root": "projects/angular-odata-es5",
+      "sourceRoot": "projects/angular-odata-es5/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/angular-odata-es5/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/angular-odata-es5/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/angular-odata-es5/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/angular-odata-es5/src/test.ts",
+            "tsConfig": "projects/angular-odata-es5/tsconfig.spec.json",
+            "karmaConfig": "projects/angular-odata-es5/karma.conf.js"
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "angular-odata-es5"
+}

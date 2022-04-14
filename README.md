@@ -105,19 +105,3 @@ You may also find it useful to view the [demo source](https://github.com/StefH/a
     // everything is exported AngularODataES5 namespace
 </script>
 ```
-
-## Documentation
-All documentation is auto-generated from the source via [compodoc](https://compodoc.github.io/compodoc/) and can be viewed here:
-https://StefH.github.io/angular-odata-es5/docs/
-
-## Development
-
-### Prepare your environment
-* Install [Node.js](http://nodejs.org/) and NPM (should come with)
-* Install local dev dependencies: `npm install` while current directory is this repo
-
-### Development server
-Run `npm start` to start a development server on port 8000 with auto reload + tests.
-
-### Testing
-Run `npm test` to run tests once or `npm run test:watch` to continually run tests.

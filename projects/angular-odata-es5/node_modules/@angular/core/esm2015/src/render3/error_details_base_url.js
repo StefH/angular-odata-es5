@@ -1,0 +1,16 @@
+/**
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
+ * Base URL for the error details page.
+ *
+ * Keep the files below in sync:
+ *  - packages/compiler-cli/src/ngtsc/diagnostics/src/error_details_base_url.ts
+ *  - packages/core/src/render3/error_details_base_url.ts
+ */
+export const ERROR_DETAILS_PAGE_BASE_URL = 'https://angular.io/errors';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZXJyb3JfZGV0YWlsc19iYXNlX3VybC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uLy4uL3BhY2thZ2VzL2NvcmUvc3JjL3JlbmRlcjMvZXJyb3JfZGV0YWlsc19iYXNlX3VybC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7Ozs7O0dBTUc7QUFFSDs7Ozs7O0dBTUc7QUFDSCxNQUFNLENBQUMsTUFBTSwyQkFBMkIsR0FBRywyQkFBMkIsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogQGxpY2Vuc2VcbiAqIENvcHlyaWdodCBHb29nbGUgTExDIEFsbCBSaWdodHMgUmVzZXJ2ZWQuXG4gKlxuICogVXNlIG9mIHRoaXMgc291cmNlIGNvZGUgaXMgZ292ZXJuZWQgYnkgYW4gTUlULXN0eWxlIGxpY2Vuc2UgdGhhdCBjYW4gYmVcbiAqIGZvdW5kIGluIHRoZSBMSUNFTlNFIGZpbGUgYXQgaHR0cHM6Ly9hbmd1bGFyLmlvL2xpY2Vuc2VcbiAqL1xuXG4vKipcbiAqIEJhc2UgVVJMIGZvciB0aGUgZXJyb3IgZGV0YWlscyBwYWdlLlxuICpcbiAqIEtlZXAgdGhlIGZpbGVzIGJlbG93IGluIHN5bmM6XG4gKiAgLSBwYWNrYWdlcy9jb21waWxlci1jbGkvc3JjL25ndHNjL2RpYWdub3N0aWNzL3NyYy9lcnJvcl9kZXRhaWxzX2Jhc2VfdXJsLnRzXG4gKiAgLSBwYWNrYWdlcy9jb3JlL3NyYy9yZW5kZXIzL2Vycm9yX2RldGFpbHNfYmFzZV91cmwudHNcbiAqL1xuZXhwb3J0IGNvbnN0IEVSUk9SX0RFVEFJTFNfUEFHRV9CQVNFX1VSTCA9ICdodHRwczovL2FuZ3VsYXIuaW8vZXJyb3JzJztcbiJdfQ==
