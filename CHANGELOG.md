@@ -47,6 +47,21 @@ All notable changes to this project will be documented in this file. See [standa
 * **package.json:** fix chore ([1a499b5](https://github.com/StefH/angular-odata-es5/commit/1a499b524b4d2aa61c075516eabb60658b656ecd))
 * **package.json:** fix name ([8891988](https://github.com/StefH/angular-odata-es5/commit/889198801aa50643856faa3d22e2dc6c0da37314)), closes [#118](https://github.com/StefH/angular-odata-es5/issues/118)
 
+## [0.12.0](https://github.com/StefH/angular-odata-es5/compare/v0.11.0...v0.12.0) (2022-04-14)
+
+
+### Features
+
+* **package.json:** Angular <13 ([61c92f3](https://github.com/StefH/angular-odata-es5/commit/61c92f3bc3af88c089a3cc562ff252113ec3b22a)), closes [#122](https://github.com/StefH/angular-odata-es5/issues/122)
+* **project:** npm publish ([ac98a70](https://github.com/StefH/angular-odata-es5/commit/ac98a705a3a5b818b4448bcc47ff6db373b9d590)), closes [#118](https://github.com/StefH/angular-odata-es5/issues/118)
+
+
+### Bug Fixes
+
+* package.json & package-lock.json to reduce vulnerabilities ([#119](https://github.com/StefH/angular-odata-es5/issues/119)) ([f102e09](https://github.com/StefH/angular-odata-es5/commit/f102e090cace7db12d69348944963a3369c8fe87))
+* **package.json:** fix chore ([1a499b5](https://github.com/StefH/angular-odata-es5/commit/1a499b524b4d2aa61c075516eabb60658b656ecd))
+* **package.json:** fix name ([8891988](https://github.com/StefH/angular-odata-es5/commit/889198801aa50643856faa3d22e2dc6c0da37314)), closes [#118](https://github.com/StefH/angular-odata-es5/issues/118)
+
 ### [0.11.2](https://github.com/StefH/angular-odata-es5/compare/v0.11.0...v0.11.2) (2021-08-22)
 
 
